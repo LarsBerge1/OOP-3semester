@@ -19,7 +19,7 @@ public class ApplicationUI
     // The menu tha will be displayed. Please edit/alter the menu
     // to fit your application (i.e. replace "prodct" with "litterature"
     // etc.
-     private String[] menuItems =
+     private final String[] menuItems =
     {"1. List all products",
      "2. Add new product",
      "3. Search for product",
@@ -137,7 +137,10 @@ public class ApplicationUI
         printDebugging("listAllProducts() was called");
         if (!bookReg.getListOfBooks().isEmpty())
         {
-        bookReg.getListOfBooks().forEach(book -> System.out.println(book.getTitle()));
+        bookReg.getListOfBooks().forEach(book -> 
+                {System.out.println(getBookInfoString(book));
+                 System.out.println();
+                });        
         }
         else
         {
@@ -414,6 +417,11 @@ public class ApplicationUI
     {
         System.out.println("Edition:");
         return getIntInput();
+    }
+    
+    private String getBookInfoString(Book book)
+    {
+        return "Title: " +  book.getTitle() + "\nAuthor: " + book.getAuthor()+ "\nPublisher: " + book.getPublisher(); 
     }
     
 }   
