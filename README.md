@@ -1,4 +1,4 @@
 # litteratur-kiosk-team-32
 
-Fase 1 godkjent
-Fase 2 gjenstår å lage ferdig tester på klassene.
+Fase 1: godkjent. \n
+Fase 2: endre opp i retur, returnere Iterator eller Stream istadenfor ArrayList.
