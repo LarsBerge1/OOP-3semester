@@ -1,11 +1,14 @@
-
 package kiosk;
+
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.Iterator;
 
 /**
- * A register of books in a book store
+ * A register of books. 
+ * Functions to search, add or delete books in the register.
+ * @amhat
+ * @berge
  * @author 
  */
 public class RegisterOfBooks {
@@ -158,6 +161,24 @@ public class RegisterOfBooks {
                     .get();
         }
         return bookToReturn;
+    }
+    
+    /**
+     * Fills the phonebook with some standard data
+     * to make it faster for testing.
+     */
+    public void fillBookRegister()
+    {
+        //Add to single.
+        listOfBooks.add(new Book("Fysikk", "Frank", "Pearson", "07.03.2018", 1)); 
+        listOfBooks.add(new Book("Norsk", "Jarl", "Pearson", "24.01.2017", 2));
+        listOfBooks.add(new Book("Matte", "Lars", "Pearson", "07.03.2018", 3));
+        listOfBooks.add(new Book("Naturfag", "Andreas", "Pearon", "07.03.2018", 4));
+        // Add to series.
+        listOfBooks.add(new Book("Simple","Calclus", "Lars", "Person", "07.03.2018"));
+        listOfBooks.add(new Book("Medium","Calclus", "Jarl", "Person", "07.03.2018"));
+        listOfBooks.add(new Book("Hard","Calclus", "Andreas", "Person", "07.03.2018"));
+        listOfBooks.add(new Book("Advanced","Calclus", "Arne", "Person", "07.03.2018"));
     }
                                         
 }
