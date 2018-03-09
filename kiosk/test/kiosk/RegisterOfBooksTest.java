@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -12,6 +13,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import java.util.stream.Stream;
 
 /**
  *
@@ -110,8 +112,8 @@ public class RegisterOfBooksTest {
     public void testGetListOfBooks() {
         System.out.println("getListOfBooks");
         RegisterOfBooks instance = new RegisterOfBooks();
-        ArrayList<Book> expResult = null;
-        ArrayList<Book> result = instance.getListOfBooks();
+        Stream<Book> expResult = Stream.empty();
+        Stream<Book> result = instance.getListOfBooks();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
