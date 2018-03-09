@@ -4,6 +4,7 @@ package kiosk;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.Iterator;
 /**
  * Makes up the user interface (text based) of the application.
  * Responsible for all user interaction, like displaying the menu
@@ -135,7 +136,7 @@ public class ApplicationUI
     private void listAllProducts()
     {
         printDebugging("listAllProducts() was called");
-        if (!bookReg.getListOfBooks().isEmpty())
+        if (bookReg.getListOfBooks().iterator().hasNext())
         {
         bookReg.getListOfBooks().forEach(book -> 
                 {System.out.println(getBookInfoString(book));

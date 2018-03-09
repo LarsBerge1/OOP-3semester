@@ -3,6 +3,7 @@ package kiosk;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.Iterator;
+import java.util.stream.Stream;
 
 /**
  * A register of books. 
@@ -96,9 +97,9 @@ public class RegisterOfBooks {
       * Return the list of books
       * @return the list of books 
       */
-    public ArrayList<Book> getListOfBooks()
+    public Stream<Book> getListOfBooks()
     {
-        return listOfBooks;
+        return listOfBooks.stream();
     }
     
     /**
