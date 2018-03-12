@@ -4,7 +4,7 @@ package kiosk;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.Iterator;
+
 /**
  * Makes up the user interface (text based) of the application.
  * Responsible for all user interaction, like displaying the menu
@@ -179,7 +179,7 @@ public class ApplicationUI
                 bookReg.registrateBookInSeries(this.askFor("title"), this.askFor("seriesTitle"), this.askFor("author"), this.askFor("publisher"), this.askFor("publicationDate"));
                 break;
             default:
-                outOfBound();
+                tellUserThatChosenNumberIsInvalid();
                 addNewProduct();
                 break;
         }
@@ -199,7 +199,7 @@ public class ApplicationUI
                 this.searchBook();
                 break;
             default:
-                outOfBound();
+                tellUserThatChosenNumberIsInvalid();
                 search();
                 break;
         }
@@ -227,7 +227,7 @@ public class ApplicationUI
                 break;
             default:
                 this.searchBook();
-                outOfBound();
+                tellUserThatChosenNumberIsInvalid();
                 break;
         }
         
@@ -319,7 +319,7 @@ public class ApplicationUI
                 waitForInput();
                 break; 
             default:
-                outOfBound();
+                tellUserThatChosenNumberIsInvalid();
                 administrateBooks();
                 break;
                 
@@ -370,7 +370,7 @@ public class ApplicationUI
     /**
      * Prints a message telling what to do when an invalid number is entered
      */
-    private void outOfBound()
+    private void tellUserThatChosenNumberIsInvalid()
     {
         System.out.println("You must chose one of the numbers listed under");
     }
@@ -382,33 +382,8 @@ public class ApplicationUI
      */
     private String askFor(String infoToAskFor)
     {
-        switch (infoToAskFor)
-        {
-            case "title":
-                System.out.println("Title:");
-                break;            
-            
-            case "author":
-                System.out.println("Author:");
-                break;
-                
-            case "publisher":
-                System.out.println("Publisher:");
-                break;
-             
-            case "publicationDate":
-                System.out.println("Publication Date: ");
-                break;
-                
-            case "seriesTitle":
-                System.out.println("Series Title");
-                break;
-                
-            case "edition":
-                System.out.println("edition");
-                break;  
-        }
-       return getStringInput();
+        System.out.println(infoToAskFor + ":");
+        return getStringInput();
     }
      /**
      * Asks for edition of the product
