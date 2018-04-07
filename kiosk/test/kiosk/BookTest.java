@@ -185,7 +185,5 @@ public class BookTest {
         Book instance = new Book("Title","Author",expResult,"07.03.2018",1);
         String result = instance.getPublisher();
         assertEquals(expResult, result);
-
-    }
-    
+    }    
 }

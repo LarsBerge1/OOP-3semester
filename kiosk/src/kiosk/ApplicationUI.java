@@ -15,7 +15,7 @@ import java.util.Scanner;
  */
 public class ApplicationUI 
 {
-    private final boolean debugging = true;
+    private final boolean debugging = false;
     
     // The menu tha will be displayed. Please edit/alter the menu
     // to fit your application (i.e. replace "prodct" with "litterature"
@@ -28,7 +28,7 @@ public class ApplicationUI
     };
     
     //A register of the kiosk's books
-    RegisterOfBooks bookReg;
+    RegisterOfProducts products;
    
 
     /**
@@ -36,7 +36,7 @@ public class ApplicationUI
      */
     public ApplicationUI() 
     {
-        this.bookReg = new RegisterOfBooks();
+        this.products = new RegisterOfProducts();
     }
 
     /**
@@ -136,9 +136,9 @@ public class ApplicationUI
     private void listAllProducts()
     {
         printDebugging("listAllProducts() was called");
-        if (bookReg.getListOfBooks().iterator().hasNext())
+        if (products.getListOfProducts().iterator().hasNext())
         {
-        bookReg.getListOfBooks().forEach(book -> 
+        products.getListOfProducts().forEach(literature -> 
                 {System.out.println(getBookInfoString(book));
                  System.out.println();
                 });        
@@ -173,10 +173,10 @@ public class ApplicationUI
             //adds a single book
             
             case 1:
-                bookReg.registrateSingleBook(this.askFor("title"), this.askFor("author"), this.askFor("publisher"), this.askFor("publicationDate"), this.askForEdition());
+                products.registrateSingleBook(this.askFor("title"), this.askFor("author"), this.askFor("publisher"), this.askFor("publicationDate"), this.askForEdition());
                 break;
             case 2:
-                bookReg.registrateBookInSeries(this.askFor("title"), this.askFor("seriesTitle"), this.askFor("author"), this.askFor("publisher"), this.askFor("publicationDate"));
+                products.registrateBookInSeries(this.askFor("title"), this.askFor("seriesTitle"), this.askFor("author"), this.askFor("publisher"), this.askFor("publicationDate"));
                 break;
             default:
                 tellUserThatChosenNumberIsInvalid();
@@ -251,10 +251,10 @@ public class ApplicationUI
             case "nameAndPublisher":
                 String title = askFor("title");
                 String publisher = askFor("publisher");
-                if (bookReg.searchBookBy(title, publisher) != null)
+                if (products.searchProductBy(title, publisher) != null)
                 {                
                     System.out.println("The book that was found: ");
-                    System.out.println(bookReg.searchBookBy(title, publisher).getTitle());
+                    System.out.println(products.searchProductBy(title, publisher).getTitle());
                 }
                 else
                 {
@@ -263,10 +263,10 @@ public class ApplicationUI
                 break;
             case "title":
                 title = askFor("title");
-                if (bookReg.searchBookByTitle(title) != null)
+                if (products.searchProductByTitle(title) != null)
                 {
                     System.out.println("The book that was found: ");
-                    System.out.println(bookReg.searchBookByTitle(title).getTitle());
+                    System.out.println(products.searchProductByTitle(title).getTitle());
                 }
                 else
                 {
@@ -275,10 +275,10 @@ public class ApplicationUI
                 break;
             case "listPublisher":
                 publisher = askFor("publisher");
-                if (!bookReg.searchBookByPublisher(publisher).isEmpty())
+                if (!products.searchBookByPublisher(publisher).isEmpty())
                 {
                     System.out.println("The books that was found: ");
-                    bookReg.searchBookByPublisher(publisher).forEach(book ->
+                    products.searchBookByPublisher(publisher).forEach(book ->
                     System.out.println(book.getTitle()));
                 }
                 else 
@@ -303,14 +303,13 @@ public class ApplicationUI
         switch (getIntInput())
         {
             case 1:
-                String outPutString = bookReg.deleteBook(
-                                    bookReg.searchBookBy(askFor("title"), askFor("publisher"))) ? 
+                String outPutString = products.deleteProduct(products.searchProductBy(askFor("title"), askFor("publisher"))) ? 
                                     "Book was deleted" : "Couldn't find book to delete";
                 System.out.println(outPutString);
                 waitForInput();
                 break;
             case 2:
-                if (!bookReg.addBookToSeries(askFor("title"), askFor("publisher"), askFor("seriesTitle"), askFor("publicationDate")))
+                if (!products.addBookToSeries(askFor("title"), askFor("publisher"), askFor("seriesTitle"), askFor("publicationDate")))
                 {
                     System.out.println("Couldn't add the book to a series" + 
                                         ".\n Probable cause: title or publisher "
@@ -398,6 +397,5 @@ public class ApplicationUI
     private String getBookInfoString(Book book)
     {
         return "Title: " +  book.getTitle() + "\nAuthor: " + book.getAuthor()+ "\nPublisher: " + book.getPublisher(); 
-    }
-    
+    }    
 }   
