@@ -15,6 +15,7 @@ import java.util.stream.Stream;
  * @author berge
  */
 public class RegisterOfProductsTest {
+    RegisterOfProducts registerOfProducts;
     
     public RegisterOfProductsTest() {
     }
@@ -28,7 +29,19 @@ public class RegisterOfProductsTest {
     }
     
     @Before
-    public void setUp() {
+    public void setUp() {       
+        
+        registerOfProducts = new RegisterOfProducts();
+        
+        registerOfProducts.registrateSingleBook("Fysikk", "Frank", "Pearson", "07.03.2018", 1);
+        registerOfProducts.registrateSingleBook("Norsk", "Jarl", "Norge", "24.01.2017", 2);
+        registerOfProducts.registrateSingleBook("Matte", "Lars", "Pearson", "07.03.2018", 3);
+        registerOfProducts.registrateSingleBook("Naturfag", "Andreas", "Hei", "07.03.2018", 4);
+        
+        registerOfProducts.registrateBookInSeries("Simple","Calclus", "Lars", "Gyldendal", "07.05.2011");
+        registerOfProducts.registrateBookInSeries("Medium","Calclus", "Jarl", "Pearson", "23.11.2013");
+        registerOfProducts.registrateBookInSeries("Hard","Calclus", "Andreas", "Gyldendal", "13.03.2015");
+        registerOfProducts.registrateBookInSeries("Advanced","Calclus", "Arne", "Kagge", "02.07.2018");
     }
     
     @After
@@ -36,97 +49,72 @@ public class RegisterOfProductsTest {
     }
 
     /**
-     * Test of registrateSingleBook method, of class RegisterOfBooks.
+     * Test of registrateSingleBook method.
      */
     @Test
     public void testRegistrateSingleBook() {
-        System.out.println("registrateSingleBook");
-        String title = "";
-        String author = "";
-        String publisher = "";
-        String publicationDate = "";
-        int edition = 0;
-        RegisterOfProducts instance = new RegisterOfProducts();
-        instance.registrateSingleBook(title, author, publisher, publicationDate, edition);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        RegisterOfProducts register = new RegisterOfProducts();
+        register.registrateSingleBook("Title", "Author", "Publisher", "publicationDate", 1);
+        assertTrue(register.getProducts().anyMatch(book -> book.getTitle().equals("Title")));        
     }
 
     /**
-     * Test of registrateBookInSeries method, of class RegisterOfBooks.
+     * Test of registrateBookInSeries method.
      */
     @Test
     public void testRegistrateBookInSeries() {
-        System.out.println("registrateBookInSeries");
-        String title = "";
-        String seriesTitle = "";
-        String author = "";
-        String publisher = "";
-        String publicationDate = "";
-        RegisterOfProducts instance = new RegisterOfProducts();
-        instance.registrateBookInSeries(title, seriesTitle, author, publisher, publicationDate);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        RegisterOfProducts register = new RegisterOfProducts();
+        register.registrateBookInSeries("Title", "seriesTitle", "author", "publisher", "publicationDate");
+        assertTrue(register.getProducts().anyMatch(book -> book.getTitle().equals("Title")));
     }
 
     /**
-     * Test of searchBookBy method, of class RegisterOfBooks.
+     * Test of searchBookBy method.
      */
     @Test
-    public void testSearchBookBy() {
-        System.out.println("searchBookBy");
-        String title = "";
-        String publisher = "";
-        RegisterOfProducts instance = new RegisterOfProducts();
-        Book expResult = null;
-        Book result = instance.searchBookBy(title, publisher);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+    public void testSearchProductBy() {
+        RegisterOfProducts register = new RegisterOfProducts();
+        Literature result1 = register.searchProductBy("title", "publisher");
+        assertEquals(null, result1);
+        register.registrateBookInSeries("title", "seriesTitle", "author", "publisher", "publicationDate");
+        Literature result2 = registerOfProducts.searchProductBy("Fysikk", "Pearson");
+        assertTrue(result2.getTitle().equals("Fysikk"));
+        assertTrue(result2.getPublisher().equals("Pearson"));
+    }   
 
     /**
-     * Test of searchBookByPublisher method, of class RegisterOfBooks.
+     * Test of searchProductByPublisher method.
      */
     @Test
-    public void testSearchBookByPublisher() {
-        System.out.println("searchBookByPublisher");
-        String publisher = "";
-        RegisterOfProducts instance = new RegisterOfProducts();
-        ArrayList<Book> expResult = null;
-        ArrayList<Book> result = instance.searchBookByPublisher(publisher);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testSearchProductByPublisher() {
+        ArrayList<Literature> result = registerOfProducts.searchProductByPublisher("Gyldendal");
+        assertFalse(result.isEmpty());
+        assertTrue(result.stream().allMatch(l -> l.getPublisher().equals("Gyldendal")));
     }
 
     /**
-     * Test of getListOfProducts method, of class RegisterOfBooks.
+     * Test of getProducts method.
      */
     @Test
-    public void testGetListOfBooks() {
-        System.out.println("getListOfBooks");
-        RegisterOfProducts instance = new RegisterOfProducts();
-        Stream<Book> expResult = Stream.empty();
-        Stream<Book> result = instance.getListOfProducts();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testGetBooks() {
+        Stream<Literature> s = registerOfProducts.getProducts();
+        assertTrue(s.anyMatch(p -> p.getPublisher().equals("Pearson")));
+        s = registerOfProducts.getProducts();
+        assertTrue(s.anyMatch(p -> p.getPublisher().equals("Gyldendal")));
     }
 
     /**
-     * Test of deleteBook method, of class RegisterOfBooks.
+     * Test of deleteBook method.
      */
     @Test
     public void testDeleteBook() {
-        System.out.println("deleteBook");
-        Book book = null;
-        RegisterOfProducts instance = new RegisterOfProducts();
-        boolean expResult = false;
-        boolean result = instance.deleteBook(book);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        RegisterOfProducts register = new RegisterOfProducts();
+        register.registrateBookInSeries("title", "seriesTitle", "author", "publisher", "publicationDate");
+        Literature literature = register.searchProductByTitle("title");
+        boolean result = register.deleteProduct(null);
+        assertFalse(result);
+        assertEquals(literature.getPublisher(),"publisher");
+        
     }
 
     /**
@@ -134,53 +122,18 @@ public class RegisterOfProductsTest {
      */
     @Test
     public void testAddBookToSeries() {
-        System.out.println("addBookToSeries");
-        String title = "";
-        String publisher = "";
-        String seriesTitle = "";
-        String date = "";
-        RegisterOfProducts instance = new RegisterOfProducts();
-        boolean expResult = false;
-        boolean result = instance.addBookToSeries(title, publisher, seriesTitle, date);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        RegisterOfProducts register = new RegisterOfProducts();
+        register.registrateSingleBook("title", "author", "publisher", "publicationDate", 0);
+        assertTrue(register.addBookToSeries("title", "publisher", "seriesTitle", "date"));        
     }
-
     /**
      * Test of searchBookByTitle method, of class RegisterOfBooks.
      */
-    @Test
-    public void testSearchBookByTitle() {
-        System.out.println("searchBookByTitle");
-        String title = "";
-        RegisterOfProducts instance = new RegisterOfProducts();
-        Book expResult = null;
-        Book result = instance.searchBookByTitle(title);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
     
     @Test
-    public void TestSearchBookByTitle()
+    public void TestSearchProductByTitle()
     {
-        RegisterOfProducts bookReg = new RegisterOfProducts();
-        bookReg.registrateSingleBook("Title", "Author", "Publisher",
-                                      "publicationDate", 1);
-        assertEquals("Title", bookReg.searchBookByTitle("Title").getTitle());
-        assertEquals(null, bookReg.searchBookByTitle(" "));
+        assertEquals("Fysikk", registerOfProducts.searchProductByTitle("Fysikk").getTitle());
+        assertEquals(null, registerOfProducts.searchProductByTitle(" "));
     }
-    
-    @Test
-    public void TestDeleteBook()
-    {
-        RegisterOfProducts bookReg = new RegisterOfProducts();
-        bookReg.registrateSingleBook("Title", "Author", "Publisher",
-                                      "publicationDate", 1);
-        
-        assertEquals(true, bookReg.deleteBook(bookReg.searchBookByTitle("Title")));
-        assertEquals(false, bookReg.deleteBook(bookReg.searchBookByTitle(" ")));    
-    }
-    
 }

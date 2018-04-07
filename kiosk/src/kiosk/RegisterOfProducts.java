@@ -87,15 +87,13 @@ public class RegisterOfProducts{
         return product;
     }
     
-
-    
     /**
      * Find and return the books by a particular publisher
      * 
      * @param publisher The publisher of the book
      * @return A list of books by a particular publisher 
      */
-     public ArrayList<Literature> searchBookByPublisher(String publisher)
+     public ArrayList<Literature> searchProductByPublisher(String publisher)
     {
        ArrayList<Literature> listToReturn = new ArrayList<>();
        if (products.stream().anyMatch(book-> book.getPublisher().equals(publisher)))
@@ -111,7 +109,7 @@ public class RegisterOfProducts{
       * Return the list of books
       * @return the list of books 
       */
-    public Stream<Literature> getListOfProducts()
+    public Stream<Literature> getProducts()
     {
         return products.stream();
     }
@@ -124,7 +122,7 @@ public class RegisterOfProducts{
      */
     public boolean deleteProduct(Literature product)
     {
-        boolean deleted = false;
+        boolean isDeleted = false;
         Iterator<Literature> it = products.iterator();
         while (it.hasNext())
         {
@@ -132,10 +130,10 @@ public class RegisterOfProducts{
             if (literature == product)
             {
                 it.remove();
-                deleted = true;
+                isDeleted = true;
             }
         }
-        return deleted;
+        return isDeleted;
     }
     /**
      * Adds a book to a series
@@ -178,24 +176,6 @@ public class RegisterOfProducts{
                     .get();
         }
         return product;
-    }
-    
-    /**
-     * Fills the phonebook with some standard data
-     * to make it faster for testing.
-     */
-    public void fillBookRegister()
-    {
-        //Add to single.
-        products.add(new SingleBook("Fysikk", "Frank", "Pearson", "07.03.2018", 1)); 
-        products.add(new SingleBook("Norsk", "Jarl", "Norge", "24.01.2017", 2));
-        products.add(new SingleBook("Matte", "Lars", "Pearson", "07.03.2018", 3));
-        products.add(new SingleBook("Naturfag", "Andreas", "Hei", "07.03.2018", 4));
-        // Add to series.
-        products.add(new BookInSeries("Simple","Calclus", "Lars", "Person", "07.05.2011"));
-        products.add(new BookInSeries("Medium","Calclus", "Jarl", "Person", "23.11.2013"));
-        products.add(new BookInSeries("Hard","Calclus", "Andreas", "Person", "13.03.2015"));
-        products.add(new BookInSeries("Advanced","Calclus", "Arne", "Person", "02.07.2018"));
     }
                                         
 }

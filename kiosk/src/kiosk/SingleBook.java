@@ -26,6 +26,18 @@ public class SingleBook extends Book{
         this.edition = edition;
     }
     
+    /**
+     * Return information about a product
+     * @return info the information about the product
+     */
+    @Override
+    public String findProductInfo()
+    {
+        String info = super.findProductInfo();
+        info += "\nEdition: " + edition;
+        return info;
+    }
+    
      /**
      * Set the edition of the book.
      * @param edition of the book.

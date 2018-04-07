@@ -24,4 +24,17 @@ public class RegularlyPublishedLiterature extends Literature {
         this.subject = subject;
     }
     
+    /**
+     * Return information about a product
+     * @return info the information about the product
+     */
+    @Override
+    public String findProductInfo()
+    {
+        String info = super.findProductInfo();
+        info += "\nNumber of yearly releases: " + numberOfYearlyReleases +
+                "\nSubject: " + subject;
+        return info;
+    }
+    
 }

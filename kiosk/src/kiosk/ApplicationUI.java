@@ -136,10 +136,10 @@ public class ApplicationUI
     private void listAllProducts()
     {
         printDebugging("listAllProducts() was called");
-        if (products.getListOfProducts().iterator().hasNext())
+        if (products.getProducts().iterator().hasNext())
         {
-        products.getListOfProducts().forEach(literature -> 
-                {System.out.println(getBookInfoString(book));
+        products.getProducts().forEach(literature -> 
+                {System.out.println(literature.findProductInfo());
                  System.out.println();
                 });        
         }
@@ -167,16 +167,19 @@ public class ApplicationUI
         System.out.println("Chose which product to add:");
         System.out.println("1. Single book");
         System.out.println("2. Book in series");
-        System.out.println("addNewProduct() was called");
+        System.out.println("3. Regularly published literature");
         switch (getIntInput())
         {
             //adds a single book
             
             case 1:
-                products.registrateSingleBook(this.askFor("title"), this.askFor("author"), this.askFor("publisher"), this.askFor("publicationDate"), this.askForEdition());
+                products.registrateSingleBook(this.askForString("title"), this.askForString("author"), this.askForString("publisher"), this.askForString("publicationDate"), this.askForInteger("edition"));
                 break;
             case 2:
-                products.registrateBookInSeries(this.askFor("title"), this.askFor("seriesTitle"), this.askFor("author"), this.askFor("publisher"), this.askFor("publicationDate"));
+                products.registrateBookInSeries(this.askForString("title"), this.askForString("seriesTitle"), this.askForString("author"), this.askForString("publisher"), this.askForString("publicationDate"));
+                break;
+            case 3:
+                products.registrateRegularlyPublishedLiterature(this.askForString("title"), this.askForString("publisher"), this.askForInteger("Number of yearly releases"), this.askForString("subject"));
                 break;
             default:
                 tellUserThatChosenNumberIsInvalid();
@@ -190,25 +193,6 @@ public class ApplicationUI
      * Search for a specified product
      */
     private void search()
-    {
-        System.out.println("Chose wich product to search");
-        System.out.println("1.Book");
-        switch (this.getIntInput())
-        {
-            case 1:
-                this.searchBook();
-                break;
-            default:
-                tellUserThatChosenNumberIsInvalid();
-                search();
-                break;
-        }
-    }
-    
-    /**
-     * Provides different methods to search for a book
-     */
-    private void searchBook()
     {
         System.out.println("Chose search criteria");
         System.out.println("1. Find a product by title and publisher");
@@ -230,6 +214,14 @@ public class ApplicationUI
                 tellUserThatChosenNumberIsInvalid();
                 break;
         }
+    }
+    
+    /**
+     * Provides different methods to search for a book
+     */
+    private void searchBook()
+    {        
+        
         
     }
     /**
@@ -249,8 +241,8 @@ public class ApplicationUI
         switch (criteria)
         {
             case "nameAndPublisher":
-                String title = askFor("title");
-                String publisher = askFor("publisher");
+                String title = askForString("title");
+                String publisher = askForString("publisher");
                 if (products.searchProductBy(title, publisher) != null)
                 {                
                     System.out.println("The book that was found: ");
@@ -262,7 +254,7 @@ public class ApplicationUI
                 }
                 break;
             case "title":
-                title = askFor("title");
+                title = askForString("title");
                 if (products.searchProductByTitle(title) != null)
                 {
                     System.out.println("The book that was found: ");
@@ -274,11 +266,11 @@ public class ApplicationUI
                 }
                 break;
             case "listPublisher":
-                publisher = askFor("publisher");
-                if (!products.searchBookByPublisher(publisher).isEmpty())
+                publisher = askForString("publisher");
+                if (!products.searchProductByPublisher(publisher).isEmpty())
                 {
                     System.out.println("The books that was found: ");
-                    products.searchBookByPublisher(publisher).forEach(book ->
+                    products.searchProductByPublisher(publisher).forEach(book ->
                     System.out.println(book.getTitle()));
                 }
                 else 
@@ -303,13 +295,13 @@ public class ApplicationUI
         switch (getIntInput())
         {
             case 1:
-                String outPutString = products.deleteProduct(products.searchProductBy(askFor("title"), askFor("publisher"))) ? 
+                String outPutString = products.deleteProduct(products.searchProductBy(askForString("title"), askForString("publisher"))) ? 
                                     "Book was deleted" : "Couldn't find book to delete";
                 System.out.println(outPutString);
                 waitForInput();
                 break;
             case 2:
-                if (!products.addBookToSeries(askFor("title"), askFor("publisher"), askFor("seriesTitle"), askFor("publicationDate")))
+                if (!products.addBookToSeries(askForString("title"), askForString("publisher"), askForString("seriesTitle"), askForString("publicationDate")))
                 {
                     System.out.println("Couldn't add the book to a series" + 
                                         ".\n Probable cause: title or publisher "
@@ -379,7 +371,7 @@ public class ApplicationUI
      * @param infoToAskFor 
      * @return the input from the user
      */
-    private String askFor(String infoToAskFor)
+    private String askForString(String infoToAskFor)
     {
         System.out.println(infoToAskFor + ":");
         return getStringInput();
@@ -388,14 +380,9 @@ public class ApplicationUI
      * Asks for edition of the product
      * @return the input from the user
      */
-    private int askForEdition()
+    private int askForInteger(String infoToAskFor)
     {
-        System.out.println("Edition:");
+        System.out.println(infoToAskFor + ": ");
         return getIntInput();
-    }
-    
-    private String getBookInfoString(Book book)
-    {
-        return "Title: " +  book.getTitle() + "\nAuthor: " + book.getAuthor()+ "\nPublisher: " + book.getPublisher(); 
-    }    
+    }   
 }   

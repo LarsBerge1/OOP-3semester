@@ -21,6 +21,18 @@ public abstract class Book extends Literature
         this.author = author;
         this.publicationDate = publicationDate;
     }
+    
+    /**
+     * Return information about a product
+     * @return info the information about the product
+     */
+    @Override
+    public String findProductInfo()
+    {
+        String info = super.findProductInfo();
+        info += "\nAuthor: " + this.author + "\nPublicationDate: " + this.publicationDate; 
+        return info;
+    }
 
     /**
      * Set the author of the book
