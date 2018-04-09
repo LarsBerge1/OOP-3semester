@@ -1,7 +1,6 @@
 
 package kiosk;
 
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -17,7 +16,7 @@ public class ApplicationUI
 {
     private final boolean debugging = false;
     
-    // The menu tha will be displayed. Please edit/alter the menu
+    // The menu that will be displayed. Please edit/alter the menu
     // to fit your application (i.e. replace "prodct" with "litterature"
     // etc.
      private final String[] menuItems =
@@ -168,7 +167,7 @@ public class ApplicationUI
         System.out.println("1. Single book");
         System.out.println("2. Book in series");
         System.out.println("3. Regularly published literature");
-        switch (getIntInput())
+        switch (InputGetter.getIntInput())
         {
             //adds a single book
             
@@ -198,7 +197,7 @@ public class ApplicationUI
         System.out.println("1. Find a product by title and publisher");
         System.out.println("2. Find a product by title");
         System.out.println("3. Find all books by a publisher");
-        switch(this.getIntInput())
+        switch(InputGetter.getIntInput())
         {
             case 1:
                 this.findProduct("nameAndPublisher");
@@ -292,7 +291,7 @@ public class ApplicationUI
         System.out.println("1. Delete book");
         System.out.println("2. add book to series");
         
-        switch (getIntInput())
+        switch (InputGetter.getIntInput())
         {
             case 1:
                 String outPutString = products.deleteProduct(products.searchProductBy(askForString("title"), askForString("publisher"))) ? 
@@ -335,27 +334,7 @@ public class ApplicationUI
     private void waitForInput()
     {
         System.out.println("Press enter to continue");
-        getStringInput();
-    }
-    
-    /**
-     * Looks for a string input provided by the user
-     * @return The input provided by the user
-     */
-    private String getStringInput()
-    {
-        Scanner r = new Scanner(System.in);
-        return r.nextLine();
-    }
-    
-    /**
-     * Looks for a integer input provided by the user
-     * @return input or 1 as default 
-     */
-    private int getIntInput()
-    {
-        Scanner r = new Scanner(System.in);
-        return r.hasNextInt() ? r.nextInt() : 1;
+        InputGetter.getStringInput();
     }
     
     /**
@@ -374,8 +353,9 @@ public class ApplicationUI
     private String askForString(String infoToAskFor)
     {
         System.out.println(infoToAskFor + ":");
-        return getStringInput();
+        return InputGetter.getStringInput();
     }
+    
      /**
      * Asks for edition of the product
      * @return the input from the user
@@ -383,6 +363,6 @@ public class ApplicationUI
     private int askForInteger(String infoToAskFor)
     {
         System.out.println(infoToAskFor + ": ");
-        return getIntInput();
+        return InputGetter.getIntInput();
     }   
 }   

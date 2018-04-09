@@ -176,7 +176,6 @@ public class RegisterOfProducts{
                     .get();
         }
         return product;
-    }
-                                        
+    }                                        
 }
 

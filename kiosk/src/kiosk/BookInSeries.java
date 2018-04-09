@@ -2,7 +2,7 @@
 package kiosk;
 
 /**
- *  Represents a book that is published as a part of a series
+ * A book that is published as part of a series
  * @author amhat
  */
 public class BookInSeries extends Book{

@@ -29,7 +29,7 @@ public abstract class Literature {
      */
     public String findProductInfo()
     {
-        String info = "Title: " + this.title +"\nPublisher" + this.publisher;
+        String info = "Title: " + this.title +"\nPublisher: " + this.publisher;
         return info;
     }
     
