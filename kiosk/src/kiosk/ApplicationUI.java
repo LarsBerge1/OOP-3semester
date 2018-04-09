@@ -1,6 +1,7 @@
 
 package kiosk;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -64,7 +65,7 @@ public class ApplicationUI
                         break;
 
                     case 3:
-                        this.search();
+                        this.showSearchMenu();
                         break;
                     case 4:
                         this.administrateBooks();
@@ -137,7 +138,7 @@ public class ApplicationUI
         printDebugging("listAllProducts() was called");
         if (products.getProducts().iterator().hasNext())
         {
-        products.getProducts().forEach(literature -> Viewer.display(literature));
+            products.getProducts().forEach(literature -> ViewFactory.getView(literature).display());
         }
         else
         {
@@ -188,7 +189,7 @@ public class ApplicationUI
     /**
      * Search for a specified product
      */
-    private void search()
+    private void showSearchMenu()
     {
         System.out.println("Chose search criteria");
         System.out.println("1. Find a product by title and publisher");
@@ -197,28 +198,19 @@ public class ApplicationUI
         switch(InputGetter.getIntInput())
         {
             case 1:
-                this.findProduct("nameAndPublisher");
+                search("nameAndPublisher");
                 break;
             case 2:
-                this.findProduct("title");
+                search("title");
                 break;
             case 3:
-                this.findProduct("listPublisher");
+                search("listPublisher");
                 break;
             default:
-                this.searchBook();
+                showSearchMenu();
                 tellUserThatChosenNumberIsInvalid();
                 break;
         }
-    }
-    
-    /**
-     * Provides different methods to search for a book
-     */
-    private void searchBook()
-    {        
-        
-        
     }
     /**
      * Find and display a product based om name (title) and publisher.
@@ -230,7 +222,7 @@ public class ApplicationUI
      * to print the details of the found item.
      * @param criteria the search criteria.
      */
-    private void findProduct(String criteria)
+    private void search(String criteria)
     {
         printDebugging("findProduct() was called");
         System.out.println();
@@ -239,44 +231,55 @@ public class ApplicationUI
             case "nameAndPublisher":
                 String title = askForString("title");
                 String publisher = askForString("publisher");
-                if (products.searchProductBy(title, publisher) != null)
-                {                
-                    System.out.println("The book that was found: ");
-                    Literature product = products.searchProductBy(title, publisher);
-                    Viewer.display(product);
-                }
-                else
-                {
-                    System.out.println("No such book was found!");
-                }
+                Literature foundProduct = products.searchProductBy(title, publisher);
+                presentInfo(foundProduct);
                 break;
             case "title":
                 title = askForString("title");
-                if (products.searchProductByTitle(title) != null)
-                {
-                    System.out.println("The product that was found: ");                    
-                    System.out.println(products.searchProductByTitle(title).getTitle());
-                }
-                else
-                {
-                    System.out.println("No Such book was found!");
-                }
+                foundProduct = products.searchProductByTitle(title);
+                presentInfo(foundProduct);
                 break;
             case "listPublisher":
                 publisher = askForString("publisher");
-                if (!products.searchProductByPublisher(publisher).isEmpty())
-                {
-                    System.out.println("The books that was found: ");
-                    products.searchProductByPublisher(publisher).forEach(book ->
-                    System.out.println(book.getTitle()));
-                }
-                else 
-                {
-                    System.out.println("There are not registered any books from this publisher");
-                }
+                ArrayList<Literature> productsByPublisher = products.searchProductByPublisher(publisher);
+                presentInfo(productsByPublisher);                
                 break;
         }
         this.waitForInput();
+    }
+    
+    /**
+     * Presents information about the product.
+     * @param literature the litterature to present
+     */
+    private void presentInfo(Literature literature)
+    {        
+        if (literature != null)
+        {                
+            System.out.println("The product that was found: ");
+            ViewFactory.getView(literature).display();
+        }
+        else
+        {
+            System.out.println("No such product was found!");
+        }
+    }
+    
+     /**
+     * Presents information about the product.
+     * @param literatures the litteratures to present
+     */
+    private void presentInfo(ArrayList<Literature> literatures)
+    {
+        if (literatures.isEmpty())
+        {
+            System.out.println("There are not registered any books from this publisher");
+        }
+        else 
+        {            
+            System.out.println("The products that was found: ");
+            literatures.forEach(product -> ViewFactory.getView(product).display());
+        }   
     }
     
     /**
