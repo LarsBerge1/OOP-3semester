@@ -21,18 +21,7 @@ public abstract class Literature {
     {
         this.title = title;
         this.publisher = publisher;
-    }
-    
-    /**
-     * Return information about a product
-     * @return info the information about the product
-     */
-    public String findProductInfo()
-    {
-        String info = "Title: " + this.title +"\nPublisher: " + this.publisher;
-        return info;
-    }
-    
+    }    
     
     /**
      * Set the title of the book

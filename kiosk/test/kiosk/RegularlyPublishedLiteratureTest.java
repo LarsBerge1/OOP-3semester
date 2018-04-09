@@ -36,7 +36,7 @@ public class RegularlyPublishedLiteratureTest {
     }
 
     /**
-     * Test of findProductInfo method, of class RegularlyPublishedLiterature.
+     * Test of toString method, of class RegularlyPublishedLiterature.
      */
     @Test
     public void testGetTitle() {

@@ -21,18 +21,6 @@ public class BookInSeries extends Book{
         this.seriesTitle = seriesTitle;
     }
     
-    /**
-     * Return information about a product
-     * @return info the information about the product
-     */
-    @Override
-    public String findProductInfo()
-    {
-        String info = super.findProductInfo();
-        info += "\nSeries title: " + seriesTitle;
-        return info;
-    }
-    
     
     /**
      * Set the title of the book serie

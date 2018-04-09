@@ -15,7 +15,7 @@ public class RegularlyPublishedLiterature extends Literature {
      *@param title The title of the literature
      *@param publisher The publisher of the literature
      *@param numberOfYearlyReleases the number of edition published in a year
-     * @param subject the subject of the literature
+     *@param subject the subject of the literature
      */
     public RegularlyPublishedLiterature(String title, String publisher, int numberOfYearlyReleases, String subject)
     {
@@ -25,16 +25,21 @@ public class RegularlyPublishedLiterature extends Literature {
     }
     
     /**
-     * Return information about a product
-     * @return info the information about the product
+     * Returns the number of yearly releases
+     * @return the number of yearly releases
      */
-    @Override
-    public String findProductInfo()
+    
+    public int getNumberOfYearlyReleases()
     {
-        String info = super.findProductInfo();
-        info += "\nNumber of yearly releases: " + numberOfYearlyReleases +
-                "\nSubject: " + subject;
-        return info;
+        return numberOfYearlyReleases;
     }
     
+    /**
+     * Returns the subject
+     * @return subject
+     */
+    public String getSubject()
+    {
+        return subject;
+    }    
 }

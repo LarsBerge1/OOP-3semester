@@ -77,10 +77,10 @@ public class RegisterOfProducts{
     public Literature searchProductBy(String title, String publisher)
     {
         Literature product = null;
-        if ( products.stream().anyMatch(book -> (book.getTitle().equals(title)) && (book.getPublisher().equals(publisher))))
+        if ( products.stream().anyMatch(literature -> (literature.getTitle().equals(title)) && (literature.getPublisher().equals(publisher))))
         {
             product = products.stream()
-                    .filter(book -> (book.getTitle().equals(title)) && (book.getPublisher().equals(publisher)))
+                    .filter(literature -> (literature.getTitle().equals(title)) && (literature.getPublisher().equals(publisher)))
                     .findFirst()
                     .get();
         }
@@ -99,7 +99,7 @@ public class RegisterOfProducts{
        if (products.stream().anyMatch(book-> book.getPublisher().equals(publisher)))
        {
        listToReturn = products.stream()
-                          .filter(book -> book.getPublisher().equals(publisher))
+                          .filter(literature -> literature.getPublisher().equals(publisher))
                           .collect(Collectors.toCollection(ArrayList::new));
        }
        return listToReturn;
@@ -168,10 +168,10 @@ public class RegisterOfProducts{
     public Literature searchProductByTitle(String title)
     {
         Literature product  = null;
-        if ( products.stream().anyMatch(book -> book.getTitle().equals(title))) 
+        if ( products.stream().anyMatch(literature -> literature.getTitle().equals(title))) 
         {
             product = products.stream()
-                    .filter(book -> book.getTitle().equals(title))
+                    .filter(literature -> literature.getTitle().equals(title))
                     .findFirst()
                     .get();
         }

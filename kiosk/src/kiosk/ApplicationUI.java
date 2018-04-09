@@ -137,10 +137,7 @@ public class ApplicationUI
         printDebugging("listAllProducts() was called");
         if (products.getProducts().iterator().hasNext())
         {
-        products.getProducts().forEach(literature -> 
-                {System.out.println(literature.findProductInfo());
-                 System.out.println();
-                });        
+        products.getProducts().forEach(literature -> Viewer.display(literature));
         }
         else
         {
@@ -245,7 +242,8 @@ public class ApplicationUI
                 if (products.searchProductBy(title, publisher) != null)
                 {                
                     System.out.println("The book that was found: ");
-                    System.out.println(products.searchProductBy(title, publisher).getTitle());
+                    Literature product = products.searchProductBy(title, publisher);
+                    Viewer.display(product);
                 }
                 else
                 {
@@ -256,7 +254,7 @@ public class ApplicationUI
                 title = askForString("title");
                 if (products.searchProductByTitle(title) != null)
                 {
-                    System.out.println("The book that was found: ");
+                    System.out.println("The product that was found: ");                    
                     System.out.println(products.searchProductByTitle(title).getTitle());
                 }
                 else
@@ -294,9 +292,9 @@ public class ApplicationUI
         switch (InputGetter.getIntInput())
         {
             case 1:
-                String outPutString = products.deleteProduct(products.searchProductBy(askForString("title"), askForString("publisher"))) ? 
+                String outputString = products.deleteProduct(products.searchProductBy(askForString("title"), askForString("publisher"))) ? 
                                     "Book was deleted" : "Couldn't find book to delete";
-                System.out.println(outPutString);
+                System.out.println(outputString);
                 waitForInput();
                 break;
             case 2:
@@ -364,5 +362,7 @@ public class ApplicationUI
     {
         System.out.println(infoToAskFor + ": ");
         return InputGetter.getIntInput();
-    }   
+    }  
+    
+    
 }   
