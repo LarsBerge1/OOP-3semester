@@ -6,8 +6,8 @@
 package kiosk;
 
 /**
- *
- * @author amhat
+ * Presents information about the RegularlyPublishedLiterature
+ * 
  */
 public class RegularlyPublishedLiteratureView  extends LiteratureView{
     private RegularlyPublishedLiterature rpl;
@@ -16,6 +16,11 @@ public class RegularlyPublishedLiteratureView  extends LiteratureView{
         super(rpl);
         this.rpl = rpl;
     }
+    /**
+     * Displays the information associated with a RegularlyPublishedLiterature
+     * object
+     */
+    @Override
     public void display()
     {
         super.display();

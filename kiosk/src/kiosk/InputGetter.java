@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 /**
  * Responsible for getting input from the user
- * @author amhat
+ * 
  */
 abstract public class InputGetter {
     public InputGetter()

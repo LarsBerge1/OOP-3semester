@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package kiosk;
 
 /**
- *
- * @author amhat
+ * Presents information about the single book
+ * 
  */
 public class SingleBookView  extends LiteratureView {
     private SingleBook sb;
@@ -16,6 +12,11 @@ public class SingleBookView  extends LiteratureView {
      super(sb);   
      this.sb = sb;
     }
+    
+    /**
+     * Displays the information associated with a SingleBook object
+     */
+    @Override
     public void display()
     {
         super.display();

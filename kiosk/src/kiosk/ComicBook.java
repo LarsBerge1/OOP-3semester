@@ -2,8 +2,8 @@
 package kiosk;
 
 /**
- *
- * @author amhat
+ * A comic book. Differs from other books since it has a specific "comic genre" field.
+ * 
  */
 public class ComicBook extends Book {
     private static String genre;
@@ -13,6 +13,10 @@ public class ComicBook extends Book {
       this.genre = genre;
     }
     
+    /**
+     * Returns the genre of the comic book
+     * @return the genre of the comic book
+     */
     public String getGenre()
     {
         return genre;

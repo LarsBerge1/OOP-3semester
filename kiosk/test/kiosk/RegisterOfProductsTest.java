@@ -76,7 +76,6 @@ public class RegisterOfProductsTest {
         RegisterOfProducts register = new RegisterOfProducts();
         Literature result1 = register.searchProductBy("title", "publisher");
         assertEquals(null, result1);
-        register.registrateBookInSeries("title", "seriesTitle", "author", "publisher", "publicationDate");
         Literature result2 = registerOfProducts.searchProductBy("Fysikk", "Pearson");
         assertTrue(result2.getTitle().equals("Fysikk"));
         assertTrue(result2.getPublisher().equals("Pearson"));
@@ -90,6 +89,10 @@ public class RegisterOfProductsTest {
         ArrayList<Literature> result = registerOfProducts.searchProductByPublisher("Gyldendal");
         assertFalse(result.isEmpty());
         assertTrue(result.stream().allMatch(l -> l.getPublisher().equals("Gyldendal")));
+        
+        ArrayList<Literature> result2 = registerOfProducts.searchProductByPublisher("non-existing publisher");
+        assertTrue(result2.isEmpty());
+        assertTrue(result2.stream().noneMatch(l -> l.getPublisher().equals("non-existing publisher")));
     }
 
     /**

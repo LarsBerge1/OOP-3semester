@@ -6,8 +6,7 @@
 package kiosk;
 
 /**
- *
- * @author amhat
+ * Presents information about the RegularlyPublishedLiterature 
  */
 public class ComicBookView  extends LiteratureView {
     private ComicBook cb;
@@ -16,6 +15,11 @@ public class ComicBookView  extends LiteratureView {
         super(cb);
         this.cb = cb;
     }
+    
+    /**
+     * Displays the information associated with a ComicBook object
+     */
+    @Override
     public void display()
     {
         super.display();

@@ -3,7 +3,7 @@ package kiosk;
 
 /**
  *A single book
- * @author amhat
+ * 
  */
 public class SingleBook extends Book{
     private int edition;            //The edition of the book.

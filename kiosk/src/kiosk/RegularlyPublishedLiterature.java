@@ -12,6 +12,7 @@ public class RegularlyPublishedLiterature extends Literature {
     
     
     /**
+     * Constructor for the RegularlyPublishedLiterature 
      *@param title The title of the literature
      *@param publisher The publisher of the literature
      *@param numberOfYearlyReleases the number of edition published in a year

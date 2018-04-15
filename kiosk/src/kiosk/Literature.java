@@ -1,11 +1,9 @@
-/*
-* Represents all types of literature in the 
-* Literature Kiosk
-*/
+
 package kiosk;
 
 /**
- *
+ *Represents all types of literature in the 
+* Literature Kiosk
  * @author amhat
  */
 public abstract class Literature {        

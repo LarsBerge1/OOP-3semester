@@ -3,7 +3,7 @@ package kiosk;
 
 /**
  * A book that is published as part of a series
- * @author amhat
+ * 
  */
 public class BookInSeries extends Book{
     private String seriesTitle;     //The title of the series.

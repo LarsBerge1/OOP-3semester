@@ -3,14 +3,13 @@ package kiosk;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
 /**
  * A register of books. 
  * Functions to search, add or delete books in the register.
- * @amhat
- * @berge
- * @author 
+ * 
  */
 public class RegisterOfProducts{
     ArrayList<Literature> products;
@@ -76,13 +75,17 @@ public class RegisterOfProducts{
      */
     public Literature searchProductBy(String title, String publisher)
     {
-        Literature product = null;
-        if ( products.stream().anyMatch(literature -> (literature.getTitle().equals(title)) && (literature.getPublisher().equals(publisher))))
+        Literature product;
+        try
         {
             product = products.stream()
                     .filter(literature -> (literature.getTitle().equals(title)) && (literature.getPublisher().equals(publisher)))
                     .findFirst()
                     .get();
+        }
+        catch(NoSuchElementException e)
+        {
+            product = null;
         }
         return product;
     }
@@ -96,12 +99,9 @@ public class RegisterOfProducts{
      public ArrayList<Literature> searchProductByPublisher(String publisher)
     {
        ArrayList<Literature> listToReturn = new ArrayList<>();
-       if (products.stream().anyMatch(book-> book.getPublisher().equals(publisher)))
-       {
        listToReturn = products.stream()
                           .filter(literature -> literature.getPublisher().equals(publisher))
                           .collect(Collectors.toCollection(ArrayList::new));
-       }
        return listToReturn;
     }
     
@@ -167,13 +167,16 @@ public class RegisterOfProducts{
      */
     public Literature searchProductByTitle(String title)
     {
-        Literature product  = null;
-        if ( products.stream().anyMatch(literature -> literature.getTitle().equals(title))) 
-        {
-            product = products.stream()
+        Literature product;
+        try{
+        product = products.stream()
                     .filter(literature -> literature.getTitle().equals(title))
                     .findFirst()
                     .get();
+        }
+        catch(NoSuchElementException e)
+        {
+            product = null;
         }
         return product;
     }                                        

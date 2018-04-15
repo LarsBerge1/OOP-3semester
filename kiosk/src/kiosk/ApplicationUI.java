@@ -68,7 +68,7 @@ public class ApplicationUI
                         this.showSearchMenu();
                         break;
                     case 4:
-                        this.administrateBooks();
+                        this.administrateProducts();
                         break;
 
                     case 5:
@@ -283,14 +283,14 @@ public class ApplicationUI
     }
     
     /**
-     * Administrate books. Delete or add book to series
+     * Administrate products. Delete or add book to series
      * 
      */
-    private void administrateBooks()
+    private void administrateProducts()
     {
         printDebugging("administrateBooks() was called");
-        System.out.println("1. Delete book");
-        System.out.println("2. add book to series");
+        System.out.println("1. Delete product");
+        System.out.println("2. Add book to series");
         
         switch (InputGetter.getIntInput())
         {
@@ -311,7 +311,7 @@ public class ApplicationUI
                 break; 
             default:
                 tellUserThatChosenNumberIsInvalid();
-                administrateBooks();
+                administrateProducts();
                 break;
                 
         }
@@ -365,7 +365,6 @@ public class ApplicationUI
     {
         System.out.println(infoToAskFor + ": ");
         return InputGetter.getIntInput();
-    }  
-    
+    }   
     
 }   

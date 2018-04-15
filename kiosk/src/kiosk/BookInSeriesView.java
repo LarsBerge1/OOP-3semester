@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package kiosk;
 
 /**
- *
- * @author amhat
+ *Presents information about the book in series
+ * 
  */
 public class BookInSeriesView extends LiteratureView {
     private BookInSeries bs;
@@ -17,6 +13,11 @@ public class BookInSeriesView extends LiteratureView {
         this.bs = bs;
         
     }
+    
+    /**
+     * Displays the information associated with a BookInSeries object
+     */
+    @Override
     public void display()
     {
         super.display();

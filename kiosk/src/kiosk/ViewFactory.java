@@ -2,14 +2,19 @@
 package kiosk;
 
 /**
- *
- * @author amhat
+ * Creates viewers
+ * 
  */
 public abstract class ViewFactory {
     public ViewFactory()
     {        
     }
     
+    /**
+     * Creates a viewer specific to which type of literature to present.
+     * @param l the litterature to present to the user
+     * @return a viewer specific to which type of literature to present.
+     */
     public static LiteratureView getView(Literature l)
     {
         if (l instanceof BookInSeries)
