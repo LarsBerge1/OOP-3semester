@@ -28,7 +28,7 @@ public class ApplicationUI
     };
     
     //A register of the kiosk's books
-    RegisterOfProducts products;
+    LiteratureRegister products;
    
 
     /**
@@ -36,7 +36,7 @@ public class ApplicationUI
      */
     public ApplicationUI() 
     {
-        this.products = new RegisterOfProducts();
+        this.products = new LiteratureRegister();
     }
 
     /**
@@ -164,20 +164,23 @@ public class ApplicationUI
         System.out.println("Chose which product to add:");
         System.out.println("1. Single book");
         System.out.println("2. Book in series");
-        System.out.println("3. Regularly published literature");
+        System.out.println("3. Periodical");
+        System.out.println("4. Comic Book");
         switch (InputGetter.getIntInput())
         {
             //adds a single book
             
             case 1:
-                products.registrateSingleBook(this.askForString("title"), this.askForString("author"), this.askForString("publisher"), this.askForString("publicationDate"), this.askForInteger("edition"));
+                products.registrateLiterature(new SingleBook(this.askForString("title"), this.askForString("author"), this.askForString("publisher"), this.askForString("publicationDate"), this.askForInteger("edition")));
                 break;
             case 2:
-                products.registrateBookInSeries(this.askForString("title"), this.askForString("seriesTitle"), this.askForString("author"), this.askForString("publisher"), this.askForString("publicationDate"));
+                products.registrateLiterature(new BookInSeries(this.askForString("title"), this.askForString("seriesTitle"), this.askForString("author"), this.askForString("publisher"), this.askForString("publicationDate")));
                 break;
             case 3:
-                products.registrateRegularlyPublishedLiterature(this.askForString("title"), this.askForString("publisher"), this.askForInteger("Number of yearly releases"), this.askForString("subject"));
+                products.registrateLiterature(new Periodical(this.askForString("title"), this.askForString("publisher"), this.askForInteger("Number of yearly releases"), this.askForString("subject")));
                 break;
+            case 4:
+                products.registrateLiterature(new ComicBook(askForString("author"), askForString("publisher"), askForString("title"), askForString("publicationDate"), askForString("genre")));
             default:
                 tellUserThatChosenNumberIsInvalid();
                 addNewProduct();

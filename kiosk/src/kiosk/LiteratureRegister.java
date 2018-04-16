@@ -1,6 +1,7 @@
 package kiosk;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -11,60 +12,26 @@ import java.util.stream.Stream;
  * Functions to search, add or delete books in the register.
  * 
  */
-public class RegisterOfProducts{
-    ArrayList<Literature> products;
+public class LiteratureRegister{
+    List<Literature> literatures;
     
     /**
      * Constructor for the RegisterOfBooks class
      */
-    public RegisterOfProducts()
+    public LiteratureRegister()
     {
-       products = new ArrayList<>();  
+       literatures = new ArrayList<>();  
     }
     
     /**
-     * Adds a book that isn't a part of a series to the list of products
-     * 
-     * @param title The name of the book
-     * @param author The name of the author
-     * @param publisher The name of the publisher
-     * @param publicationDate The day the book was published
-     * @param edition The edition of the book
+     * Registrate a literatur to the collection
+     * @param l the literatur to add to the collection
      */
-    public void registrateSingleBook(String title, String author, String publisher,
-                                     String publicationDate, int edition)
+    public void registrateLiterature(Literature l)
     {
-      products.add(new SingleBook(title, author, publisher, publicationDate, edition)); 
-    }
-    /**
-     * Adds a book that is a part of a series to the list of products
-     * 
-     * @param title The title of the book
-     * @param seriesTitle The title of the series
-     * @param author The name of the author
-     * @param publisher The name of the publisher
-     * @param publicationDate The day the book was published 
-     */    
-    public void registrateBookInSeries(String title, String seriesTitle, String author,
-                                String publisher,  String publicationDate)
-    {
-       products.add(new BookInSeries(title, seriesTitle, author, publisher, publicationDate));    
-    }
-    
-    /**
-     * Adds a regularly published litterature to the list
-     * of products
-     * @param numberOfYearlyReleases number of editions published each year
-     * @param publisher the publisher of the literature
-     * @param subject the subject of the literature
-     * @param title the title of the literature
-     */
-    
-    public void registrateRegularlyPublishedLiterature(String title, String publisher, int numberOfYearlyReleases, String subject)
-    {
-        products.add(new RegularlyPublishedLiterature(title, publisher, numberOfYearlyReleases, subject));
-    }
-    
+        literatures.add(l);
+    }  
+      
     /**
      * Finds and return a book with a particular title
      * 
@@ -78,7 +45,7 @@ public class RegisterOfProducts{
         Literature product;
         try
         {
-            product = products.stream()
+            product = literatures.stream()
                     .filter(literature -> (literature.getTitle().equals(title)) && (literature.getPublisher().equals(publisher)))
                     .findFirst()
                     .get();
@@ -99,7 +66,7 @@ public class RegisterOfProducts{
      public ArrayList<Literature> searchProductByPublisher(String publisher)
     {
        ArrayList<Literature> listToReturn = new ArrayList<>();
-       listToReturn = products.stream()
+       listToReturn = literatures.stream()
                           .filter(literature -> literature.getPublisher().equals(publisher))
                           .collect(Collectors.toCollection(ArrayList::new));
        return listToReturn;
@@ -111,7 +78,7 @@ public class RegisterOfProducts{
       */
     public Stream<Literature> getProducts()
     {
-        return products.stream();
+        return literatures.stream();
     }
     
     /**
@@ -123,7 +90,7 @@ public class RegisterOfProducts{
     public boolean deleteProduct(Literature product)
     {
         boolean isDeleted = false;
-        Iterator<Literature> it = products.iterator();
+        Iterator<Literature> it = literatures.iterator();
         while (it.hasNext())
         {
             Literature literature = it.next();
@@ -153,7 +120,7 @@ public class RegisterOfProducts{
         if (success && bookToChange instanceof Book)
         {
             Book book = (Book) bookToChange;
-            products.add(new BookInSeries(title, seriesTitle, date, publisher, book.getPublicationDate()));
+            literatures.add(new BookInSeries(title, seriesTitle, date, publisher, book.getPublicationDate()));
             this.deleteProduct(bookToChange);
             
         }
@@ -169,7 +136,7 @@ public class RegisterOfProducts{
     {
         Literature product;
         try{
-        product = products.stream()
+        product = literatures.stream()
                     .filter(literature -> literature.getTitle().equals(title))
                     .findFirst()
                     .get();

@@ -6,7 +6,7 @@ package kiosk;
  * periodicals/journals and magazines
  * @author amhat
  */
-public class RegularlyPublishedLiterature extends Literature {
+public class Periodical extends Literature {
     private int numberOfYearlyReleases;
     private String subject;
     
@@ -18,7 +18,7 @@ public class RegularlyPublishedLiterature extends Literature {
      *@param numberOfYearlyReleases the number of edition published in a year
      *@param subject the subject of the literature
      */
-    public RegularlyPublishedLiterature(String title, String publisher, int numberOfYearlyReleases, String subject)
+    public Periodical(String title, String publisher, int numberOfYearlyReleases, String subject)
     {
         super(title, publisher);
         this.numberOfYearlyReleases = numberOfYearlyReleases;

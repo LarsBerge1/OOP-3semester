@@ -14,10 +14,10 @@ import java.util.stream.Stream;
  *
  * @author berge
  */
-public class RegisterOfProductsTest {
-    RegisterOfProducts registerOfProducts;
+public class LiteratureRegisterTest {
+    LiteratureRegister registerOfProducts;
     
-    public RegisterOfProductsTest() {
+    public LiteratureRegisterTest() {
     }
     
     @BeforeClass
@@ -31,17 +31,17 @@ public class RegisterOfProductsTest {
     @Before
     public void setUp() {       
         
-        registerOfProducts = new RegisterOfProducts();
+        registerOfProducts = new LiteratureRegister();
         
-        registerOfProducts.registrateSingleBook("Fysikk", "Frank", "Pearson", "07.03.2018", 1);
-        registerOfProducts.registrateSingleBook("Norsk", "Jarl", "Norge", "24.01.2017", 2);
-        registerOfProducts.registrateSingleBook("Matte", "Lars", "Pearson", "07.03.2018", 3);
-        registerOfProducts.registrateSingleBook("Naturfag", "Andreas", "Hei", "07.03.2018", 4);
+        registerOfProducts.registrateLiterature(new SingleBook("Fysikk", "Frank", "Pearson", "07.03.2018", 1));
+        registerOfProducts.registrateLiterature(new SingleBook("Norsk", "Jarl", "Norge", "24.01.2017", 2));
+        registerOfProducts.registrateLiterature(new SingleBook("Matte", "Lars", "Pearson", "07.03.2018", 3));
+        registerOfProducts.registrateLiterature(new SingleBook("Naturfag", "Andreas", "Hei", "07.03.2018", 4));
         
-        registerOfProducts.registrateBookInSeries("Simple","Calclus", "Lars", "Gyldendal", "07.05.2011");
-        registerOfProducts.registrateBookInSeries("Medium","Calclus", "Jarl", "Pearson", "23.11.2013");
-        registerOfProducts.registrateBookInSeries("Hard","Calclus", "Andreas", "Gyldendal", "13.03.2015");
-        registerOfProducts.registrateBookInSeries("Advanced","Calclus", "Arne", "Kagge", "02.07.2018");
+        registerOfProducts.registrateLiterature(new BookInSeries("Simple","Calclus", "Lars", "Gyldendal", "07.05.2011"));
+        registerOfProducts.registrateLiterature(new BookInSeries("Medium","Calclus", "Jarl", "Pearson", "23.11.2013"));
+        registerOfProducts.registrateLiterature(new BookInSeries("Hard","Calclus", "Andreas", "Gyldendal", "13.03.2015"));
+        registerOfProducts.registrateLiterature(new BookInSeries("Advanced","Calclus", "Arne", "Kagge", "02.07.2018"));
     }
     
     @After
@@ -52,28 +52,19 @@ public class RegisterOfProductsTest {
      * Test of registrateSingleBook method.
      */
     @Test
-    public void testRegistrateSingleBook() {
-        RegisterOfProducts register = new RegisterOfProducts();
-        register.registrateSingleBook("Title", "Author", "Publisher", "publicationDate", 1);
+    public void testRegistrateLiterature() {
+        LiteratureRegister register = new LiteratureRegister();
+        register.registrateLiterature(new SingleBook("Title", "Author", "Publisher", "publicationDate", 1));
         assertTrue(register.getProducts().anyMatch(book -> book.getTitle().equals("Title")));        
     }
 
-    /**
-     * Test of registrateBookInSeries method.
-     */
-    @Test
-    public void testRegistrateBookInSeries() {
-        RegisterOfProducts register = new RegisterOfProducts();
-        register.registrateBookInSeries("Title", "seriesTitle", "author", "publisher", "publicationDate");
-        assertTrue(register.getProducts().anyMatch(book -> book.getTitle().equals("Title")));
-    }
 
     /**
      * Test of searchBookBy method.
      */
     @Test
     public void testSearchProductBy() {
-        RegisterOfProducts register = new RegisterOfProducts();
+        LiteratureRegister register = new LiteratureRegister();
         Literature result1 = register.searchProductBy("title", "publisher");
         assertEquals(null, result1);
         Literature result2 = registerOfProducts.searchProductBy("Fysikk", "Pearson");
@@ -111,8 +102,8 @@ public class RegisterOfProductsTest {
      */
     @Test
     public void testDeleteBook() {
-        RegisterOfProducts register = new RegisterOfProducts();
-        register.registrateBookInSeries("title", "seriesTitle", "author", "publisher", "publicationDate");
+        LiteratureRegister register = new LiteratureRegister();
+        register.registrateLiterature(new BookInSeries("title", "seriesTitle", "author", "publisher", "publicationDate"));
         Literature literature = register.searchProductByTitle("title");
         boolean result = register.deleteProduct(null);
         assertFalse(result);
@@ -125,8 +116,8 @@ public class RegisterOfProductsTest {
      */
     @Test
     public void testAddBookToSeries() {
-        RegisterOfProducts register = new RegisterOfProducts();
-        register.registrateSingleBook("title", "author", "publisher", "publicationDate", 0);
+        LiteratureRegister register = new LiteratureRegister();
+        register.registrateLiterature(new SingleBook("title", "author", "publisher", "publicationDate", 0));
         assertTrue(register.addBookToSeries("title", "publisher", "seriesTitle", "date"));        
     }
     /**

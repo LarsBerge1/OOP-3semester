@@ -9,11 +9,11 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Test class for the RegularlyPublishedLiterature class
+ * Test class for the Periodical class
  * @author amhat
  */
 public class RegularlyPublishedLiteratureTest {
-    RegularlyPublishedLiterature literature;
+    Periodical literature;
     public RegularlyPublishedLiteratureTest() {
         
     }
@@ -28,7 +28,7 @@ public class RegularlyPublishedLiteratureTest {
     
     @Before
     public void setUp() {
-        literature = new RegularlyPublishedLiterature("title", "publisher", 0, "subject");
+        literature = new Periodical("title", "publisher", 0, "subject");
     }
     
     @After
@@ -36,7 +36,7 @@ public class RegularlyPublishedLiteratureTest {
     }
 
     /**
-     * Test of toString method, of class RegularlyPublishedLiterature.
+     * Test of toString method, of class Periodical.
      */
     @Test
     public void testGetTitle() {

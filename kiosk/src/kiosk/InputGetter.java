@@ -29,6 +29,6 @@ abstract public class InputGetter {
     public static int getIntInput()
     {
         Scanner r = new Scanner(System.in);
-        return r.hasNextInt() ? r.nextInt() : 1;
+        return r.nextInt();
     }
 }

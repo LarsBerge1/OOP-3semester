@@ -32,10 +32,10 @@ public abstract class ViewFactory {
             ComicBook cb = (ComicBook) l;
             return new ComicBookView(cb);
         }
-        else if (l instanceof RegularlyPublishedLiterature)
+        else if (l instanceof Periodical)
         {
-            RegularlyPublishedLiterature rpl = (RegularlyPublishedLiterature) l;
-            return new RegularlyPublishedLiteratureView(rpl);
+            Periodical rpl = (Periodical) l;
+            return new PeriodicalView(rpl);
         }
         return null;
     }
