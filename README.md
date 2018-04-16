@@ -1,4 +1,5 @@
 # litteratur-kiosk-team-32
 
-Fase 1: godkjent. \n
-Fase 2: endre opp i retur, returnere Iterator eller Stream istadenfor ArrayList.
+Fase 1: godkjent.
+Fase 2: godkjent.
+Fase 3: Godkjent.
