@@ -136,9 +136,9 @@ public class ApplicationUI
     private void listAllProducts()
     {
         printDebugging("listAllProducts() was called");
-        if (products.getProducts().iterator().hasNext())
+        if (products.getLiteraturesAsStream().iterator().hasNext())
         {
-            products.getProducts().forEach(literature -> ViewFactory.getView(literature).display());
+            products.getLiteraturesAsStream().forEach(literature -> ViewFactory.getView(literature).display());
         }
         else
         {
