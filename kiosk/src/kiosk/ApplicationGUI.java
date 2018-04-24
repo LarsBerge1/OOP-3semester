@@ -3,16 +3,20 @@ package kiosk;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Separator;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.ToolBar;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -67,13 +71,9 @@ public class ApplicationGUI extends Application {
         root.setTop(topContainer);
 
         // Elements in the bottom container of the borderpane.
-        VBox bottomContainer = new VBox(12);
-        Button AddBtn = new Button("Add new literature");
-        AddBtn.setOnAction(e -> {
-            litReg.registrateLiterature(new SingleBook("test", "aw", "pw", "pwd", 2));
-
-        });
-        bottomContainer.getChildren().addAll(AddBtn);
+        VBox bottomContainer = new VBox();
+        MenuBar toolMenu = createToolMenuBar();
+        bottomContainer.getChildren().add(toolMenu);
         root.setBottom(bottomContainer);
 
         Scene scene = new Scene(root, 720, 480);
@@ -113,7 +113,9 @@ public class ApplicationGUI extends Application {
         Menu menuEdit = new Menu("Edit");
         // The View-menu
         Menu menuView = new Menu("View");
-
+        MenuItem fullScreen = new MenuItem("Full Screen");
+        fullScreen.setOnAction(e -> window.setFullScreen(true) );
+        menuView.getItems().addAll(fullScreen);
         // The Help-menu
         Menu menuHelp = new Menu("Help");
         MenuItem about = new MenuItem("About");
@@ -124,6 +126,32 @@ public class ApplicationGUI extends Application {
         menuBar.getMenus().addAll(menuFile, menuEdit, menuView, menuHelp);
 
         return menuBar;
+    }
+    
+    /**
+     * Creates the menus to be displayed.
+     */
+    private MenuBar createToolMenuBar() {
+        // Create the Menu Bar to hold all the menus
+        MenuBar toolMenuBar = new MenuBar();
+        toolMenuBar.setPadding(new Insets(14));
+        // The Add-menu
+        Menu menuAdd = new Menu("Add");
+        MenuItem singleBook = new MenuItem("Single Book");
+        singleBook.setOnAction(e -> addSingleBook());
+        MenuItem seriesBook = new MenuItem("Book in Series");
+        seriesBook.setOnAction(e -> addBookInSeries());
+        menuAdd.getItems().addAll(singleBook,seriesBook);
+        // The Search menu
+        Menu menuSearch = new Menu("Search Options");
+        CheckMenuItem publisherCheck = new CheckMenuItem("Publisher");
+        publisherCheck.setOnAction(e -> System.out.println("Not finished, pub"));
+        CheckMenuItem titleCheck = new CheckMenuItem("Title");
+        titleCheck.setOnAction(e -> System.out.println("Not finished, title"));
+        menuSearch.getItems().addAll(publisherCheck,titleCheck);
+        
+        toolMenuBar.getMenus().addAll(menuAdd,menuSearch);
+        return toolMenuBar;
 
     }
 
@@ -181,5 +209,37 @@ public class ApplicationGUI extends Application {
     private void openTextFile() {
         FileChooserView.textFileChooserView();
     }
+    
+    /**
+     * Add button clicked
+     */
+    private void addBtnClicked(){
+        System.out.println("Add");
+    }
+    /**
+     * Delete button clicked
+     */
+    private void deleteBtnClicked(){
+        System.out.println("Delete");
+    }
+    /**
+     * Search button clicked
+     */
+    private void searchBtnClicked(){
+        System.out.println("Search");
+    }
 
+    /** 
+     * Add a single book to the register
+     */
+    private void addSingleBook(){
+        System.out.println("addSingleBook");
+    }
+    /**
+     * 
+     */
+    private void addBookInSeries(){
+        System.out.println("addSeriesBook");
+    }
+    
 }
