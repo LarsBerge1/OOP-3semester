@@ -55,7 +55,7 @@ public class LiteratureRegisterTest {
     public void testRegistrateLiterature() {
         LiteratureRegister register = new LiteratureRegister();
         register.registrateLiterature(new SingleBook("Title", "Author", "Publisher", "publicationDate", 1));
-        assertTrue(register.getProducts().anyMatch(book -> book.getTitle().equals("Title")));        
+        assertTrue(register.getLiteraturesAsStream().anyMatch(book -> book.getTitle().equals("Title")));        
     }
 
 
@@ -91,9 +91,9 @@ public class LiteratureRegisterTest {
      */
     @Test
     public void testGetBooks() {
-        Stream<Literature> s = registerOfProducts.getProducts();
+        Stream<Literature> s = registerOfProducts.getLiteraturesAsStream();
         assertTrue(s.anyMatch(p -> p.getPublisher().equals("Pearson")));
-        s = registerOfProducts.getProducts();
+        s = registerOfProducts.getLiteraturesAsStream();
         assertTrue(s.anyMatch(p -> p.getPublisher().equals("Gyldendal")));
     }
 
