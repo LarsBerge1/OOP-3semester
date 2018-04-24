@@ -16,6 +16,10 @@ class Confirmbox {
     
     static boolean answer;
     
+    
+    
+    
+    
     public static boolean display(String title, String message){
         Stage window = new Stage();
         
