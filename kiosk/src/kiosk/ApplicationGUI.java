@@ -1,16 +1,12 @@
 package kiosk;
 
-import java.util.Optional;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -19,7 +15,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -103,7 +98,7 @@ public class ApplicationGUI extends Application {
         // The File-menu
         Menu menuFile = new Menu("File");
         MenuItem openFile = new MenuItem("Open");
-        openFile.setOnAction(e -> openFile());
+        openFile.setOnAction(e -> openTextFile());
 
         MenuItem printFile = new MenuItem("Print");
         printFile.setOnAction(e -> System.out.println("Print Pressed"));
@@ -133,7 +128,7 @@ public class ApplicationGUI extends Application {
     }
 
     private void closeProgram() {
-        Boolean answer = confirmBox("Confirm", "Are you sure you want to exit?");
+        Boolean answer = Confirmbox.confirmBox("Confirm", "Are you sure you want to exit?");
         if (answer) {
             window.close();
         }
@@ -150,27 +145,7 @@ public class ApplicationGUI extends Application {
         lv.display();
     }
 
-    /**
-     * Confirm box to confirm the action spesified.
-     *
-     * @param title The title of the confirmbox.
-     * @param message The message to the user.
-     * @return True if user press OK, else false.
-     */
-    private boolean confirmBox(String title, String message) {
-        boolean answer = false;
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle(title);
-        alert.setContentText(message);
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            answer = true;
-        } else if (result.get() == ButtonType.CANCEL) {
-            answer = false;
-        }
-        return answer;
-    }
-
+    
     /**
      * Displays an info dialog about the application.
      */
@@ -199,8 +174,12 @@ public class ApplicationGUI extends Application {
         alert.showAndWait();
     }
 
-    private void openFile() {
-        FileChooserView.fileChooserView();
+    /**
+     * Opens a text file
+     * TODO: finsish this function.
+     */
+    private void openTextFile() {
+        FileChooserView.textFileChooserView();
     }
 
 }
