@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
+
 /**
  * A register of books. 
  * Functions to search, add or delete books in the register.
@@ -76,9 +77,13 @@ public class LiteratureRegister{
       * Return the list of books
       * @return the list of books 
       */
-    public Stream<Literature> getProducts()
+    public Stream<Literature> getLiteraturesAsStream()
     {
         return literatures.stream();
+    }
+    public List<Literature> getLiteratures()
+    {
+        return literatures;
     }
     
     /**
@@ -148,4 +153,3 @@ public class LiteratureRegister{
         return product;
     }                                        
 }
-

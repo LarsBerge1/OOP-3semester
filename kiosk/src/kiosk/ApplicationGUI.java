@@ -34,7 +34,7 @@ public class ApplicationGUI extends Application {
     Stage window;
     LiteratureRegister litReg;
     TableView table;
-    String VERSION = "V0.2 2018-04-24"; 
+    String VERSION = "V0.2 2018-04-24";
 
     public ApplicationGUI() {
         litReg = new LiteratureRegister();
@@ -42,8 +42,6 @@ public class ApplicationGUI extends Application {
         litReg.registrateLiterature(new SingleBook("t", "a", "p", "pd", 1));
     }
 
-    
-    
     @Override
     public void start(Stage primaryStage) {
 
@@ -55,18 +53,16 @@ public class ApplicationGUI extends Application {
             closeProgram();
         });
         BorderPane root = new BorderPane();        // Create the root node. The Menu will be placed at the top
-        
-        
+
         // Make the table for the register:
         table = new TableView(getLiteratureList());
         root.setCenter(table);
         TableColumn<Literature, String> titleCol = new TableColumn<>("Title");
-        titleCol.setCellValueFactory(new PropertyValueFactory("title")); 
+        titleCol.setCellValueFactory(new PropertyValueFactory("title"));
         TableColumn<Literature, String> publisherCol = new TableColumn<>("Publisher");
         publisherCol.setCellValueFactory(new PropertyValueFactory("publisher"));
         table.getColumns().setAll(titleCol, publisherCol);
 
-        
         // Elements in the top container of the borderpane.
         VBox topContainer = new VBox();            //Creates a container to hold all Menu Objects.
         MenuBar mainMenu = createMenus();          //Creates our main menu to hold our Sub-Menus.
@@ -80,12 +76,11 @@ public class ApplicationGUI extends Application {
         Button AddBtn = new Button("Add new literature");
         AddBtn.setOnAction(e -> {
             litReg.registrateLiterature(new SingleBook("test", "aw", "pw", "pwd", 2));
-            
+
         });
         bottomContainer.getChildren().addAll(AddBtn);
         root.setBottom(bottomContainer);
-        
-        
+
         Scene scene = new Scene(root, 720, 480);
 
         window.setScene(scene);
@@ -108,10 +103,7 @@ public class ApplicationGUI extends Application {
         // The File-menu
         Menu menuFile = new Menu("File");
         MenuItem openFile = new MenuItem("Open");
-        openFile.setOnAction(e -> {
-            System.out.println("Print Pressed");
-            //confirmBox("testr", "jaoids");
-        });
+        openFile.setOnAction(e -> openFile());
 
         MenuItem printFile = new MenuItem("Print");
         printFile.setOnAction(e -> System.out.println("Print Pressed"));
@@ -126,7 +118,7 @@ public class ApplicationGUI extends Application {
         Menu menuEdit = new Menu("Edit");
         // The View-menu
         Menu menuView = new Menu("View");
-        
+
         // The Help-menu
         Menu menuHelp = new Menu("Help");
         MenuItem about = new MenuItem("About");
@@ -135,7 +127,7 @@ public class ApplicationGUI extends Application {
         helpContents.setOnAction(e -> doShowHelpContentDialog());
         menuHelp.getItems().addAll(about, helpContents);
         menuBar.getMenus().addAll(menuFile, menuEdit, menuView, menuHelp);
-        
+
         return menuBar;
 
     }
@@ -146,65 +138,69 @@ public class ApplicationGUI extends Application {
             window.close();
         }
     }
-    
-    private ObservableList<Literature> getLiteratureList()
-    {
+
+    private ObservableList<Literature> getLiteratureList() {
         ObservableList<Literature> literatures = FXCollections.observableArrayList(litReg.getLiteratures());
-        return literatures; 
+        return literatures;
     }
-    
-    private void presentInfo()
-    {
+
+    private void presentInfo() {
         Literature l = (Literature) table.getSelectionModel().getSelectedItem();
         LiteratureView lv = ViewFactory.getView(l);
         lv.display();
     }
-    
+
     /**
      * Confirm box to confirm the action spesified.
+     *
      * @param title The title of the confirmbox.
      * @param message The message to the user.
      * @return True if user press OK, else false.
      */
-    private boolean confirmBox(String title, String message)
-    {
+    private boolean confirmBox(String title, String message) {
         boolean answer = false;
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setContentText(message);
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
+        if (result.get() == ButtonType.OK) {
             answer = true;
         } else if (result.get() == ButtonType.CANCEL) {
             answer = false;
         }
-        return answer; 
+        return answer;
     }
+
     /**
-     * Displays an info dialog about the application. 
+     * Displays an info dialog about the application.
      */
-    private void doShowAboutDialog(){
+    private void doShowAboutDialog() {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Information Dialog - About:");
         alert.setHeaderText("Literature Register");
         alert.setContentText("A application created by \n"
-                            + "(C) Andreas Hatlø \n"
-                            + "(C) Jarl Eirik Heide \n"
-                            + "(C) Lars Berge \n"
-                            + VERSION
-                            );
+                + "(C) Andreas Hatlø \n"
+                + "(C) Jarl Eirik Heide \n"
+                + "(C) Lars Berge \n"
+                + VERSION
+        );
         alert.showAndWait();
     }
+
     /**
-     * Displays an info dialog with help contents. 
+     * Displays an info dialog with help contents.
      */
-    private void doShowHelpContentDialog(){
+    private void doShowHelpContentDialog() {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Information Dialog - Help Content:");
         alert.setHeaderText("Help Conetents: ");
         alert.setContentText("Are you stupid?"
-                            );
+        );
         alert.showAndWait();
+    }
+
+    private void openFile() {
+        FileChooserView.fileChooserView();
     }
 
 }
