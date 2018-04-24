@@ -1,5 +1,6 @@
 package kiosk;
 
+import java.io.File;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -16,6 +18,7 @@ import javafx.scene.control.Separator;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
@@ -35,6 +38,11 @@ public class ApplicationGUI extends Application {
     LiteratureRegister litReg;
     TableView table;
     String VERSION = "V0.2 2018-04-24";
+    TextField searchFieldPublisher;
+    TextField searchFieldTitle;
+    Label searchLabelPublisher;
+    Label searchLabelTitle;
+    
 
     public ApplicationGUI() {
         litReg = new LiteratureRegister();
@@ -79,12 +87,20 @@ public class ApplicationGUI extends Application {
         root.setLeft(leftContainer);
         
         // Elements in the bottom conainer of the borderpane.
-        VBox bottomContainer = new VBox();
+        HBox bottomContainer = new HBox();
         bottomContainer.setMinHeight(30);
         Menu searchMenu = createSearchMenu();
         MenuBar searchMenuBar = new MenuBar();
         searchMenuBar.getMenus().add(searchMenu);
-        bottomContainer.getChildren().add(searchMenuBar);
+        
+        HBox searchInput = new HBox();
+        searchInput = createSearchInput();
+        
+        Button searchBtn = new Button("Search");
+        searchBtn.setOnAction(e -> searchBtnClicked());
+        
+        
+        bottomContainer.getChildren().addAll(searchMenuBar,searchInput, searchBtn);
         root.setBottom(bottomContainer);
 
         Scene scene = new Scene(root, 720, 480);
@@ -125,13 +141,13 @@ public class ApplicationGUI extends Application {
         MenuItem openFile = new MenuItem("Open");
         openFile.setOnAction(e -> openTextFile());
 
-        MenuItem printFile = new MenuItem("Print");
-        printFile.setOnAction(e -> System.out.println("Print Pressed"));
+        MenuItem saveFile = new MenuItem("Save");
+        saveFile.setOnAction(e -> saveTextFile());
 
         MenuItem exitApp = new MenuItem("Exit");
         exitApp.setOnAction(e -> closeProgram());
 
-        menuFile.getItems().addAll(openFile, printFile);
+        menuFile.getItems().addAll(openFile, saveFile);
         menuFile.getItems().add(new SeparatorMenuItem());
         menuFile.getItems().add(exitApp);
         
@@ -145,7 +161,10 @@ public class ApplicationGUI extends Application {
     private Menu createEditMenu(){
         // The Edit-menu
         Menu menuEdit = new Menu("Edit");
-        
+        MenuItem editSingle = new MenuItem("Change singlebook\n"
+                                        + "to book series");
+        editSingle.setOnAction(e -> changeSingleBookToSeries());
+        menuEdit.getItems().add(editSingle);
         return menuEdit;
     }
     
@@ -186,7 +205,7 @@ public class ApplicationGUI extends Application {
         // The Search menu
         Menu menuSearch = new Menu("Search Options");
         CheckMenuItem publisherCheck = new CheckMenuItem("Publisher");
-        publisherCheck.setOnAction(e -> System.out.println("Not finished, pub"));
+        publisherCheck.setOnAction(e -> searchSettings());
         CheckMenuItem titleCheck = new CheckMenuItem("Title");
         titleCheck.setOnAction(e -> System.out.println("Not finished, title"));
         menuSearch.getItems().addAll(publisherCheck,titleCheck);
@@ -265,9 +284,37 @@ public class ApplicationGUI extends Application {
      * TODO: finsish this function
      */
     private void openTextFile() {
-        FileChooserView.textFileChooserView();
+        File test = FileChooserView.textFileChooserView();
+        if (null != test){
+        String path = test.getAbsolutePath();
+        System.out.println(path);
+        }
+    }
+    /**
+     * Save the content in the register
+     */
+    private void saveTextFile(){
+        
     }
     
+    /**
+     * Change book
+     */
+    private void changeSingleBookToSeries(){
+        System.out.println("TODO: finish");
+        // Step 1, finn hvilket som er markert
+        // 2. do it.
+    }
+    
+    /**
+     * 
+     */
+    private void searchSettings(){
+        searchFieldPublisher.setVisible(true);
+        searchFieldTitle.setVisible(true);
+        searchLabelPublisher.setVisible(true);
+        searchLabelTitle.setVisible(true);
+    }
     /**
      * Add button clicked
      */
@@ -298,6 +345,32 @@ public class ApplicationGUI extends Application {
      */
     private void addBookInSeries(){
         System.out.println("addSeriesBook");
+    }
+    
+    private HBox createSearchInput()
+    {
+        HBox test = new HBox();
+        searchLabelPublisher = new Label("Publisher:");
+        searchLabelPublisher.setVisible(false);
+        searchLabelPublisher.setMinHeight(25);
+        searchLabelTitle = new Label("Title:");
+        searchLabelTitle.setVisible(false);
+        searchLabelTitle.setMinHeight(25);
+        searchFieldPublisher = new TextField();
+        searchFieldPublisher.setVisible(false);
+        searchFieldPublisher.setPromptText("Publisher");
+        searchFieldTitle = new TextField();
+        searchFieldTitle.setVisible(false);
+        searchFieldTitle.setPromptText("Title");
+        
+        test.getChildren().addAll(  searchLabelPublisher,
+                                    searchFieldPublisher,
+                                    searchLabelTitle,
+                                    searchFieldTitle
+                                    
+                );
+        
+        return test;
     }
     
 }
