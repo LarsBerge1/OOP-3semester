@@ -19,6 +19,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -65,16 +66,17 @@ public class ApplicationGUI extends Application {
         // Elements in the top container of the borderpane.
         VBox topContainer = new VBox();            //Creates a container to hold all Menu Objects.
         MenuBar mainMenu = createMenus();          //Creates our main menu to hold our Sub-Menus.
-        // Place the menubar in the topContainer
-        topContainer.getChildren().add(mainMenu);
-        // Place the topcontainer in the top-section of the BorderPane
-        root.setTop(topContainer);
+        topContainer.getChildren().add(mainMenu);// Place the menubar in the topContainer
+        root.setTop(topContainer);// Place the topcontainer in the top-section of the BorderPane
 
-        // Elements in the bottom container of the borderpane.
-        VBox bottomContainer = new VBox();
-        MenuBar toolMenu = createToolMenuBar();
-        bottomContainer.getChildren().add(toolMenu);
-        root.setBottom(bottomContainer);
+        // Elements in the left container of the borderpane.
+        HBox bottomContainer = new HBox();
+        bottomContainer.setMinWidth(0x64);
+        Menu addMenu = createAddMenu();
+        MenuBar addMenuBar = new MenuBar();
+        addMenuBar.getMenus().add(addMenu);
+        bottomContainer.getChildren().add(addMenuBar);
+        root.setLeft(bottomContainer);
 
         Scene scene = new Scene(root, 720, 480);
 
@@ -95,7 +97,20 @@ public class ApplicationGUI extends Application {
     private MenuBar createMenus() {
         // Create the Menu Bar to hold all the menus
         MenuBar menuBar = new MenuBar();
-        // The File-menu
+        Menu menuFile = createFileMenu();
+        Menu menuEdit = createEditMenu();
+        Menu menuView = createViewMenu();
+        Menu menuHelp = createHelpMenu();
+        menuBar.getMenus().addAll(menuFile, menuEdit, menuView, menuHelp);
+
+        return menuBar;
+    }
+    /**
+     * Creat the items in the File menu and
+     * add the setOnAction on the items
+     */
+    private Menu createFileMenu(){
+             // The File-menu
         Menu menuFile = new Menu("File");
         MenuItem openFile = new MenuItem("Open");
         openFile.setOnAction(e -> openTextFile());
@@ -109,39 +124,55 @@ public class ApplicationGUI extends Application {
         menuFile.getItems().addAll(openFile, printFile);
         menuFile.getItems().add(new SeparatorMenuItem());
         menuFile.getItems().add(exitApp);
+        
+        return menuFile;
+    }
+    
+    /**
+     'Creat the items in the Edit menu and
+     * add the setOnAction on the items
+     */
+    private Menu createEditMenu(){
         // The Edit-menu
         Menu menuEdit = new Menu("Edit");
-        // The View-menu
+        
+        return menuEdit;
+    }
+    
+    /**
+     * Creat the items in the View menu and
+     * add the setOnAction on the items
+     */
+    private Menu createViewMenu(){
         Menu menuView = new Menu("View");
         MenuItem fullScreen = new MenuItem("Full Screen");
         fullScreen.setOnAction(e -> window.setFullScreen(true) );
         menuView.getItems().addAll(fullScreen);
-        // The Help-menu
+        
+        return menuView;
+    }
+    
+    /**
+     * Creat the items in the Help menu and
+     * add the setOnAction on the items
+     */
+    private Menu createHelpMenu(){
+        
         Menu menuHelp = new Menu("Help");
         MenuItem about = new MenuItem("About");
         about.setOnAction(e -> doShowAboutDialog());
         MenuItem helpContents = new MenuItem("Help Contents");
         helpContents.setOnAction(e -> doShowHelpContentDialog());
         menuHelp.getItems().addAll(about, helpContents);
-        menuBar.getMenus().addAll(menuFile, menuEdit, menuView, menuHelp);
-
-        return menuBar;
+        
+        return menuHelp;
     }
     
     /**
-     * Creates the menus to be displayed.
+     * Creat the items in the Search menu and
+     * add the setOnAction on the items
      */
-    private MenuBar createToolMenuBar() {
-        // Create the Menu Bar to hold all the menus
-        MenuBar toolMenuBar = new MenuBar();
-        toolMenuBar.setPadding(new Insets(14));
-        // The Add-menu
-        Menu menuAdd = new Menu("Add");
-        MenuItem singleBook = new MenuItem("Single Book");
-        singleBook.setOnAction(e -> addSingleBook());
-        MenuItem seriesBook = new MenuItem("Book in Series");
-        seriesBook.setOnAction(e -> addBookInSeries());
-        menuAdd.getItems().addAll(singleBook,seriesBook);
+    private Menu createSearchMenu() {
         // The Search menu
         Menu menuSearch = new Menu("Search Options");
         CheckMenuItem publisherCheck = new CheckMenuItem("Publisher");
@@ -149,12 +180,29 @@ public class ApplicationGUI extends Application {
         CheckMenuItem titleCheck = new CheckMenuItem("Title");
         titleCheck.setOnAction(e -> System.out.println("Not finished, title"));
         menuSearch.getItems().addAll(publisherCheck,titleCheck);
-        
-        toolMenuBar.getMenus().addAll(menuAdd,menuSearch);
-        return toolMenuBar;
-
+        return menuSearch;
     }
 
+    /**
+     * Creat the items in the Add menu and
+     * add the setOnAction on the items
+     */
+    private Menu createAddMenu() {
+        // The Add-menu
+        Menu menuAdd = new Menu("Add");
+        MenuItem singleBook = new MenuItem("Single Book");
+        singleBook.setOnAction(e -> addSingleBook());
+        MenuItem seriesBook = new MenuItem("Book in Series");
+        seriesBook.setOnAction(e -> addBookInSeries());
+        menuAdd.getItems().addAll(singleBook,seriesBook);
+        
+        return menuAdd;
+    }
+    
+    /**
+     * Close the program properly, asks
+     * for confirmation before closeing app
+     */
     private void closeProgram() {
         Boolean answer = Confirmbox.confirmBox("Confirm", "Are you sure you want to exit?");
         if (answer) {
@@ -191,20 +239,20 @@ public class ApplicationGUI extends Application {
     }
 
     /**
-     * Displays an info dialog with help contents.
+     * Displays an info dialog with help contents
      */
     private void doShowHelpContentDialog() {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Information Dialog - Help Content:");
         alert.setHeaderText("Help Conetents: ");
-        alert.setContentText("Are you stupid?"
+        alert.setContentText("Are you stupid? \n -Lars"
         );
         alert.showAndWait();
     }
 
     /**
-     * Opens a text file
-     * TODO: finsish this function.
+     * Opens a text file spesified by the user
+     * TODO: finsish this function
      */
     private void openTextFile() {
         FileChooserView.textFileChooserView();
