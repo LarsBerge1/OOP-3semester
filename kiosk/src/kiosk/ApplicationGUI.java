@@ -52,7 +52,7 @@ public class ApplicationGUI extends Application {
             e.consume();
             closeProgram();
         });
-        BorderPane root = new BorderPane();        // Create the root node. The Menu will be placed at the top
+        BorderPane root = new BorderPane();   // Create the root node
 
         // Make the table for the register:
         table = new TableView(getLiteratureList());
