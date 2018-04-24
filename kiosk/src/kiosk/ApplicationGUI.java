@@ -65,18 +65,27 @@ public class ApplicationGUI extends Application {
 
         // Elements in the top container of the borderpane.
         VBox topContainer = new VBox();            //Creates a container to hold all Menu Objects.
-        MenuBar mainMenu = createMenus();          //Creates our main menu to hold our Sub-Menus.
+        MenuBar mainMenu = createMainMenuBar();          //Creates our main menu to hold our Sub-Menus.
         topContainer.getChildren().add(mainMenu);// Place the menubar in the topContainer
         root.setTop(topContainer);// Place the topcontainer in the top-section of the BorderPane
 
         // Elements in the left container of the borderpane.
-        HBox bottomContainer = new HBox();
-        bottomContainer.setMinWidth(0x64);
+        HBox leftContainer = new HBox();
+        leftContainer.setMinWidth(0x64);
         Menu addMenu = createAddMenu();
         MenuBar addMenuBar = new MenuBar();
         addMenuBar.getMenus().add(addMenu);
-        bottomContainer.getChildren().add(addMenuBar);
-        root.setLeft(bottomContainer);
+        leftContainer.getChildren().add(addMenuBar);
+        root.setLeft(leftContainer);
+        
+        // Elements in the bottom conainer of the borderpane.
+        VBox bottomContainer = new VBox();
+        bottomContainer.setMinHeight(30);
+        Menu searchMenu = createSearchMenu();
+        MenuBar searchMenuBar = new MenuBar();
+        searchMenuBar.getMenus().add(searchMenu);
+        bottomContainer.getChildren().add(searchMenuBar);
+        root.setBottom(bottomContainer);
 
         Scene scene = new Scene(root, 720, 480);
 
@@ -92,9 +101,10 @@ public class ApplicationGUI extends Application {
     }
 
     /**
-     * Creates the menus to be displayed.
+     * Creates the main menu bar and puts
+     * the Menus in
      */
-    private MenuBar createMenus() {
+    private MenuBar createMainMenuBar() {
         // Create the Menu Bar to hold all the menus
         MenuBar menuBar = new MenuBar();
         Menu menuFile = createFileMenu();
