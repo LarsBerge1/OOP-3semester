@@ -46,16 +46,20 @@ public class ApplicationGUI extends Application {
     TableView table;
     String VERSION = "V0.2 2018-04-24";
     
+    LitRegFileHandler fileHandler;
 
     public ApplicationGUI() {
         litReg = new LiteratureRegister();
-        litReg.registrateLiterature(new SingleBook("title", "author", "publisher", "publicationDate", 1));
-        litReg.registrateLiterature(new SingleBook("t", "a", "p", "pd", 1));
+        //litReg.registrateLiterature(new SingleBook("title", "author", "publisher", "publicationDate", 1));
+        //litReg.registrateLiterature(new SingleBook("t", "a", "p", "pd", 1));
     }
 
     @Override
     public void start(Stage primaryStage) {
-
+        
+        fileHandler = new LitRegFileHandler("data.dat");
+        findLitReg();
+        
         window = primaryStage;
         window.setTitle("Newsstand for OOP group 32.");
         //Close the program properly:
