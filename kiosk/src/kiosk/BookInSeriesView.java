@@ -1,7 +1,7 @@
 
 package kiosk;
 
-import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 /**
@@ -24,7 +24,7 @@ public class BookInSeriesView extends BookView {
     public void display(VBox vBox)
     {
         super.display(vBox);
-        TextArea t = new TextArea("Series title: " + bs.getSeriesTitle());
-        vBox.getChildren().add(t);
+        TextField seriesTitle = new TextField("Series title: " + bs.getSeriesTitle());
+        vBox.getChildren().add(seriesTitle);
     }    
 }

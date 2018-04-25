@@ -1,7 +1,7 @@
 
 package kiosk;
 
-import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 /**
@@ -23,7 +23,7 @@ public class SingleBookView  extends BookView {
     public void display(VBox vBox)
     {
         super.display(vBox);
-        TextArea t = new TextArea("Edition " + sb.getEdition());
+        TextField t = new TextField("Edition " + sb.getEdition());
         vBox.getChildren().add(t);        
     }
 }

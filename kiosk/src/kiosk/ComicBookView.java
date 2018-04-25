@@ -5,7 +5,7 @@
  */
 package kiosk;
 
-import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 /**
@@ -26,7 +26,7 @@ public class ComicBookView  extends BookView {
     public void display(VBox vBox)
     {
         super.display(vBox);
-        TextArea t = new TextArea("Genre " + cb.getGenre());
+        TextField t = new TextField("Genre " + cb.getGenre());
         vBox.getChildren().add(t);
     }
 }

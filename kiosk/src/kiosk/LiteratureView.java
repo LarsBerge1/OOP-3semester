@@ -1,7 +1,7 @@
 
 package kiosk;
 
-import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 /**
@@ -21,7 +21,8 @@ public abstract class LiteratureView {
      */
     public void display(VBox v)
     {
-        TextArea t = new TextArea("Title: " + literature.getTitle() + "\nPublisher: " + literature.getPublisher());
-        v.getChildren().add(t);
+        TextField title = new TextField("Title: " + literature.getTitle());
+        TextField publisher = new TextField("Publisher: " + literature.getPublisher());
+        v.getChildren().addAll(title, publisher);
     }
 }
