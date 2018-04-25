@@ -1,12 +1,15 @@
 
 package kiosk;
 
+import java.io.Serializable;
+
 /**
  *Represents all types of literature in the 
 * Literature Kiosk
  * @author amhat
  */
-public abstract class Literature {        
+public abstract class Literature implements Serializable        
+ {        
     private String publisher;     
     private String title;
     

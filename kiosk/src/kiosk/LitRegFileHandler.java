@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -13,8 +12,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Provides file-handling methods for the literature register
@@ -22,34 +19,46 @@ import java.util.List;
  * to a file
  * 
  */
-public class LiteratureRegisterFileHandler {
-    private LiteratureRegister litReg;
+public class LitRegFileHandler {
     private String fileName;
-    private Path file;
-    public LiteratureRegisterFileHandler(LiteratureRegister register, String fileName)
+    private Path filePath;
+    
+    /**
+     * @param fileName the name of the file to operate on
+     * 
+     */
+    public LitRegFileHandler( String fileName)
     {
-        litReg = register;
         this.fileName = fileName;
         findFile(fileName);
     }
     
     /**
-     * Finds the file to manipulate or read from
-     * @param fileName the name of the file to manipulate
+     *Change the file to operate on
+     * @param fileName the name of the file to operate on
      */
-    public void findFile(String fileName)
+    public void setFile(String fileName)
     {
-        file = Paths.get(fileName).toAbsolutePath();
+        this.fileName = fileName;
+        findFile(fileName);
+    }
+    /**
+     * Finds the file to manipulate or read from
+     * @param fileName the name of the file to operate on
+     */
+    private void findFile(String fileName)
+    {
+        filePath = Paths.get(fileName).toAbsolutePath();
     }
     
     /**
      * Saves all the literatures to the file
      * @throws java.io.IOException
      */
-    public void saveAllToFile() throws IOException
+    public void saveAllToFile(LiteratureRegister litReg) throws IOException
     {
         ObjectOutputStream os = new ObjectOutputStream(
-                                    new FileOutputStream(file.toString()));
+                                    new FileOutputStream(filePath.toString()));
         os.writeObject(litReg);
         os.close();
     }
@@ -72,7 +81,7 @@ public class LiteratureRegisterFileHandler {
         if(resource == null) {
             throw new FileNotFoundException(fileName);
         }
-        File source = new File(resource.toURI());
+        File source = new File(filePath.toUri());
         ObjectInputStream is = new ObjectInputStream(
                                new FileInputStream(source));
         LiteratureRegister savedRegister = (LiteratureRegister) is.readObject();

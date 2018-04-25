@@ -73,5 +73,4 @@ class Confirmbox {
         }
         return answer;
     }
-
 }

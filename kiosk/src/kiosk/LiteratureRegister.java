@@ -1,5 +1,6 @@
 package kiosk;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,7 +14,7 @@ import java.util.stream.Stream;
  * Functions to search, add or delete books in the register.
  * 
  */
-public class LiteratureRegister{
+public class LiteratureRegister implements Serializable{
     List<Literature> literatures;
     
     /**
@@ -153,4 +154,3 @@ public class LiteratureRegister{
         return product;
     }                                        
 }
-
