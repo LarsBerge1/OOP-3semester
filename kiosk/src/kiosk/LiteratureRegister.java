@@ -40,22 +40,15 @@ public class LiteratureRegister implements Serializable{
      * @param title The title of the book
      * @param publisher the publisher of the book
      * @return A book with a particular title
-     *
+     * @throws NoSuchElementException if product is not found
      */
     public Literature searchProductBy(String title, String publisher)
     {
-        Literature product;
-        try
-        {
-            product = literatures.stream()
+        Literature product = literatures.stream()
                     .filter(literature -> (literature.getTitle().equals(title)) && (literature.getPublisher().equals(publisher)))
                     .findFirst()
                     .get();
-        }
-        catch(NoSuchElementException e)
-        {
-            product = null;
-        }
+        
         return product;
     }
     
@@ -137,20 +130,15 @@ public class LiteratureRegister implements Serializable{
      * Search for a book with a particular title
      * @param title The title of the book
      * @return bookToReturn
+     * @throws NoSuchElementException if product is not found
      */
     public Literature searchProductByTitle(String title)
     {
-        Literature product;
-        try{
-        product = literatures.stream()
+        Literature product = literatures.stream()
                     .filter(literature -> literature.getTitle().equals(title))
                     .findFirst()
                     .get();
-        }
-        catch(NoSuchElementException e)
-        {
-            product = null;
-        }
+        
         return product;
     }                                        
 }
