@@ -1,6 +1,11 @@
 package kiosk;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,21 +14,23 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.Separator;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToolBar;
+import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -38,10 +45,6 @@ public class ApplicationGUI extends Application {
     LiteratureRegister litReg;
     TableView table;
     String VERSION = "V0.2 2018-04-24";
-    TextField searchFieldPublisher;
-    TextField searchFieldTitle;
-    Label searchLabelPublisher;
-    Label searchLabelTitle;
     
 
     public ApplicationGUI() {
@@ -78,31 +81,18 @@ public class ApplicationGUI extends Application {
         root.setTop(topContainer);// Place the topcontainer in the top-section of the BorderPane
 
         // Elements in the left container of the borderpane.
-        HBox leftContainer = new HBox();
-        leftContainer.setMinWidth(0x64);
-        Menu addMenu = createAddMenu();
-        MenuBar addMenuBar = new MenuBar();
-        addMenuBar.getMenus().add(addMenu);
-        leftContainer.getChildren().add(addMenuBar);
+        VBox leftContainer = createAddMenu();
         root.setLeft(leftContainer);
+        
         
         // Elements in the bottom conainer of the borderpane.
         HBox bottomContainer = new HBox();
-        bottomContainer.setMinHeight(30);
-        Menu searchMenu = createSearchMenu();
-        MenuBar searchMenuBar = new MenuBar();
-        searchMenuBar.getMenus().add(searchMenu);
-        
-        HBox searchInput = new HBox();
-        searchInput = createSearchInput();
-        
-        Button searchBtn = new Button("Search");
-        searchBtn.setOnAction(e -> searchBtnClicked());
-        
-        
-        bottomContainer.getChildren().addAll(searchMenuBar,searchInput, searchBtn);
+        //bottomContainer.setPadding(new Insets(12, 12, 12, 12));
+        GridPane searchInput = createSearchInput();
+        bottomContainer.getChildren().addAll(searchInput);//, searchBtn);
         root.setBottom(bottomContainer);
-
+        
+        
         Scene scene = new Scene(root, 720, 480);
 
         window.setScene(scene);
@@ -197,43 +187,13 @@ public class ApplicationGUI extends Application {
         return menuHelp;
     }
     
-    /**
-     * Creat the items in the Search menu and
-     * add the setOnAction on the items
-     */
-    private Menu createSearchMenu() {
-        // The Search menu
-        Menu menuSearch = new Menu("Search Options");
-        CheckMenuItem publisherCheck = new CheckMenuItem("Publisher");
-        publisherCheck.setOnAction(e -> searchSettings());
-        CheckMenuItem titleCheck = new CheckMenuItem("Title");
-        titleCheck.setOnAction(e -> System.out.println("Not finished, title"));
-        menuSearch.getItems().addAll(publisherCheck,titleCheck);
-        return menuSearch;
-    }
-
-    /**
-     * Creat the items in the Add menu and
-     * add the setOnAction on the items
-     */
-    private Menu createAddMenu() {
-        // The Add-menu
-        Menu menuAdd = new Menu("Add");
-        MenuItem singleBook = new MenuItem("Single Book");
-        singleBook.setOnAction(e -> addSingleBook());
-        MenuItem seriesBook = new MenuItem("Book in Series");
-        seriesBook.setOnAction(e -> addBookInSeries());
-        menuAdd.getItems().addAll(singleBook,seriesBook);
-        
-        return menuAdd;
-    }
     
     /**
      * Close the program properly, asks
      * for confirmation before closeing app
      */
     private void closeProgram() {
-        Boolean answer = Confirmbox.confirmBox("Confirm", "Are you sure you want to exit?");
+        Boolean answer = AlertBox.confirmBox("Confirm", "Are you sure you want to exit?");
         if (answer) {
             window.close();
         }
@@ -307,15 +267,6 @@ public class ApplicationGUI extends Application {
     }
     
     /**
-     * 
-     */
-    private void searchSettings(){
-        searchFieldPublisher.setVisible(true);
-        searchFieldTitle.setVisible(true);
-        searchLabelPublisher.setVisible(true);
-        searchLabelTitle.setVisible(true);
-    }
-    /**
      * Add button clicked
      */
     private void addBtnClicked(){
@@ -330,47 +281,275 @@ public class ApplicationGUI extends Application {
     /**
      * Search button clicked
      */
-    private void searchBtnClicked(){
-        System.out.println("Search");
+    private void search(Boolean titleON, Boolean publisherON, TextField publisher, TextField title){
+        if (titleON && publisherON){
+            System.out.println("Search on both");
+        }
+        else if (titleON){
+            AlertBox.information("Information:" , "This feature is not yet available. \n"
+                                                + "Please chose an other combination of search options.");
+        }
+        else if (publisherON){
+            System.out.println("Search on publisher");
+        }
+        else {
+            AlertBox.information("Information:" , "Please select at leaste one search option");
+                                                     
+        }
     }
 
     /** 
      * Add a single book to the register
      */
-    private void addSingleBook(){
-        System.out.println("addSingleBook");
+    private void addSingleBook(TextField titleField,TextField publisherField,TextField authorField,TextField pubField){
+        System.out.println("addS");
     }
     /**
      * 
      */
-    private void addBookInSeries(){
+    private void addBookInSeries(TextField titleField,TextField publisherField,TextField authorField,TextField pubField){
         System.out.println("addSeriesBook");
     }
     
-    private HBox createSearchInput()
-    {
-        HBox test = new HBox();
-        searchLabelPublisher = new Label("Publisher:");
-        searchLabelPublisher.setVisible(false);
-        searchLabelPublisher.setMinHeight(25);
-        searchLabelTitle = new Label("Title:");
-        searchLabelTitle.setVisible(false);
-        searchLabelTitle.setMinHeight(25);
-        searchFieldPublisher = new TextField();
-        searchFieldPublisher.setVisible(false);
-        searchFieldPublisher.setPromptText("Publisher");
-        searchFieldTitle = new TextField();
-        searchFieldTitle.setVisible(false);
-        searchFieldTitle.setPromptText("Title");
-        
-        test.getChildren().addAll(  searchLabelPublisher,
-                                    searchFieldPublisher,
-                                    searchLabelTitle,
-                                    searchFieldTitle
-                                    
-                );
-        
-        return test;
+    /**
+     * Add a periodical to the register
+     */
+    private void addPeriodical(TextField titleField,TextField publisherField,Spinner yearlyReleases,TextField subjectField){
+        System.out.println("Add peri");
     }
     
+    /**
+     * 
+     * @return HBox containing the elements for search
+     */
+    private GridPane createSearchInput()
+    {
+        
+        GridPane grid = new GridPane();
+        grid.setVgap(4);
+        grid.setPadding(new Insets(5, 5, 5, 5));
+        
+        // Input:
+        Label searchLabelPublisher = new Label("Publisher:");
+        Label searchLabelTitle = new Label("Title:");
+        TextField searchFieldPublisher = new TextField();
+        searchFieldPublisher.setEditable(false);
+        searchFieldPublisher.setPromptText("Publisher");
+        TextField searchFieldTitle = new TextField();
+        searchFieldTitle.setEditable(false);
+        searchFieldTitle.setPromptText("Title");
+        
+        // Search settings: 
+        Label optionsLabel = new Label("Search options: ");
+        optionsLabel.setFont(new Font("Arial", 15));
+        RadioButton titleOption = new RadioButton("Title");
+        titleOption.setOnAction(e -> {
+            if (titleOption.isSelected()){
+                searchFieldTitle.setEditable(true);
+            }
+            else {
+                searchFieldTitle.clear();
+                searchFieldTitle.setEditable(false);
+            }
+        });
+        RadioButton publisherOption = new RadioButton("Publisher");
+        publisherOption.setOnAction(e -> {
+            if (publisherOption.isSelected()){                
+                searchFieldPublisher.setEditable(true);
+            }
+            else {
+                searchFieldPublisher.clear();
+                searchFieldPublisher.setEditable(false);
+            }
+        });
+        VBox options = new VBox();
+        options.getChildren().addAll(optionsLabel, titleOption,publisherOption);
+                
+        Button searchBtn = new Button("Search");
+        searchBtn.setMinWidth(200);
+        searchBtn.setOnAction(e -> search(titleOption.isSelected(), 
+                                          publisherOption.isSelected(),
+                                          searchFieldTitle,
+                                          searchFieldPublisher
+                                          ));
+        
+        grid.add(optionsLabel, 0, 0);
+        grid.add(titleOption, 0, 1);              
+        grid.add(publisherOption, 0, 2);
+        grid.add(searchFieldTitle, 2, 1);           
+        grid.add(searchFieldPublisher, 2, 2);
+        grid.add(searchBtn, 2, 0);
+        
+        return grid;
+    }
+    
+    /**
+     * Make the add single book menu
+     * @return the add single book menu
+     */
+    private TitledPane addSingleBookMenu(){
+        
+        //Text fields for the user to enter information
+        TextField titleField = new TextField();
+        titleField.setPromptText("Title");
+        TextField publisherField = new TextField();
+        publisherField.setPromptText("Publisher");
+        TextField authorField = new TextField();
+        authorField.setPromptText("Author");
+        TextField pubField = new TextField();
+        pubField.setPromptText("PublicationDate");
+        // Add the fields to the grid.
+        TitledPane gridTitlePane = new TitledPane();
+        gridTitlePane.setExpanded(false);
+        GridPane grid = new GridPane();
+        grid.setVgap(4);
+        grid.setPadding(new Insets(5, 5, 5, 5));
+        grid.add(new Label("Title: "), 0, 0);
+        grid.add(titleField, 1, 0);
+        grid.add(new Label("Publisher: "), 0, 1);
+        grid.add(publisherField, 1, 1);
+        grid.add(new Label("Author: "), 0, 2);
+        grid.add(authorField, 1, 2);   
+        grid.add(new Label("PublicationDate: "), 0, 3);
+        grid.add(pubField, 1, 3);
+        // Make the add button and set the onAction
+        Button btn = new Button("Add Single Book");
+        btn.setOnAction(e -> addSingleBook(titleField,publisherField,authorField,pubField));
+        grid.add(btn,1,4);
+        gridTitlePane.setText("Add Single book");
+        gridTitlePane.setContent(grid);
+        return gridTitlePane;
+    }
+    
+    /**
+     * Make the add single book menu
+     * @return the add single book menu
+     */
+    private TitledPane addBookInSeriesMenu(){
+        
+        //Text fields for the user to enter information
+        TextField titleField = new TextField();
+        titleField.setPromptText("Title");
+        TextField seriesTitleField = new TextField();
+        seriesTitleField.setPromptText("Series Title");
+        TextField publisherField = new TextField();
+        publisherField.setPromptText("Publisher");
+        TextField authorField = new TextField();
+        authorField.setPromptText("Author");
+        TextField pubField = new TextField();
+        pubField.setPromptText("PublicationDate");
+        // Add the fields to the grid.
+        TitledPane gridTitlePane = new TitledPane();
+        gridTitlePane.setExpanded(false);
+        GridPane grid = new GridPane();
+        grid.setVgap(4);
+        grid.setPadding(new Insets(5, 5, 5, 5));
+        grid.add(new Label("Title: "), 0, 0);
+        grid.add(titleField, 1, 0);
+        grid.add(new Label("Series Title: "), 0, 1);
+        grid.add(seriesTitleField, 1, 1);
+        grid.add(new Label("Publisher: "), 0, 2);
+        grid.add(publisherField, 1, 2);
+        grid.add(new Label("Author: "), 0, 3);
+        grid.add(authorField, 1, 3);   
+        grid.add(new Label("PublicationDate: "), 0, 4);
+        grid.add(pubField, 1, 4);
+        // Make the add button and set the onAction
+        Button btn = new Button("Add Book in Series");
+        btn.setOnAction(e -> addBookInSeries(titleField,publisherField,authorField,pubField));
+        grid.add(btn,1,5);
+        gridTitlePane.setText("Add Book in Series");
+        gridTitlePane.setContent(grid);
+        return gridTitlePane;
+    }
+    
+    /**
+     * Make the add single book menu
+     * @return the add single book menu
+     */
+    private TitledPane addPeriodicalMenu(){
+        
+        //Text fields for the user to enter information
+        TextField titleField = new TextField();
+        titleField.setPromptText("Title");
+        TextField publisherField = new TextField();
+        publisherField.setPromptText("Publisher");
+        TextField subjectField = new TextField();
+        subjectField.setPromptText("Subject");
+        Spinner<Integer> yearlyReleases = new Spinner<>(1, 1000, 1);
+        
+        // Add the fields to the grid.
+        TitledPane gridTitlePane = new TitledPane();
+        gridTitlePane.setExpanded(false);
+        GridPane grid = new GridPane();
+        grid.setVgap(4);
+        grid.setPadding(new Insets(5, 5, 5, 5));
+        grid.add(new Label("Title: "), 0, 0);
+        grid.add(titleField, 1, 0);
+        grid.add(new Label("Publisher: "), 0, 1);
+        grid.add(publisherField, 1, 1);
+        grid.add(new Label("Yearly releases: "), 0, 2);
+        grid.add(yearlyReleases, 1, 2);   
+        grid.add(new Label("Subject: "), 0, 3);
+        grid.add(subjectField, 1, 3);
+        // Make the add button and set the onAction
+        Button btn = new Button("Add Periodical");
+        btn.setOnAction(e -> addPeriodical(titleField,publisherField,yearlyReleases,subjectField));
+        grid.add(btn,1,4);
+        gridTitlePane.setText("Add Periodical");
+        gridTitlePane.setContent(grid);
+        return gridTitlePane;
+    }
+    
+    
+    private VBox createAddMenu(){
+        VBox addMenu = new VBox();
+        TitledPane single = addSingleBookMenu();
+        TitledPane series = addBookInSeriesMenu();
+        TitledPane periodical = addPeriodicalMenu();
+        addMenu.getChildren().addAll(single,series, periodical);
+        return addMenu;
+    }
+    
+    /**
+     * Gets the literature register from a file
+     * Creates a new literature register if no literature register is found
+     * 
+     */
+    private void findLitReg() 
+    {       
+        try{
+            litReg = fileHandler.readFromFile();
+            
+        }
+        catch(FileNotFoundException e)
+        { 
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("File not found");
+            alert.setHeaderText("File not found");
+            alert.setContentText("Couldn't find the file to read the literature "+
+                    "register from");
+            
+            alert.showAndWait();
+        } 
+        catch (ClassNotFoundException ex)
+        {
+            Logger.getLogger(ApplicationGUI.class.getName()).log(Level.SEVERE, "ClassNotFoundException in findLitReg()");
+        } 
+        catch (IOException ex)
+        {
+            Logger.getLogger(ApplicationGUI.class.getName()).log(Level.SEVERE, "IOException in findLitReg()");
+        }
+        catch (URISyntaxException ex)
+        {
+            Logger.getLogger(ApplicationGUI.class.getName()).log(Level.SEVERE, "URISyntaxException in findLitReg()");
+        }
+        finally
+        {
+            if (litReg == null)
+            {
+                litReg = new LiteratureRegister();
+            }
+        }
+    }
 }
