@@ -30,7 +30,7 @@ public class LitRegFileHandler {
     public LitRegFileHandler( String fileName)
     {
         this.fileName = fileName;
-        findFile(fileName);
+        findFilePath(fileName);
     }
     
     /**
@@ -40,15 +40,19 @@ public class LitRegFileHandler {
     public void setFile(String fileName)
     {
         this.fileName = fileName;
-        findFile(fileName);
+        findFilePath(fileName);
     }
     /**
      * Finds the file to manipulate or read from
      * @param fileName the name of the file to operate on
      */
-    private void findFile(String fileName)
+    private void findFilePath(String fileName)
     {
         filePath = Paths.get(fileName).toAbsolutePath();
+    }
+    public void setPath(Path path)
+    {
+        filePath = path;
     }
     
     /**

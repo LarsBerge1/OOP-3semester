@@ -255,8 +255,7 @@ public class ApplicationGUI extends Application {
     private void openTextFile() {
         File test = FileChooserView.textFileChooserView();
         if (null != test){
-        String path = test.getAbsolutePath();
-        System.out.println(path);
+        fileHandler.setPath(test.toPath());
         }
     }
     /**
