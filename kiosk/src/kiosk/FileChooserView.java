@@ -19,7 +19,7 @@ public class FileChooserView {
      * user or null if no selection has been made.
      * @return the selected file.
      */
-    public static File textFileChooserView(){
+    public static File textFileChooser(){
          Stage window = new Stage();
         
         window.initModality(Modality.APPLICATION_MODAL);
@@ -29,6 +29,26 @@ public class FileChooserView {
         fileChooser.setTitle("Open Resource File");
         fileChooser.getExtensionFilters().addAll(
          new ExtensionFilter("Text Files", "*.txt"));
+        File selectedFile = fileChooser.showOpenDialog(window);
+        return selectedFile ;
+        
+    }
+    
+    /**
+     * Returns value specifies the file chosen by the 
+     * user or null if no selection has been made.
+     * @return the selected file.
+     */
+    public static File datFileChooser(){
+         Stage window = new Stage();
+        
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setMinWidth(400);
+        
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        fileChooser.getExtensionFilters().addAll(
+         new ExtensionFilter("Dat Files", "*.dat"));
         File selectedFile = fileChooser.showOpenDialog(window);
         return selectedFile ;
         
