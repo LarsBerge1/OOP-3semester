@@ -1,24 +1,23 @@
-
 package kiosk;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
+import static javafx.application.Application.launch;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Separator;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.ToolBar;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -37,15 +36,15 @@ public class ApplicationGUI extends Application {
     LiteratureRegister litReg;
     TableView table;
     String VERSION = "V0.2 2018-04-24";
-    LitRegFileHandler fileHandler;
 
-    public ApplicationGUI(){
+    public ApplicationGUI() {
+        litReg = new LiteratureRegister();
+        litReg.registrateLiterature(new SingleBook("title", "author", "publisher", "publicationDate", 1));
+        litReg.registrateLiterature(new SingleBook("t", "a", "p", "pd", 1));
     }
 
     @Override
     public void start(Stage primaryStage) {
-        fileHandler = new LitRegFileHandler("data.dat");
-        findLitReg();
 
         window = primaryStage;
         window.setTitle("Newsstand for OOP group 32.");
@@ -94,48 +93,7 @@ public class ApplicationGUI extends Application {
         window.setScene(scene);
         window.show();
     }
-    
-    /**
-     * Gets the literature register from a file
-     * Creates a new literature register if no literature register is found
-     * 
-     */
-    private void findLitReg() 
-    {       
-        try{
-            litReg = fileHandler.readFromFile();
-            
-        }
-        catch(FileNotFoundException e)
-        { 
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("File not found");
-            alert.setHeaderText("File not found");
-            alert.setContentText("Couldn't find the file to read the literature "+
-                    "register from");
-            
-            alert.showAndWait();
-        } 
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(ApplicationGUI.class.getName()).log(Level.SEVERE, "ClassNotFoundException in findLitReg()");
-        } 
-        catch (IOException ex)
-        {
-            Logger.getLogger(ApplicationGUI.class.getName()).log(Level.SEVERE, "IOException in findLitReg()");
-        }
-        catch (URISyntaxException ex)
-        {
-            Logger.getLogger(ApplicationGUI.class.getName()).log(Level.SEVERE, "URISyntaxException in findLitReg()");
-        }
-        finally
-        {
-            if (litReg == null)
-            {
-                litReg = new LiteratureRegister();
-            }
-        }
-    }
+
     /**
      * @param args the command line arguments
      */
