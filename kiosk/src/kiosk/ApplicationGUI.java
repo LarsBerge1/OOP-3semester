@@ -135,7 +135,7 @@ public class ApplicationGUI extends Application {
              // The File-menu
         Menu menuFile = new Menu("File");
         MenuItem openFile = new MenuItem("Open");
-        openFile.setOnAction(e -> openTextFile());
+        openFile.setOnAction(e -> openDatFile());
 
         MenuItem saveFile = new MenuItem("Save");
         saveFile.setOnAction(e -> saveTextFile());
@@ -252,8 +252,8 @@ public class ApplicationGUI extends Application {
      * Opens a text file spesified by the user
      * TODO: finsish this function
      */
-    private void openTextFile() {
-        File test = FileChooserView.textFileChooserView();
+    private void openDatFile() {
+        File test = FileChooserView.datFileChooser();
         if (null != test){
         fileHandler.setPath(test.toPath());
         }
