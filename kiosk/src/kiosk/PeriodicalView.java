@@ -5,6 +5,9 @@
  */
 package kiosk;
 
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.VBox;
+
 /**
  * Presents information about the Periodical
  * 
@@ -21,10 +24,10 @@ public class PeriodicalView  extends LiteratureView{
  object
      */
     @Override
-    public void display()
+    public void display(VBox vBox)
     {
-        super.display();
-        System.out.println("Yearly releases: " + p.getNumberOfYearlyReleases());
-        System.out.println("Subject: " + p.getSubject());
+        super.display(vBox);
+        TextArea t = new TextArea("Yearly releases: " + p.getNumberOfYearlyReleases() + "\nSubject: " + p.getSubject());
+        vBox.getChildren().add(t);        
     }
 }

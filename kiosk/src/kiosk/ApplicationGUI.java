@@ -42,6 +42,7 @@ public class ApplicationGUI extends Application {
     TableView table;
     String VERSION = "V0.2 2018-04-24";
     LitRegFileHandler fileHandler;
+    BorderPane root; 
 
     public ApplicationGUI() {
     }
@@ -58,7 +59,7 @@ public class ApplicationGUI extends Application {
             e.consume();
             closeProgram();
         });
-        BorderPane root = new BorderPane();   // Create the root node
+        root = new BorderPane();   // Create the root node
 
         // Make the table for the register:
         table = new TableView(getLiteratureList());
@@ -276,7 +277,10 @@ public class ApplicationGUI extends Application {
     private void presentInfo() {
         Literature l = (Literature) table.getSelectionModel().getSelectedItem();
         LiteratureView lv = ViewFactory.getView(l);
-        lv.display();
+        VBox vBox = new VBox();
+        lv.display(vBox);
+        root.setRight(vBox);
+        window.show();
     }
 
     

@@ -9,24 +9,22 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 
 /**
- * Presents information about the RegularlyPublishedLiterature 
+ *
+ * @author amhat
  */
-public class ComicBookView  extends BookView {
-    private ComicBook cb;
-    public ComicBookView(ComicBook cb)
+public class BookView extends LiteratureView{
+    private Book book;
+    public BookView(Book book)
     {
-        super(cb);
-        this.cb = cb;
+        super(book);
+        this.book = book;
     }
     
-    /**
-     * Displays the information associated with a ComicBook object
-     */
-    @Override
     public void display(VBox vBox)
     {
         super.display(vBox);
-        TextArea t = new TextArea("Genre " + cb.getGenre());
+        TextArea t = new TextArea("Author: " + book.getAuthor() + "Publication date: " + book.getPublicationDate());
         vBox.getChildren().add(t);
     }
+    
 }

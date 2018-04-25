@@ -1,6 +1,9 @@
 
 package kiosk;
 
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.VBox;
+
 /**
  * Presents information about the literature
  * 
@@ -14,11 +17,11 @@ public abstract class LiteratureView {
     
     /**
      * Displays the information associated with an literature object
+     * @vBox the Vbox where the product information is displayed
      */
-    public void display()
+    public void display(VBox v)
     {
-        System.out.println();
-        System.out.println("Title: " + literature.getTitle());
-        System.out.println("Publisher: " + literature.getPublisher());
+        TextArea t = new TextArea("Title: " + literature.getTitle() + "\nPublisher: " + literature.getPublisher());
+        v.getChildren().add(t);
     }
 }
