@@ -51,8 +51,8 @@ public class ApplicationGUI extends Application {
 
     public ApplicationGUI() {
         litReg = new LiteratureRegister();
-        litReg.registrateLiterature(new SingleBook("title", "author", "publisher", "publicationDate", 1));
-        litReg.registrateLiterature(new SingleBook("t", "a", "p", "pd", 1));
+        //litReg.registrateLiterature(new SingleBook("title", "author", "publisher", "publicationDate", 1));
+        //litReg.registrateLiterature(new SingleBook("t", "a", "p", "pd", 1));
     }
 
     @Override
@@ -281,13 +281,14 @@ public class ApplicationGUI extends Application {
      * Delete button clicked
      */
     private void deleteBtnClicked(){
-        ObservableList<Literature> productSelected = table.getSelectionModel().getSelectedItems();
+        Literature productSelected = (Literature) table.getSelectionModel().getSelectedItem();
         if (productSelected != null){
         Boolean answer = AlertBox.confirmBox("Confirm delete", 
                                             " Are you sure you want to\n "
                                             + "delete selceted literature?");
             if (answer){
                 table.getItems().remove(productSelected);
+                litReg.deleteProduct(productSelected);
             }
         }
         else {
