@@ -278,12 +278,6 @@ public class ApplicationGUI extends Application {
     }
     
     /**
-     * Add button clicked
-     */
-    private void addBtnClicked(){
-        System.out.println("Add");
-    }
-    /**
      * Delete button clicked
      */
     private void deleteBtnClicked(){
@@ -292,13 +286,10 @@ public class ApplicationGUI extends Application {
         Boolean answer = AlertBox.confirmBox("Confirm delete", 
                                             " Are you sure you want to\n "
                                             + "delete selceted literature?");
-        if (answer){
-            
-            System.out.println(productSelected.toString());
+            if (answer){
+                table.getItems().remove(productSelected);
+            }
         }
-        else {
-            System.out.println("no");
-        }}
         else {
             System.out.println("Please select item to remove");
         }
