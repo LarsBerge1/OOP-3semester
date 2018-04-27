@@ -286,15 +286,20 @@ public class ApplicationGUI extends Application {
      * Delete button clicked
      */
     private void deleteBtnClicked(){
+        ObservableList<Literature> productSelected = table.getSelectionModel().getSelectedItems();
+        if (productSelected != null){
         Boolean answer = AlertBox.confirmBox("Confirm delete", 
                                             " Are you sure you want to\n "
                                             + "delete selceted literature?");
         if (answer){
-            ObservableList<Literature> productselected = table.getSelectionModel().getSelectedItems();
-            System.out.println(productselected.toString());
+            
+            System.out.println(productSelected.toString());
         }
         else {
             System.out.println("no");
+        }}
+        else {
+            System.out.println("Please select item to remove");
         }
     }
     /**
