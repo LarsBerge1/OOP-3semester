@@ -102,7 +102,7 @@ public class ApplicationGUI extends Application {
 
         window.setScene(scene);
         window.show();
-        presentInfo();
+        //presentInfo();
     }
 
     /**
@@ -160,7 +160,9 @@ public class ApplicationGUI extends Application {
         MenuItem editSingle = new MenuItem("Change singlebook\n"
                                         + "to book series");
         editSingle.setOnAction(e -> changeSingleBookToSeries());
-        menuEdit.getItems().add(editSingle);
+        MenuItem delete = new MenuItem("Delete");
+        delete.setOnAction(e -> deleteBtnClicked());
+        menuEdit.getItems().addAll(editSingle,delete);
         return menuEdit;
     }
     
@@ -253,7 +255,7 @@ public class ApplicationGUI extends Application {
      * TODO: finsish this function
      */
     private void openTextFile() {
-        File test = FileChooserView.textFileChooserView();
+        File test = FileChooserView.datFileChooser();
         if (null != test){
         fileHandler.setPath(test.toPath());
         }
@@ -284,7 +286,15 @@ public class ApplicationGUI extends Application {
      * Delete button clicked
      */
     private void deleteBtnClicked(){
-        System.out.println("Delete");
+        Boolean answer = AlertBox.confirmBox("Confirm delete", 
+                                            " Are you sure you want to\n "
+                                            + "delete selceted literature?");
+        if (answer){
+            System.out.println("delete selceted");
+        }
+        else {
+            System.out.println("no");
+        }
     }
     /**
      * Search button clicked
