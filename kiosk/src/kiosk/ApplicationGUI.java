@@ -52,14 +52,14 @@ public class ApplicationGUI extends Application {
     public ApplicationGUI() {
         litReg = new LiteratureRegister();
         litReg.registrateLiterature(new SingleBook("title", "author", "publisher", "publicationDate", 1));
-        //litReg.registrateLiterature(new SingleBook("t", "a", "p", "pd", 1));
+        litReg.registrateLiterature(new SingleBook("t", "a", "p", "pd", 1));
     }
 
     @Override
     public void start(Stage primaryStage) {
         
-        fileHandler = new LitRegFileHandler("data.dat");
-        findLitReg();
+        //fileHandler = new LitRegFileHandler("data.dat");
+        //findLitReg();
         
         window = primaryStage;
         window.setTitle("Newsstand for OOP group 32.");
@@ -78,6 +78,7 @@ public class ApplicationGUI extends Application {
         TableColumn<Literature, String> publisherCol = new TableColumn<>("Publisher");
         publisherCol.setCellValueFactory(new PropertyValueFactory("publisher"));
         table.getColumns().setAll(titleCol, publisherCol);
+        
 
         // Elements in the top container of the borderpane.
         VBox topContainer = new VBox();            //Creates a container to hold all Menu Objects.
@@ -325,8 +326,20 @@ public class ApplicationGUI extends Application {
     /** 
      * Add a single book to the register
      */
-    private void addSingleBook(TextField titleField,TextField publisherField,TextField authorField,TextField pubField){
-        System.out.println("addS");
+    private void addSingleBook(TextField titleField,
+                                TextField publisherField,
+                                TextField authorField,
+                                TextField publidateField,
+                                Spinner<Integer> editionSpinner
+                                ){
+        String title = titleField.getText();
+        String publisher = publisherField.getText();
+        String author = authorField.getText();
+        String publidate = publidateField.getText();
+        Integer edition = editionSpinner.getValue();
+        SingleBook sb = new SingleBook(title, author, publisher,publidate, edition);
+        table.getItems().add(sb);
+        litReg.registrateLiterature(sb);
     }
     /**
      * 
@@ -422,6 +435,8 @@ public class ApplicationGUI extends Application {
         authorField.setPromptText("Author");
         TextField pubField = new TextField();
         pubField.setPromptText("PublicationDate");
+        Spinner<Integer> edition = new Spinner<>(0, 1000, 1);
+        
         // Add the fields to the grid.
         TitledPane gridTitlePane = new TitledPane();
         gridTitlePane.setExpanded(false);
@@ -436,10 +451,12 @@ public class ApplicationGUI extends Application {
         grid.add(authorField, 1, 2);   
         grid.add(new Label("PublicationDate: "), 0, 3);
         grid.add(pubField, 1, 3);
+        grid.add(new Label("Edition:"),0,4);
+        grid.add(edition,1,4);
         // Make the add button and set the onAction
         Button btn = new Button("Add Single Book");
-        btn.setOnAction(e -> addSingleBook(titleField,publisherField,authorField,pubField));
-        grid.add(btn,1,4);
+        btn.setOnAction(e -> addSingleBook(titleField,publisherField,authorField,pubField,edition));
+        grid.add(btn,1,5);
         gridTitlePane.setText("Add Single book");
         gridTitlePane.setContent(grid);
         return gridTitlePane;
