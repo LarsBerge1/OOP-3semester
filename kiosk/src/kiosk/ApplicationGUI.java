@@ -272,7 +272,7 @@ public class ApplicationGUI extends Application {
     private void deleteBtnClicked() {
         Object itemSelected = table.getSelectionModel().getSelectedItem();
         if (itemSelected instanceof Literature) {
-            
+
             Literature productSelected = (Literature) itemSelected;
             if (productSelected != null) {
                 Boolean answer = AlertBox.confirmBox("Confirm delete",
@@ -280,12 +280,16 @@ public class ApplicationGUI extends Application {
                         + "delete selceted literature?");
                 if (answer) {
                     table.getItems().remove(productSelected);
-                    litReg.deleteProduct(productSelected);
+                    Boolean result = litReg.deleteProduct(productSelected);
+                    if (result) {
+                        AlertBox.information("Delete", "Literatur deleted.");
+                    }
                 }
-            } else {
-                System.out.println("Please select item to remove");
             }
+        } else {
+            AlertBox.information("Delete failed ", "Please select item to remove.");
         }
+
     }
 
     /**
