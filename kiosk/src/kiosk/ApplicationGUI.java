@@ -46,7 +46,7 @@ public class ApplicationGUI extends Application {
     TableView table;
     String VERSION = "V0.2 2018-04-24";
     BorderPane root;
-    
+
     LitRegFileHandler fileHandler;
 
     public ApplicationGUI() {
@@ -57,10 +57,9 @@ public class ApplicationGUI extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        
+
         //fileHandler = new LitRegFileHandler("data.dat");
         //findLitReg();
-        
         window = primaryStage;
         window.setTitle("Newsstand for OOP group 32.");
         //Close the program properly:
@@ -78,7 +77,6 @@ public class ApplicationGUI extends Application {
         TableColumn<Literature, String> publisherCol = new TableColumn<>("Publisher");
         publisherCol.setCellValueFactory(new PropertyValueFactory("publisher"));
         table.getColumns().setAll(titleCol, publisherCol);
-        
 
         // Elements in the top container of the borderpane.
         VBox topContainer = new VBox();            //Creates a container to hold all Menu Objects.
@@ -89,16 +87,14 @@ public class ApplicationGUI extends Application {
         // Elements in the left container of the borderpane.
         VBox leftContainer = createAddMenu();
         root.setLeft(leftContainer);
-        
-        
+
         // Elements in the bottom conainer of the borderpane.
         HBox bottomContainer = new HBox();
         //bottomContainer.setPadding(new Insets(12, 12, 12, 12));
         GridPane searchInput = createSearchInput();
         bottomContainer.getChildren().addAll(searchInput);//, searchBtn);
         root.setBottom(bottomContainer);
-        
-        
+
         Scene scene = new Scene(root, 720, 480);
 
         window.setScene(scene);
@@ -114,8 +110,7 @@ public class ApplicationGUI extends Application {
     }
 
     /**
-     * Creates the main menu bar and puts
-     * the Menus in
+     * Creates the main menu bar and puts the Menus in
      */
     private MenuBar createMainMenuBar() {
         // Create the Menu Bar to hold all the menus
@@ -128,12 +123,12 @@ public class ApplicationGUI extends Application {
 
         return menuBar;
     }
+
     /**
-     * Creat the items in the File menu and
-     * add the setOnAction on the items
+     * Creat the items in the File menu and add the setOnAction on the items
      */
-    private Menu createFileMenu(){
-             // The File-menu
+    private Menu createFileMenu() {
+        // The File-menu
         Menu menuFile = new Menu("File");
         MenuItem openFile = new MenuItem("Open");
         openFile.setOnAction(e -> openTextFile());
@@ -147,59 +142,54 @@ public class ApplicationGUI extends Application {
         menuFile.getItems().addAll(openFile, saveFile);
         menuFile.getItems().add(new SeparatorMenuItem());
         menuFile.getItems().add(exitApp);
-        
+
         return menuFile;
     }
-    
+
     /**
-     'Creat the items in the Edit menu and
-     * add the setOnAction on the items
+     * 'Creat the items in the Edit menu and add the setOnAction on the items
      */
-    private Menu createEditMenu(){
+    private Menu createEditMenu() {
         // The Edit-menu
         Menu menuEdit = new Menu("Edit");
         MenuItem editSingle = new MenuItem("Change singlebook\n"
-                                        + "to book series");
+                + "to book series");
         editSingle.setOnAction(e -> changeSingleBookToSeries());
         MenuItem delete = new MenuItem("Delete");
         delete.setOnAction(e -> deleteBtnClicked());
-        menuEdit.getItems().addAll(editSingle,delete);
+        menuEdit.getItems().addAll(editSingle, delete);
         return menuEdit;
     }
-    
+
     /**
-     * Creat the items in the View menu and
-     * add the setOnAction on the items
+     * Creat the items in the View menu and add the setOnAction on the items
      */
-    private Menu createViewMenu(){
+    private Menu createViewMenu() {
         Menu menuView = new Menu("View");
         MenuItem fullScreen = new MenuItem("Full Screen");
-        fullScreen.setOnAction(e -> window.setFullScreen(true) );
+        fullScreen.setOnAction(e -> window.setFullScreen(true));
         menuView.getItems().addAll(fullScreen);
-        
+
         return menuView;
     }
-    
+
     /**
-     * Creat the items in the Help menu and
-     * add the setOnAction on the items
+     * Creat the items in the Help menu and add the setOnAction on the items
      */
-    private Menu createHelpMenu(){
-        
+    private Menu createHelpMenu() {
+
         Menu menuHelp = new Menu("Help");
         MenuItem about = new MenuItem("About");
         about.setOnAction(e -> doShowAboutDialog());
         MenuItem helpContents = new MenuItem("Help Contents");
         helpContents.setOnAction(e -> doShowHelpContentDialog());
         menuHelp.getItems().addAll(about, helpContents);
-        
+
         return menuHelp;
     }
-    
-    
+
     /**
-     * Close the program properly, asks
-     * for confirmation before closeing app
+     * Close the program properly, asks for confirmation before closeing app
      */
     private void closeProgram() {
         Boolean answer = AlertBox.confirmBox("Confirm", "Are you sure you want to exit?");
@@ -222,7 +212,6 @@ public class ApplicationGUI extends Application {
         window.show();
     }
 
-    
     /**
      * Displays an info dialog about the application.
      */
@@ -252,112 +241,113 @@ public class ApplicationGUI extends Application {
     }
 
     /**
-     * Opens a text file spesified by the user
-     * TODO: finsish this function
+     * Opens a text file spesified by the user TODO: finsish this function
      */
     private void openTextFile() {
         File test = FileChooserView.datFileChooser();
-        if (null != test){
-        fileHandler.setPath(test.toPath());
+        if (null != test) {
+            fileHandler.setPath(test.toPath());
         }
     }
+
     /**
      * Save the content in the register
      */
-    private void saveTextFile(){
-        
+    private void saveTextFile() {
+
     }
-    
+
     /**
      * Change book
      */
-    private void changeSingleBookToSeries(){
+    private void changeSingleBookToSeries() {
         System.out.println("TODO: finish");
         // Step 1, finn hvilket som er markert
         // 2. do it.
     }
-    
+
     /**
      * Delete button clicked
      */
-    private void deleteBtnClicked(){
-        Literature productSelected = (Literature) table.getSelectionModel().getSelectedItem();
-        if (productSelected != null){
-        Boolean answer = AlertBox.confirmBox("Confirm delete", 
-                                            " Are you sure you want to\n "
-                                            + "delete selceted literature?");
-            if (answer){
-                table.getItems().remove(productSelected);
-                litReg.deleteProduct(productSelected);
+    private void deleteBtnClicked() {
+        Object itemSelected = table.getSelectionModel().getSelectedItem();
+        if (itemSelected instanceof Literature) {
+            
+            Literature productSelected = (Literature) itemSelected;
+            if (productSelected != null) {
+                Boolean answer = AlertBox.confirmBox("Confirm delete",
+                        " Are you sure you want to\n "
+                        + "delete selceted literature?");
+                if (answer) {
+                    table.getItems().remove(productSelected);
+                    litReg.deleteProduct(productSelected);
+                }
+            } else {
+                System.out.println("Please select item to remove");
             }
-        }
-        else {
-            System.out.println("Please select item to remove");
-        }
-    }
-    /**
-     * Search button clicked
-     */
-    private void search(Boolean titleON, Boolean publisherON, TextField publisher, TextField title){
-        if (titleON && publisherON){
-            System.out.println("Search on both");
-        }
-        else if (titleON){
-            AlertBox.information("Information:" , "This feature is not yet available. \n"
-                                                + "Please chose an other combination of search options.");
-        }
-        else if (publisherON){
-            System.out.println("Search on publisher");
-        }
-        else {
-            AlertBox.information("Information:" , "Please select at leaste one search option");
-                                                     
         }
     }
 
-    /** 
+    /**
+     * Search button clicked
+     */
+    private void search(Boolean titleON, Boolean publisherON, TextField publisher, TextField title) {
+        if (titleON && publisherON) {
+            System.out.println("Search on both");
+        } else if (titleON) {
+            AlertBox.information("Information:", "This feature is not yet available. \n"
+                    + "Please chose an other combination of search options.");
+        } else if (publisherON) {
+            System.out.println("Search on publisher");
+        } else {
+            AlertBox.information("Information:", "Please select at leaste one search option");
+
+        }
+    }
+
+    /**
      * Add a single book to the register
      */
     private void addSingleBook(TextField titleField,
-                                TextField publisherField,
-                                TextField authorField,
-                                TextField publidateField,
-                                Spinner<Integer> editionSpinner
-                                ){
+            TextField publisherField,
+            TextField authorField,
+            TextField publidateField,
+            Spinner<Integer> editionSpinner
+    ) {
         String title = titleField.getText();
         String publisher = publisherField.getText();
         String author = authorField.getText();
         String publidate = publidateField.getText();
         Integer edition = editionSpinner.getValue();
-        SingleBook sb = new SingleBook(title, author, publisher,publidate, edition);
+        SingleBook sb = new SingleBook(title, author, publisher, publidate, edition);
         table.getItems().add(sb);
         litReg.registrateLiterature(sb);
     }
+
     /**
-     * 
+     *
      */
-    private void addBookInSeries(TextField titleField,TextField publisherField,TextField authorField,TextField pubField){
+    private void addBookInSeries(TextField titleField, TextField publisherField, TextField authorField, TextField pubField) {
         System.out.println("addSeriesBook");
     }
-    
+
     /**
      * Add a periodical to the register
      */
-    private void addPeriodical(TextField titleField,TextField publisherField,Spinner yearlyReleases,TextField subjectField){
+    private void addPeriodical(TextField titleField, TextField publisherField, Spinner yearlyReleases, TextField subjectField) {
         System.out.println("Add peri");
     }
-    
+
     /**
-     * 
+     *
      * @return HBox containing the elements for search
      */
-    private GridPane createSearchInput()
-    {
-        
+    private GridPane createSearchInput() {
+
         GridPane grid = new GridPane();
         grid.setVgap(4);
         grid.setPadding(new Insets(5, 5, 5, 5));
-        
+
         // Input:
         Label searchLabelPublisher = new Label("Publisher:");
         Label searchLabelTitle = new Label("Title:");
@@ -367,57 +357,56 @@ public class ApplicationGUI extends Application {
         TextField searchFieldTitle = new TextField();
         searchFieldTitle.setEditable(false);
         searchFieldTitle.setPromptText("Title");
-        
+
         // Search settings: 
         Label optionsLabel = new Label("Search options: ");
         optionsLabel.setFont(new Font("Arial", 15));
         RadioButton titleOption = new RadioButton("Title");
         titleOption.setOnAction(e -> {
-            if (titleOption.isSelected()){
+            if (titleOption.isSelected()) {
                 searchFieldTitle.setEditable(true);
-            }
-            else {
+            } else {
                 searchFieldTitle.clear();
                 searchFieldTitle.setEditable(false);
             }
         });
         RadioButton publisherOption = new RadioButton("Publisher");
         publisherOption.setOnAction(e -> {
-            if (publisherOption.isSelected()){                
+            if (publisherOption.isSelected()) {
                 searchFieldPublisher.setEditable(true);
-            }
-            else {
+            } else {
                 searchFieldPublisher.clear();
                 searchFieldPublisher.setEditable(false);
             }
         });
         VBox options = new VBox();
-        options.getChildren().addAll(optionsLabel, titleOption,publisherOption);
-                
+        options.getChildren().addAll(optionsLabel, titleOption, publisherOption);
+
         Button searchBtn = new Button("Search");
         searchBtn.setMinWidth(200);
-        searchBtn.setOnAction(e -> search(titleOption.isSelected(), 
-                                          publisherOption.isSelected(),
-                                          searchFieldTitle,
-                                          searchFieldPublisher
-                                          ));
-        
+        searchBtn.setOnAction(e -> search(titleOption.isSelected(),
+                publisherOption.isSelected(),
+                searchFieldTitle,
+                searchFieldPublisher
+        ));
+
         grid.add(optionsLabel, 0, 0);
-        grid.add(titleOption, 0, 1);              
+        grid.add(titleOption, 0, 1);
         grid.add(publisherOption, 0, 2);
-        grid.add(searchFieldTitle, 2, 1);           
+        grid.add(searchFieldTitle, 2, 1);
         grid.add(searchFieldPublisher, 2, 2);
         grid.add(searchBtn, 2, 0);
-        
+
         return grid;
     }
-    
+
     /**
      * Make the add single book menu
+     *
      * @return the add single book menu
      */
-    private TitledPane addSingleBookMenu(){
-        
+    private TitledPane addSingleBookMenu() {
+
         //Text fields for the user to enter information
         TextField titleField = new TextField();
         titleField.setPromptText("Title");
@@ -428,7 +417,7 @@ public class ApplicationGUI extends Application {
         TextField pubField = new TextField();
         pubField.setPromptText("PublicationDate");
         Spinner<Integer> edition = new Spinner<>(0, 1000, 1);
-        
+
         // Add the fields to the grid.
         TitledPane gridTitlePane = new TitledPane();
         gridTitlePane.setExpanded(false);
@@ -440,26 +429,27 @@ public class ApplicationGUI extends Application {
         grid.add(new Label("Publisher: "), 0, 1);
         grid.add(publisherField, 1, 1);
         grid.add(new Label("Author: "), 0, 2);
-        grid.add(authorField, 1, 2);   
+        grid.add(authorField, 1, 2);
         grid.add(new Label("PublicationDate: "), 0, 3);
         grid.add(pubField, 1, 3);
-        grid.add(new Label("Edition:"),0,4);
-        grid.add(edition,1,4);
+        grid.add(new Label("Edition:"), 0, 4);
+        grid.add(edition, 1, 4);
         // Make the add button and set the onAction
         Button btn = new Button("Add Single Book");
-        btn.setOnAction(e -> addSingleBook(titleField,publisherField,authorField,pubField,edition));
-        grid.add(btn,1,5);
+        btn.setOnAction(e -> addSingleBook(titleField, publisherField, authorField, pubField, edition));
+        grid.add(btn, 1, 5);
         gridTitlePane.setText("Add Single book");
         gridTitlePane.setContent(grid);
         return gridTitlePane;
     }
-    
+
     /**
      * Make the add single book menu
+     *
      * @return the add single book menu
      */
-    private TitledPane addBookInSeriesMenu(){
-        
+    private TitledPane addBookInSeriesMenu() {
+
         //Text fields for the user to enter information
         TextField titleField = new TextField();
         titleField.setPromptText("Title");
@@ -484,24 +474,25 @@ public class ApplicationGUI extends Application {
         grid.add(new Label("Publisher: "), 0, 2);
         grid.add(publisherField, 1, 2);
         grid.add(new Label("Author: "), 0, 3);
-        grid.add(authorField, 1, 3);   
+        grid.add(authorField, 1, 3);
         grid.add(new Label("PublicationDate: "), 0, 4);
         grid.add(pubField, 1, 4);
         // Make the add button and set the onAction
         Button btn = new Button("Add Book in Series");
-        btn.setOnAction(e -> addBookInSeries(titleField,publisherField,authorField,pubField));
-        grid.add(btn,1,5);
+        btn.setOnAction(e -> addBookInSeries(titleField, publisherField, authorField, pubField));
+        grid.add(btn, 1, 5);
         gridTitlePane.setText("Add Book in Series");
         gridTitlePane.setContent(grid);
         return gridTitlePane;
     }
-    
+
     /**
      * Make the add single book menu
+     *
      * @return the add single book menu
      */
-    private TitledPane addPeriodicalMenu(){
-        
+    private TitledPane addPeriodicalMenu() {
+
         //Text fields for the user to enter information
         TextField titleField = new TextField();
         titleField.setPromptText("Title");
@@ -510,7 +501,7 @@ public class ApplicationGUI extends Application {
         TextField subjectField = new TextField();
         subjectField.setPromptText("Subject");
         Spinner<Integer> yearlyReleases = new Spinner<>(1, 1000, 1);
-        
+
         // Add the fields to the grid.
         TitledPane gridTitlePane = new TitledPane();
         gridTitlePane.setExpanded(false);
@@ -522,65 +513,52 @@ public class ApplicationGUI extends Application {
         grid.add(new Label("Publisher: "), 0, 1);
         grid.add(publisherField, 1, 1);
         grid.add(new Label("Yearly releases: "), 0, 2);
-        grid.add(yearlyReleases, 1, 2);   
+        grid.add(yearlyReleases, 1, 2);
         grid.add(new Label("Subject: "), 0, 3);
         grid.add(subjectField, 1, 3);
         // Make the add button and set the onAction
         Button btn = new Button("Add Periodical");
-        btn.setOnAction(e -> addPeriodical(titleField,publisherField,yearlyReleases,subjectField));
-        grid.add(btn,1,4);
+        btn.setOnAction(e -> addPeriodical(titleField, publisherField, yearlyReleases, subjectField));
+        grid.add(btn, 1, 4);
         gridTitlePane.setText("Add Periodical");
         gridTitlePane.setContent(grid);
         return gridTitlePane;
     }
-    
-    
-    private VBox createAddMenu(){
+
+    private VBox createAddMenu() {
         VBox addMenu = new VBox();
         TitledPane single = addSingleBookMenu();
         TitledPane series = addBookInSeriesMenu();
         TitledPane periodical = addPeriodicalMenu();
-        addMenu.getChildren().addAll(single,series, periodical);
+        addMenu.getChildren().addAll(single, series, periodical);
         return addMenu;
     }
-    
+
     /**
-     * Gets the literature register from a file
-     * Creates a new literature register if no literature register is found
-     * 
+     * Gets the literature register from a file Creates a new literature
+     * register if no literature register is found
+     *
      */
-    private void findLitReg() 
-    {       
-        try{
+    private void findLitReg() {
+        try {
             litReg = fileHandler.readFromFile();
-            
-        }
-        catch(FileNotFoundException e)
-        { 
+
+        } catch (FileNotFoundException e) {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("File not found");
             alert.setHeaderText("File not found");
-            alert.setContentText("Couldn't find the file to read the literature "+
-                    "register from");
-            
+            alert.setContentText("Couldn't find the file to read the literature "
+                    + "register from");
+
             alert.showAndWait();
-        } 
-        catch (ClassNotFoundException ex)
-        {
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(ApplicationGUI.class.getName()).log(Level.SEVERE, "ClassNotFoundException in findLitReg()");
-        } 
-        catch (IOException ex)
-        {
+        } catch (IOException ex) {
             Logger.getLogger(ApplicationGUI.class.getName()).log(Level.SEVERE, "IOException in findLitReg()");
-        }
-        catch (URISyntaxException ex)
-        {
+        } catch (URISyntaxException ex) {
             Logger.getLogger(ApplicationGUI.class.getName()).log(Level.SEVERE, "URISyntaxException in findLitReg()");
-        }
-        finally
-        {
-            if (litReg == null)
-            {
+        } finally {
+            if (litReg == null) {
                 litReg = new LiteratureRegister();
             }
         }
