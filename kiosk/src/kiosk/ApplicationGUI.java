@@ -51,7 +51,7 @@ public class ApplicationGUI extends Application {
 
     public ApplicationGUI() {
         litReg = new LiteratureRegister();
-        //litReg.registrateLiterature(new SingleBook("title", "author", "publisher", "publicationDate", 1));
+        litReg.registrateLiterature(new SingleBook("title", "author", "publisher", "publicationDate", 1));
         //litReg.registrateLiterature(new SingleBook("t", "a", "p", "pd", 1));
     }
 
@@ -290,7 +290,8 @@ public class ApplicationGUI extends Application {
                                             " Are you sure you want to\n "
                                             + "delete selceted literature?");
         if (answer){
-            System.out.println("delete selceted");
+            ObservableList<Literature> productselected = table.getSelectionModel().getSelectedItems();
+            System.out.println(productselected.toString());
         }
         else {
             System.out.println("no");
