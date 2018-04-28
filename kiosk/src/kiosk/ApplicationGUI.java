@@ -1,17 +1,10 @@
 package kiosk;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -255,10 +248,16 @@ public class ApplicationGUI extends Application {
             try {
             LiteratureRegisterFileHandler fileHandler = new LiteratureRegisterFileHandler(litReg, fileToOpen);
             LiteratureRegister lr = fileHandler.readSavedFile();
+            List<Literature> test = lr.getLiteratures();
+            for (Literature l : test){
+                table.getItems().add(l);
+                litReg.registrateLiterature(l);
             }
-            catch (Exception e){
-                System.out.println("fix catch later. :) ");
-                System.out.println(e);
+            AlertBox.information("Register loaded", "Register opend");
+            }
+            catch (IOException | ClassNotFoundException e){
+                AlertBox.information("Problem with open", "Failed to open"
+                                                            + e);
             }
         }
     }
