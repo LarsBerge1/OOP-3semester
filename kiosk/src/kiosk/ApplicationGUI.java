@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -203,8 +205,7 @@ public class ApplicationGUI extends Application {
         return literatures;
     }
 
-    private void presentInfo() {
-        Literature l = (Literature) litReg.getLiteratures().get(0);
+    private void presentInfo(Literature l) {
         LiteratureView lv = ViewFactory.getView(l);
         VBox vBox = new VBox();
         lv.display(vBox);
@@ -293,16 +294,37 @@ public class ApplicationGUI extends Application {
     }
 
     /**
-     * Search button clicked
+     * Search for literatur in the register
+     * @param titleON
+     * @param publisherOn
+     * 
      */
-    private void search(Boolean titleON, Boolean publisherON, TextField publisher, TextField title) {
+    private void search(Boolean titleON, Boolean publisherON, String title, String publisher) {
+        //String publisher = publisherT.getText();
+        //String title = titleT.getText();
+        Literature foundProduct;
         if (titleON && publisherON) {
-            System.out.println("Search on both");
+            try {
+            foundProduct = litReg.searchProductBy(title, publisher);
+            
+        }
+        catch(NoSuchElementException e)
+        {
+            AlertBox.information("Search", "No literature was found.");
+        }
+         
         } else if (titleON) {
-            AlertBox.information("Information:", "This feature is not yet available. \n"
-                    + "Please chose an other combination of search options.");
+            try {
+            foundProduct = litReg.searchProductByTitle(title);
+        }
+        catch(NoSuchElementException e)
+        {
+            AlertBox.information("Search", "No literature with this title was found.");
+        }
+            
         } else if (publisherON) {
-            System.out.println("Search on publisher");
+            ArrayList<Literature> productsByPublisher = litReg.searchProductByPublisher(publisher);
+            System.out.println(productsByPublisher + " title");
         } else {
             AlertBox.information("Information:", "Please select at leaste one search option");
 
@@ -390,8 +412,8 @@ public class ApplicationGUI extends Application {
         searchBtn.setMinWidth(200);
         searchBtn.setOnAction(e -> search(titleOption.isSelected(),
                 publisherOption.isSelected(),
-                searchFieldTitle,
-                searchFieldPublisher
+                searchFieldTitle.getText(),
+                searchFieldPublisher.getText()
         ));
 
         grid.add(optionsLabel, 0, 0);
