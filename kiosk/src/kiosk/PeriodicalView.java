@@ -5,6 +5,7 @@
  */
 package kiosk;
 
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
@@ -21,14 +22,15 @@ public class PeriodicalView  extends LiteratureView{
     }
     /**
      * Displays the information associated with a Periodical
- object
+     * object
+     * @param vBox
      */
     @Override
     public void display(VBox vBox)
     {
         super.display(vBox);
-        TextField yearlyReleases = new TextField("Yearly releases: " + p.getNumberOfYearlyReleases());
-        TextField  subject = new TextField("Subject: " + p.getSubject());
+        Label yearlyReleases = new Label("Yearly releases: " + p.getNumberOfYearlyReleases());
+        Label  subject = new Label("Subject: " + p.getSubject());
         vBox.getChildren().addAll(yearlyReleases, subject);        
     }
 }

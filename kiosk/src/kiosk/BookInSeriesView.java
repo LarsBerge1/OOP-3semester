@@ -1,6 +1,7 @@
 
 package kiosk;
 
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
@@ -24,7 +25,7 @@ public class BookInSeriesView extends BookView {
     public void display(VBox vBox)
     {
         super.display(vBox);
-        TextField seriesTitle = new TextField("Series title: " + bs.getSeriesTitle());
+        Label seriesTitle = new Label("Series title: " + bs.getSeriesTitle());
         vBox.getChildren().add(seriesTitle);
     }    
 }

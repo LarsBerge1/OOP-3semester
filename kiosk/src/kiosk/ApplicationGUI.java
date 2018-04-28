@@ -301,7 +301,6 @@ public class ApplicationGUI extends Application {
     private void deleteBtnClicked() {
         Object itemSelected = table.getSelectionModel().getSelectedItem();
         if (itemSelected instanceof Literature) {
-
             Literature productSelected = (Literature) itemSelected;
             if (productSelected != null) {
                 Boolean answer = AlertBox.confirmBox("Confirm delete",
