@@ -352,7 +352,6 @@ public class ApplicationGUI extends Application {
         } else if (publisherON) {
             ArrayList<Literature> productsByPublisher = litReg.searchProductByPublisher(publisher);
             System.out.println(productsByPublisher + " title");
-            table.getItems().filtered(predicate)
         } else {
             AlertBox.information("Information:", "Please select at leaste one search option");
 
