@@ -2,9 +2,13 @@ package kiosk;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,12 +53,10 @@ public class ApplicationGUI extends Application {
     String VERSION = "V0.2 2018-04-24";
     BorderPane root;
 
-    LitRegFileHandler fileHandler;
+    //LitRegFileHandler fileHandler;
 
     public ApplicationGUI() {
         litReg = new LiteratureRegister();
-        //litReg.registrateLiterature(new SingleBook("title", "author", "publisher", "publicationDate", 1));
-        //litReg.registrateLiterature(new SingleBook("t", "a", "p", "pd", 1));
     }
 
     @Override
@@ -133,7 +135,7 @@ public class ApplicationGUI extends Application {
         // The File-menu
         Menu menuFile = new Menu("File");
         MenuItem openFile = new MenuItem("Open");
-        openFile.setOnAction(e -> openTextFile());
+        openFile.setOnAction(e -> openFromSavedFile());
 
         MenuItem saveFile = new MenuItem("Save");
         saveFile.setOnAction(e -> saveTextFile());
@@ -240,14 +242,24 @@ public class ApplicationGUI extends Application {
         );
         alert.showAndWait();
     }
-
+    
+   
+    
+    
     /**
      * Opens a file spesified by the user, file contains saved literature
      */
-    private void openTextFile() {
-        File open = FileChooserView.datFileChooser();
-        if (null != open) {
-            fileHandler.setPath(open.toPath());
+    private void openFromSavedFile() {
+        File fileToOpen = FileChooserView.datFileChooserOpen();
+        if (null != fileToOpen) {
+            try {
+            LiteratureRegisterFileHandler fileHandler = new LiteratureRegisterFileHandler(litReg, fileToOpen);
+            LiteratureRegister lr = fileHandler.readSavedFile();
+            }
+            catch (Exception e){
+                System.out.println("fix catch later. :) ");
+                System.out.println(e);
+            }
         }
     }
 
@@ -255,7 +267,16 @@ public class ApplicationGUI extends Application {
      * Save the content in the register
      */
     private void saveTextFile() {
-
+            File saveFile = FileChooserView.datFileChooserSave();
+            if (saveFile != null) {
+                try {
+                    LiteratureRegisterFileHandler fileHandler = new LiteratureRegisterFileHandler(litReg, saveFile);
+                    fileHandler.saveAllToFile();
+                }
+                catch (IOException e){
+                    AlertBox.information("Error", "Error in saving");
+                }
+            }
     }
 
     /**
@@ -564,7 +585,7 @@ public class ApplicationGUI extends Application {
      * Gets the literature register from a file Creates a new literature
      * register if no literature register is found
      *
-     */
+     
     private void findLitReg() {
         try {
             litReg = fileHandler.readFromFile();
@@ -589,4 +610,5 @@ public class ApplicationGUI extends Application {
             }
         }
     }
+    */
 }
