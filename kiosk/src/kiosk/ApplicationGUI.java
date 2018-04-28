@@ -33,7 +33,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
- * GUI for the newsstand project.
+ * GUI for the newsstand project
  *
  * @author berge
  *
@@ -43,20 +43,20 @@ public class ApplicationGUI extends Application {
     Stage window;
     LiteratureRegister litReg;
     TableView table;
-    String VERSION = "V0.2 2018-04-24";
+    String VERSION = "V0.9 2018-04-28";
     BorderPane root;
+    Boolean saved;
 
-    //LitRegFileHandler fileHandler;
 
     public ApplicationGUI() {
         litReg = new LiteratureRegister();
+        saved = true; //Flag used to ask user about saving if register.
     }
 
     @Override
     public void start(Stage primaryStage) {
 
-        //fileHandler = new LitRegFileHandler("data.dat");
-        //findLitReg();
+        
         window = primaryStage;
         window.setTitle("Newsstand for OOP group 32.");
         //Close the program properly:
@@ -96,7 +96,6 @@ public class ApplicationGUI extends Application {
 
         window.setScene(scene);
         window.show();
-        //presentInfo();
     }
 
     /**
@@ -189,8 +188,15 @@ public class ApplicationGUI extends Application {
      * Close the program properly, asks for confirmation before closeing app
      */
     private void closeProgram() {
-        Boolean answer = AlertBox.confirmBox("Confirm", "Are you sure you want to exit?");
-        if (answer) {
+        if (!saved){
+        Boolean answerSave =  AlertBox.confirmBox("Confirm", "Do you want to save before \n"
+                + "exit the application? ");
+        if (answerSave){
+            saveTextFile();
+        }
+        }
+        Boolean answerClose = AlertBox.confirmBox("Confirm", "Are you sure you want to exit?");
+        if (answerClose) {
             window.close();
         }
     }
@@ -205,7 +211,6 @@ public class ApplicationGUI extends Application {
         VBox vBox = new VBox();
         lv.display(vBox);
         root.setRight(vBox);
-        window.show();
     }
 
     /**
@@ -254,6 +259,7 @@ public class ApplicationGUI extends Application {
                 litReg.registrateLiterature(l);
             }
             AlertBox.information("Register loaded", "Register opend");
+            saved = false;
             }
             catch (IOException | ClassNotFoundException e){
                 AlertBox.information("Problem with open", "Failed to open"
@@ -271,9 +277,11 @@ public class ApplicationGUI extends Application {
                 try {
                     LiteratureRegisterFileHandler fileHandler = new LiteratureRegisterFileHandler(litReg, saveFile);
                     fileHandler.saveAllToFile();
+                    saved = true;
                 }
                 catch (IOException e){
                     AlertBox.information("Error", "Error in saving");
+                    saved = false;
                 }
             }
     }
@@ -304,6 +312,7 @@ public class ApplicationGUI extends Application {
                     Boolean result = litReg.deleteProduct(productSelected);
                     if (result) {
                         AlertBox.information("Delete", "Literatur deleted.");
+                        saved = false;
                     }
                 }
             }
@@ -322,8 +331,6 @@ public class ApplicationGUI extends Application {
      * @param publisher The publisher to search for
      */
     private void search(Boolean titleON, Boolean publisherON, String title, String publisher) {
-        //String publisher = publisherT.getText();
-        //String title = titleT.getText();
         Literature foundProduct;
         if (titleON && publisherON) {
             try {
@@ -345,6 +352,7 @@ public class ApplicationGUI extends Application {
         } else if (publisherON) {
             ArrayList<Literature> productsByPublisher = litReg.searchProductByPublisher(publisher);
             System.out.println(productsByPublisher + " title");
+            table.getItems().filtered(predicate)
         } else {
             AlertBox.information("Information:", "Please select at leaste one search option");
 
@@ -368,13 +376,18 @@ public class ApplicationGUI extends Application {
         SingleBook sb = new SingleBook(title, author, publisher, publidate, edition);
         table.getItems().add(sb);
         litReg.registrateLiterature(sb);
+        saved = false;
     }
 
     /**
-     *
+     * Add a book to a series
+     * @param 
      */
     private void addBookInSeries(TextField titleField, TextField publisherField, TextField authorField, TextField pubField) {
-        System.out.println("addSeriesBook");
+        AlertBox.information("Information", "This feature is not yet avalible");
+        saved = false;
+        titleField.clear();
+        publisherField.clear();
     }
 
     /**
@@ -382,6 +395,7 @@ public class ApplicationGUI extends Application {
      */
     private void addPeriodical(TextField titleField, TextField publisherField, Spinner yearlyReleases, TextField subjectField) {
         System.out.println("Add peri");
+        saved = false;
     }
 
     /**

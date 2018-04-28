@@ -9,7 +9,7 @@ import javafx.scene.layout.VBox;
  * 
  */
 public abstract class LiteratureView {
-    private Literature literature;
+    private final Literature literature;
     public LiteratureView(Literature literature)
     {
         this.literature = literature;
@@ -21,6 +21,7 @@ public abstract class LiteratureView {
      */
     public void display(VBox v)
     {
+        
         TextField title = new TextField("Title: " + literature.getTitle());
         TextField publisher = new TextField("Publisher: " + literature.getPublisher());
         v.getChildren().addAll(title, publisher);
