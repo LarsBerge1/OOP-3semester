@@ -39,7 +39,7 @@ public class FileChooserView {
      * user or null if no selection has been made.
      * @return the selected file.
      */
-    public static File datFileChooser(){
+    public static File datFileChooserOpen(){
          Stage window = new Stage();
         
         window.initModality(Modality.APPLICATION_MODAL);
@@ -50,6 +50,26 @@ public class FileChooserView {
         fileChooser.getExtensionFilters().addAll(
          new ExtensionFilter("Dat Files", "*.dat"));
         File selectedFile = fileChooser.showOpenDialog(window);
+        return selectedFile ;
+        
+    }
+    
+    /**
+     * Returns value specifies the file chosen by the 
+     * user or null if no selection has been made.
+     * @return the selected file.
+     */
+    public static File datFileChooserSave(){
+        Stage window = new Stage();
+        
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setMinWidth(400);
+        
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Resource File");
+        fileChooser.getExtensionFilters().addAll(
+         new ExtensionFilter("Dat Files", "*.dat"));
+        File selectedFile = fileChooser.showSaveDialog(window);
         return selectedFile ;
         
     }

@@ -14,7 +14,7 @@ import java.util.stream.Stream;
  * Functions to search, add or delete books in the register.
  * 
  */
-public class LiteratureRegister implements Serializable{
+public class LiteratureRegister implements Serializable, Iterable{
     List<Literature> literatures;
     
     /**
@@ -32,7 +32,7 @@ public class LiteratureRegister implements Serializable{
     public void registrateLiterature(Literature l)
     {
         literatures.add(l);
-    }  
+    }
       
     /**
      * Finds and return a book with a particular title
@@ -141,4 +141,9 @@ public class LiteratureRegister implements Serializable{
         
         return product;
     }                                        
+
+    @Override
+    public Iterator iterator() {
+        return literatures.iterator();
+    }
 }

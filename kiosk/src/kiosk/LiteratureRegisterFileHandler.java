@@ -20,23 +20,22 @@ import java.nio.file.Paths;
  * 
  */
 public class LiteratureRegisterFileHandler {
-    private LiteratureRegister litReg;
+    private LiteratureRegister register;
     private String fileName;
-    private Path file;
-    public LiteratureRegisterFileHandler(LiteratureRegister register, String fileName)
+    private File file;
+    private String filePath;
+    public LiteratureRegisterFileHandler(LiteratureRegister register, File file)
     {
-        litReg = register;
-        this.fileName = fileName;
-        findFile(fileName);
+        this.register = register;
+        this.file = file;
+        setPath(file);
     }
     
     /**
-     * Finds the file to manipulate or read from
-     * @param fileName the name of the file to manipulate
+     * 
      */
-    public void findFile(String fileName)
-    {
-        file = Paths.get(fileName).toAbsolutePath();
+    private void setPath(File f){
+        this.filePath = f.getAbsolutePath();
     }
     
     /**
@@ -46,8 +45,8 @@ public class LiteratureRegisterFileHandler {
     public void saveAllToFile() throws IOException
     {
         ObjectOutputStream os = new ObjectOutputStream(
-                                    new FileOutputStream(file.toString()));
-        os.writeObject(litReg);
+                                    new FileOutputStream(filePath));
+        os.writeObject(register);
         os.close();
     }
     
@@ -62,7 +61,7 @@ public class LiteratureRegisterFileHandler {
      * @throws IOException
      * @throws URISyntaxException 
      */
-    public LiteratureRegister readFromFile() 
+    public LiteratureRegister readFromFileOld() 
             throws FileNotFoundException, ClassNotFoundException, IOException, URISyntaxException 
     {
         URL resource = getClass().getResource(fileName);
@@ -75,6 +74,34 @@ public class LiteratureRegisterFileHandler {
         LiteratureRegister savedRegister = (LiteratureRegister) is.readObject();
         is.close();
         return savedRegister;        
-    }    
+    }  
+    
+    public LiteratureRegister readSavedFile() throws IOException, ClassNotFoundException
+    {
+        LiteratureRegister lr;
+        FileInputStream fIS = new FileInputStream(file);
+        ObjectInputStream ois = new ObjectInputStream(fIS);
+        //lr = (LiteratureRegister) 
+        lr = (LiteratureRegister) ois.readObject();
+        
+        ois.close();
+        
+        return lr;
+            
+    }
+    
+    
+    
+    
+    
+    /**
+     * Finds the file to manipulate or read from
+     * @param fileName the name of the file to manipulate
+     
+    public void findFile(String fileName)
+    {
+        file = Paths.get(fileName).toAbsolutePath();
+    }
+    */
 }
 

@@ -138,7 +138,7 @@ public class ApplicationUI
         printDebugging("listAllProducts() was called");
         if (products.getLiteraturesAsStream().iterator().hasNext())
         {
-            products.getLiteraturesAsStream().forEach(literature -> ViewFactory.getView(literature).display());
+            //products.getLiteraturesAsStream().forEach(literature -> ViewFactory.getView(literature).display());
         }
         else
         {
@@ -260,7 +260,7 @@ public class ApplicationUI
         if (literature != null)
         {                
             System.out.println("The product that was found: ");
-            ViewFactory.getView(literature).display();
+            //ViewFactory.getView(literature).display();
         }
         else
         {
@@ -281,7 +281,7 @@ public class ApplicationUI
         else 
         {            
             System.out.println("The products that was found: ");
-            literatures.forEach(product -> ViewFactory.getView(product).display());
+            //literatures.forEach(product -> ViewFactory.getView(product).display());
         }   
     }
     
