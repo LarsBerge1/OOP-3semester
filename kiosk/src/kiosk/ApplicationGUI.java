@@ -242,12 +242,12 @@ public class ApplicationGUI extends Application {
     }
 
     /**
-     * Opens a text file spesified by the user TODO: finsish this function
+     * Opens a file spesified by the user, file contains saved literature
      */
     private void openTextFile() {
-        File test = FileChooserView.datFileChooser();
-        if (null != test) {
-            fileHandler.setPath(test.toPath());
+        File open = FileChooserView.datFileChooser();
+        if (null != open) {
+            fileHandler.setPath(open.toPath());
         }
     }
 
@@ -295,9 +295,11 @@ public class ApplicationGUI extends Application {
 
     /**
      * Search for literatur in the register
-     * @param titleON
-     * @param publisherOn
-     * 
+     *
+     * @param titleON If true title is used as a seacrh criteria
+     * @param publisherOn If true publisher is used as a seacrh criteria
+     * @param title The title to search for
+     * @param publisher The publisher to search for
      */
     private void search(Boolean titleON, Boolean publisherON, String title, String publisher) {
         //String publisher = publisherT.getText();
@@ -305,23 +307,21 @@ public class ApplicationGUI extends Application {
         Literature foundProduct;
         if (titleON && publisherON) {
             try {
-            foundProduct = litReg.searchProductBy(title, publisher);
-            
-        }
-        catch(NoSuchElementException e)
-        {
-            AlertBox.information("Search", "No literature was found.");
-        }
-         
+                foundProduct = litReg.searchProductBy(title, publisher);
+                presentInfo(foundProduct);
+
+            } catch (NoSuchElementException e) {
+                AlertBox.information("Search", "No literature was found.");
+            }
+
         } else if (titleON) {
             try {
-            foundProduct = litReg.searchProductByTitle(title);
-        }
-        catch(NoSuchElementException e)
-        {
-            AlertBox.information("Search", "No literature with this title was found.");
-        }
-            
+                foundProduct = litReg.searchProductByTitle(title);
+                presentInfo(foundProduct);
+            } catch (NoSuchElementException e) {
+                AlertBox.information("Search", "No literature with this title was found.");
+            }
+
         } else if (publisherON) {
             ArrayList<Literature> productsByPublisher = litReg.searchProductByPublisher(publisher);
             System.out.println(productsByPublisher + " title");
