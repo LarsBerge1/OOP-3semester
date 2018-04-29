@@ -143,7 +143,7 @@ public class LiteratureRegister implements Serializable, Iterable{
     }                                        
 
     @Override
-    public Iterator iterator() {
+    public Iterator<Literature> iterator() {
         return literatures.iterator();
     }
 }
