@@ -14,7 +14,8 @@ import java.util.stream.Stream;
  * Functions to search, add or delete books in the register.
  * 
  */
-public class LiteratureRegister implements Serializable, Iterable{
+public class LiteratureRegister implements Serializable, Iterable<Literature>
+{
     List<Literature> literatures;
     
     /**
