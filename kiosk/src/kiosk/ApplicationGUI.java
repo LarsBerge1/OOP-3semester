@@ -253,8 +253,7 @@ public class ApplicationGUI extends Application {
             try {
             LiteratureRegisterFileHandler fileHandler = new LiteratureRegisterFileHandler(litReg, fileToOpen);
             LiteratureRegister lr = fileHandler.readSavedFile();
-            List<Literature> test = lr.getLiteratures();
-            for (Literature l : test){
+            for (Literature l : lr){
                 table.getItems().add(l);
                 litReg.registrateLiterature(l);
             }
@@ -502,7 +501,7 @@ public class ApplicationGUI extends Application {
     }
 
     /**
-     * Make the add single book menu
+     * Make the add book in series menu
      *
      * @return the add single book menu
      */
