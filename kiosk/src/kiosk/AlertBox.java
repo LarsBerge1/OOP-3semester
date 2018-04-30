@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -60,6 +61,20 @@ public class AlertBox {
     }
     
     public static String stringInputBox(String title, String message){
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle(title);
+        dialog.setHeaderText(null);
+        dialog.setContentText(message);
+        
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()){
+        return result.get();
+        }
+        else 
+            return "";
+}
+    
+    public static String stringInputBox1(String title, String message){
         
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
