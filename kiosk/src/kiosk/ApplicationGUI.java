@@ -289,6 +289,18 @@ public class ApplicationGUI extends Application {
      * Change book
      */
     private void changeSingleBookToSeries() {
+        Object l = table.getSelectionModel().getSelectedItem();
+        
+        if (l instanceof SingleBook)
+        {
+           SingleBook sb = (SingleBook) l;
+           String seriesTitle = AlertBox.stringInputBox("Input", "Provide a title to the series");
+           litReg.changeToBookInSeries(seriesTitle, sb); 
+        }
+        else 
+        {
+            AlertBox.information("Not a single book", "You can only add single books to a series");
+        }
         System.out.println("TODO: finish");
         // Step 1, finn hvilket som er markert
         // 2. do it.
