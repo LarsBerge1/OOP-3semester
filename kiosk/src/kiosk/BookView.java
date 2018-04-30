@@ -5,6 +5,7 @@
  */
 package kiosk;
 
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
@@ -23,8 +24,8 @@ public class BookView extends LiteratureView{
     public void display(VBox vBox)
     {
         super.display(vBox);
-        TextField author = new TextField("Author: " + book.getAuthor());
-        TextField  publicationDate = new TextField("Publication date: " + book.getPublicationDate());
+        Label author = new Label("Author: " + book.getAuthor());
+        Label  publicationDate = new Label("Publication date: " + book.getPublicationDate());
         vBox.getChildren().addAll(author, publicationDate);
     }
     
