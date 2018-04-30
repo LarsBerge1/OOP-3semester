@@ -8,6 +8,7 @@ import java.util.NoSuchElementException;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -25,7 +26,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -67,13 +70,21 @@ public class ApplicationGUI extends Application {
         root = new BorderPane();   // Create the root node
 
         // Make the table for the register:
-        table = new TableView(getLiteratureList());
-        root.setCenter(table);
+        table = new TableView(getLiteratureList());        
         TableColumn<Literature, String> titleCol = new TableColumn<>("Title");
         titleCol.setCellValueFactory(new PropertyValueFactory("title"));
         TableColumn<Literature, String> publisherCol = new TableColumn<>("Publisher");
         publisherCol.setCellValueFactory(new PropertyValueFactory("publisher"));
         table.getColumns().setAll(titleCol, publisherCol);
+        table.setOnMouseClicked(e -> showClickedItemInfo(e)); 
+        
+        // Creates a button that shows all the literature in the register when pressed
+        Button b = new Button("Show All");
+        b.setOnAction(e -> changeTableContent(getLiteratureList()));
+        
+        VBox gridPane = new VBox();
+        gridPane.getChildren().addAll(table, b);
+        root.setCenter(gridPane);
 
         // Elements in the top container of the borderpane.
         VBox topContainer = new VBox();            //Creates a container to hold all Menu Objects.
@@ -96,6 +107,15 @@ public class ApplicationGUI extends Application {
 
         window.setScene(scene);
         window.show();
+    }
+    
+    private void showClickedItemInfo(MouseEvent e)
+    {
+        Literature literature = (Literature) table.getSelectionModel().getSelectedItem();
+        if (literature != null)
+        {
+            presentInfo(literature);
+        }
     }
 
     /**
@@ -361,11 +381,21 @@ public class ApplicationGUI extends Application {
 
         } else if (publisherON) {
             ArrayList<Literature> productsByPublisher = litReg.searchProductByPublisher(publisher);
-            System.out.println(productsByPublisher + " title");
+            changeTableContent(productsByPublisher);
+          
         } else {
             AlertBox.information("Information:", "Please select at leaste one search option");
-
         }
+    }
+    
+    /**
+     * Changes the content of the table
+     * @param productsByPublisher 
+     */
+    private void changeTableContent(List<Literature> productsByPublisher)
+    {
+        table.getItems().clear();
+        table.getItems().addAll(productsByPublisher);  
     }
 
     /**
@@ -392,19 +422,28 @@ public class ApplicationGUI extends Application {
      * Add a book to a series
      * @param 
      */
-    private void addBookInSeries(TextField titleField, TextField publisherField, TextField authorField, TextField pubField) {
-        AlertBox.information("Information", "This feature is not yet avalible");
-        saved = false;
-        titleField.clear();
-        publisherField.clear();
+    private void addBookInSeries(TextField titleField, TextField seriesTitleField, TextField publisherField, TextField authorField, TextField pubField) {
+        String title = titleField.getText();
+        String publisher = publisherField.getText();
+        String author = authorField.getText();
+        String publicationDate = pubField.getText();
+        String seriesTitle = seriesTitleField.getText();
+        BookInSeries bs = new BookInSeries(title, seriesTitle, author, publisher, publicationDate);
+        table.getItems().add(bs);
+        litReg.registrateLiterature(bs);
     }
 
     /**
      * Add a periodical to the register
      */
-    private void addPeriodical(TextField titleField, TextField publisherField, Spinner yearlyReleases, TextField subjectField) {
-        System.out.println("Add peri");
-        saved = false;
+    private void addPeriodical(TextField titleField, TextField publisherField, Spinner<Integer> yearlyReleases, TextField subjectField) {
+        String title = titleField.getText();
+        String publisher = publisherField.getText();
+        Integer numberOfReleases = yearlyReleases.getValue();
+        String subject = subjectField.getText();
+        Periodical p = new Periodical(title, publisher, numberOfReleases, subject);
+        table.getItems().add(p);
+        litReg.registrateLiterature(p);
     }
 
     /**
@@ -546,9 +585,10 @@ public class ApplicationGUI extends Application {
         grid.add(authorField, 1, 3);
         grid.add(new Label("PublicationDate: "), 0, 4);
         grid.add(pubField, 1, 4);
+        
         // Make the add button and set the onAction
         Button btn = new Button("Add Book in Series");
-        btn.setOnAction(e -> addBookInSeries(titleField, publisherField, authorField, pubField));
+        btn.setOnAction(e -> addBookInSeries(titleField, seriesTitleField, publisherField, authorField, pubField));
         grid.add(btn, 1, 5);
         gridTitlePane.setText("Add Book in Series");
         gridTitlePane.setContent(grid);
@@ -602,35 +642,4 @@ public class ApplicationGUI extends Application {
         addMenu.getChildren().addAll(single, series, periodical);
         return addMenu;
     }
-
-    /**
-     * Gets the literature register from a file Creates a new literature
-     * register if no literature register is found
-     *
-     
-    private void findLitReg() {
-        try {
-            litReg = fileHandler.readFromFile();
-
-        } catch (FileNotFoundException e) {
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("File not found");
-            alert.setHeaderText("File not found");
-            alert.setContentText("Couldn't find the file to read the literature "
-                    + "register from");
-
-            alert.showAndWait();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ApplicationGUI.class.getName()).log(Level.SEVERE, "ClassNotFoundException in findLitReg()");
-        } catch (IOException ex) {
-            Logger.getLogger(ApplicationGUI.class.getName()).log(Level.SEVERE, "IOException in findLitReg()");
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(ApplicationGUI.class.getName()).log(Level.SEVERE, "URISyntaxException in findLitReg()");
-        } finally {
-            if (litReg == null) {
-                litReg = new LiteratureRegister();
-            }
-        }
-    }
-    */
 }
