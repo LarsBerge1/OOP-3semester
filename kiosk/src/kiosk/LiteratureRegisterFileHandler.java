@@ -1,4 +1,3 @@
-
 package kiosk;
 
 import java.io.File;
@@ -8,10 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * Provides file-handling methods for the literature register
@@ -20,9 +15,8 @@ import java.nio.file.Paths;
  * 
  */
 public class LiteratureRegisterFileHandler {
-    private LiteratureRegister register;
-    private String fileName;
-    private File file;
+    private final LiteratureRegister register;
+    private final File file;
     private String filePath;
     public LiteratureRegisterFileHandler(LiteratureRegister register, File file)
     {
@@ -41,67 +35,34 @@ public class LiteratureRegisterFileHandler {
     /**
      * Saves all the literatures to the file
      * @throws java.io.IOException
+     * @throws java.io.FileNotFoundException
      */
-    public void saveAllToFile() throws IOException
+    public void saveAllToFile() 
+            throws IOException, FileNotFoundException, SecurityException
     {
-        ObjectOutputStream os = new ObjectOutputStream(
-                                    new FileOutputStream(filePath));
-        os.writeObject(register);
-        os.close();
+        try (ObjectOutputStream os = new ObjectOutputStream(
+                new FileOutputStream(filePath))) {
+            os.writeObject(register);
+        }
     }
     
     /**
-     * Reads a literatureRegister from a file
-     * The method is mainly written by  David J. Barnes and Michael Kölling. And
-     * is found in the AdressBook-io project(chapter 14) in the 
-     * AddressBookFileHandler-class.
-     * @return the literatureRegister 
-     * @throws FileNotFoundException
-     * @throws ClassNotFoundException
+     * Reads an saved file containig a saved literatureregister and
+     * returns it
+     * @return LiteratureRegister read from a saved file
      * @throws IOException
-     * @throws URISyntaxException 
+     * @throws ClassNotFoundException
+     * @throws java.io.FileNotFoundException
      */
-    public LiteratureRegister readFromFileOld() 
-            throws FileNotFoundException, ClassNotFoundException, IOException, URISyntaxException 
-    {
-        URL resource = getClass().getResource(fileName);
-        if(resource == null) {
-            throw new FileNotFoundException(fileName);
-        }
-        File source = new File(resource.toURI());
-        ObjectInputStream is = new ObjectInputStream(
-                               new FileInputStream(source));
-        LiteratureRegister savedRegister = (LiteratureRegister) is.readObject();
-        is.close();
-        return savedRegister;        
-    }  
-    
-    public LiteratureRegister readSavedFile() throws IOException, ClassNotFoundException
+    public LiteratureRegister readSavedFile() 
+            throws IOException, ClassNotFoundException, FileNotFoundException
     {
         LiteratureRegister lr;
         FileInputStream fIS = new FileInputStream(file);
-        ObjectInputStream ois = new ObjectInputStream(fIS);
-        //lr = (LiteratureRegister) 
-        lr = (LiteratureRegister) ois.readObject();
-        
-        ois.close();
-        
-        return lr;
-            
+        try (ObjectInputStream ois = new ObjectInputStream(fIS)) {
+            lr = (LiteratureRegister) ois.readObject();
+        }
+        return lr;      
     }
-    
-    
-    
-    
-    
-    /**
-     * Finds the file to manipulate or read from
-     * @param fileName the name of the file to manipulate
-     
-    public void findFile(String fileName)
-    {
-        file = Paths.get(fileName).toAbsolutePath();
-    }
-    */
 }
 
