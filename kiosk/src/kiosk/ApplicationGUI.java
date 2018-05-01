@@ -2,6 +2,7 @@ package kiosk;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InvalidClassException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -280,9 +281,13 @@ public class ApplicationGUI extends Application {
             AlertBox.information("Register loaded", "Register opend");
             saved = false;
             }
-            catch (IOException | ClassNotFoundException e){
-                AlertBox.information("Problem with open", "Failed to open"
-                                                            + e);
+            catch (IOException e){
+                AlertBox.information("Problem with open", "Failed to open the file");
+            }
+            catch ( ClassNotFoundException e)
+            {
+                AlertBox.information("File has the wrong content", "The file does  "+
+                        "not contain a literature register.");
             }
         }
     }
