@@ -43,6 +43,11 @@ public class LiteratureRegister implements Serializable, Iterable<Literature>
         literatures.add(l);
     }
     
+    /**
+     * Changes a single book to a book that is part of a series.
+     * @param seriesTitle the title of the series the book is part of
+     * @param book the book to add to the series
+     */
     public void changeToBookInSeries(String seriesTitle, SingleBook book){
         String title = book.getTitle();
         String author = book.getAuthor();
@@ -55,7 +60,7 @@ public class LiteratureRegister implements Serializable, Iterable<Literature>
     }
     
     /**
-     * Adds a book to a series
+     * Adds a book to a BookSeries
      * 
      * @param seriesTitle The title of the series
      * @param book the book to add to the series

@@ -1,9 +1,8 @@
 
 package kiosk;
 
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
+
+import javafx.scene.control.TextArea;
 
 /**
  *Presents information about the book in series
@@ -20,12 +19,12 @@ public class BookInSeriesView extends BookView {
     
     /**
      * Displays the information associated with a BookInSeries object
-     */
+     * @param infoArea the area to add the information
+     */ 
     @Override
-    public void display(VBox vBox)
+    public void display(TextArea infoArea)
     {
-        super.display(vBox);
-        Label seriesTitle = new Label("Series title: " + bs.getSeriesTitle());
-        vBox.getChildren().add(seriesTitle);
-    }    
+        super.display(infoArea);
+        infoArea.appendText("\nSeries title: " + bs.getSeriesTitle());
+    } 
 }

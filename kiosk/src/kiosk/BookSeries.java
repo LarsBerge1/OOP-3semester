@@ -1,33 +1,41 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package kiosk;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- *
- * @author amhat
+ * A book series. Holds every book that is a part of the series.
  */
 public class BookSeries{
-    private ArrayList<Book> books;
-    private String name;
+    private final ArrayList<Book> books;
+    private final String name;
     
     
+    /**
+     * Creates a new book series
+     * @param seriesName the name of the series
+     */
     public BookSeries(String seriesName)
     {
         name = seriesName;
         books = new ArrayList<>();
     }
     
+    /**
+     * Adds a book to the book series
+     * @param book the book to add
+     */
     public void addBookToSeries(Book book)
     {
         books.add(book);
     }
     
-    public ArrayList<Book> getBookSeries()
+    /**
+     * Returns the books that are a part of the series
+     * @return A list of the books in the series
+     */
+    public List<Book> getBooksInSeries()
     {
         return books;
     }

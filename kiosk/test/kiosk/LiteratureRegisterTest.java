@@ -2,6 +2,7 @@
 package kiosk;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -15,7 +16,7 @@ import java.util.stream.Stream;
  * @author berge
  */
 public class LiteratureRegisterTest {
-    LiteratureRegister registerOfProducts;
+    LiteratureRegister litReg;
     
     public LiteratureRegisterTest() {
     }
@@ -31,17 +32,17 @@ public class LiteratureRegisterTest {
     @Before
     public void setUp() {       
         
-        registerOfProducts = new LiteratureRegister();
+        litReg = new LiteratureRegister();
         
-        registerOfProducts.registrateLiterature(new SingleBook("Fysikk", "Frank", "Pearson", "07.03.2018", 1));
-        registerOfProducts.registrateLiterature(new SingleBook("Norsk", "Jarl", "Norge", "24.01.2017", 2));
-        registerOfProducts.registrateLiterature(new SingleBook("Matte", "Lars", "Pearson", "07.03.2018", 3));
-        registerOfProducts.registrateLiterature(new SingleBook("Naturfag", "Andreas", "Hei", "07.03.2018", 4));
+        litReg.registrateLiterature(new SingleBook("Fysikk", "Frank", "Pearson", "07.03.2018", 1));
+        litReg.registrateLiterature(new SingleBook("Norsk", "Jarl", "Norge", "24.01.2017", 2));
+        litReg.registrateLiterature(new SingleBook("Matte", "Lars", "Pearson", "07.03.2018", 3));
+        litReg.registrateLiterature(new SingleBook("Naturfag", "Andreas", "Hei", "07.03.2018", 4));
         
-        registerOfProducts.registrateLiterature(new BookInSeries("Simple","Calclus", "Lars", "Gyldendal", "07.05.2011"));
-        registerOfProducts.registrateLiterature(new BookInSeries("Medium","Calclus", "Jarl", "Pearson", "23.11.2013"));
-        registerOfProducts.registrateLiterature(new BookInSeries("Hard","Calclus", "Andreas", "Gyldendal", "13.03.2015"));
-        registerOfProducts.registrateLiterature(new BookInSeries("Advanced","Calclus", "Arne", "Kagge", "02.07.2018"));
+        litReg.registrateLiterature(new BookInSeries("Simple","Calclus", "Lars", "Gyldendal", "07.05.2011"));
+        litReg.registrateLiterature(new BookInSeries("Medium","Calclus", "Jarl", "Pearson", "23.11.2013"));
+        litReg.registrateLiterature(new BookInSeries("Hard","Calclus", "Andreas", "Gyldendal", "13.03.2015"));
+        litReg.registrateLiterature(new BookInSeries("Advanced","Calclus", "Arne", "Kagge", "02.07.2018"));
     }
     
     @After
@@ -65,11 +66,17 @@ public class LiteratureRegisterTest {
     @Test
     public void testSearchProductBy() {
         LiteratureRegister register = new LiteratureRegister();
-        Literature result1 = register.searchProductBy("title", "publisher");
-        assertEquals(null, result1);
-        Literature result2 = registerOfProducts.searchProductBy("Fysikk", "Pearson");
+        
+        Literature result2 = litReg.searchProductBy("Fysikk", "Pearson");
         assertTrue(result2.getTitle().equals("Fysikk"));
         assertTrue(result2.getPublisher().equals("Pearson"));
+        try{
+            Literature result1 = register.searchProductBy("title", "publisher");
+            fail();
+        }
+        catch(NoSuchElementException e)
+        {            
+        }
     }   
 
     /**
@@ -77,11 +84,11 @@ public class LiteratureRegisterTest {
      */
     @Test
     public void testSearchProductByPublisher() {
-        ArrayList<Literature> result = registerOfProducts.searchProductByPublisher("Gyldendal");
+        ArrayList<Literature> result = litReg.searchProductByPublisher("Gyldendal");
         assertFalse(result.isEmpty());
         assertTrue(result.stream().allMatch(l -> l.getPublisher().equals("Gyldendal")));
         
-        ArrayList<Literature> result2 = registerOfProducts.searchProductByPublisher("non-existing publisher");
+        ArrayList<Literature> result2 = litReg.searchProductByPublisher("non-existing publisher");
         assertTrue(result2.isEmpty());
         assertTrue(result2.stream().noneMatch(l -> l.getPublisher().equals("non-existing publisher")));
     }
@@ -91,9 +98,9 @@ public class LiteratureRegisterTest {
      */
     @Test
     public void testGetBooks() {
-        Stream<Literature> s = registerOfProducts.getLiteraturesAsStream();
+        Stream<Literature> s = litReg.getLiteraturesAsStream();
         assertTrue(s.anyMatch(p -> p.getPublisher().equals("Pearson")));
-        s = registerOfProducts.getLiteraturesAsStream();
+        s = litReg.getLiteraturesAsStream();
         assertTrue(s.anyMatch(p -> p.getPublisher().equals("Gyldendal")));
     }
 
@@ -115,10 +122,11 @@ public class LiteratureRegisterTest {
      * Test of addBookToSeries method, of class RegisterOfBooks.
      */
     @Test
-    public void testAddBookToSeries() {
+    public void testChangeToBookInSeries() {
         LiteratureRegister register = new LiteratureRegister();
         register.registrateLiterature(new SingleBook("title", "author", "publisher", "publicationDate", 0));
-        assertTrue(register.addBookToSeries("title", "publisher", "seriesTitle", "date"));        
+        SingleBook sb = new SingleBook("title", "author", "publisher", "publicationDate", 0);
+        register.changeToBookInSeries("seriesTitle", sb );        
     }
     /**
      * Test of searchBookByTitle method, of class RegisterOfBooks.
@@ -127,7 +135,13 @@ public class LiteratureRegisterTest {
     @Test
     public void TestSearchProductByTitle()
     {
-        assertEquals("Fysikk", registerOfProducts.searchProductByTitle("Fysikk").getTitle());
-        assertEquals(null, registerOfProducts.searchProductByTitle(" "));
+        assertEquals("Fysikk", litReg.searchProductByTitle("Fysikk").getTitle());
+        try{
+            assertEquals(null, litReg.searchProductByTitle(" "));
+            fail();
+        }
+        catch(NoSuchElementException e)
+        {
+        }
     }
 }

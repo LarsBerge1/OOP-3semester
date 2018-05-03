@@ -10,11 +10,11 @@ public class BookInSeries extends Book{
     
    /**
      * Constructor for books in a series.
-     * @param title
-     * @param seriesTitle
-     * @param author
-     * @param publisher
-     * @param publicationDate
+     * @param title the title of the book
+     * @param seriesTitle the title of the series the book is a part of
+     * @param author the author of the book
+     * @param publisher the publisher of the book
+     * @param publicationDate the date the book was published
      */
     public BookInSeries(String title, String seriesTitle, String author, String publisher, String publicationDate) {
         super(author, publisher, title, publicationDate);        

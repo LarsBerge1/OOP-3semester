@@ -1,7 +1,6 @@
 package kiosk;
 
 import java.io.File;
-import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;

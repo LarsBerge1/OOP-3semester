@@ -5,8 +5,7 @@
  */
 package kiosk;
 
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.TextArea;
 
 /**
  * Presents information about the RegularlyPublishedLiterature 
@@ -21,12 +20,13 @@ public class ComicBookView  extends BookView {
     
     /**
      * Displays the information associated with a ComicBook object
+     * @param infoArea the area to present information
      */
     @Override
-    public void display(VBox vBox)
+    public void display(TextArea infoArea)
     {
-        super.display(vBox);
-        TextField t = new TextField("Genre " + cb.getGenre());
-        vBox.getChildren().add(t);
+        super.display(infoArea);
+        infoArea.appendText("\nGenre " + cb.getGenre());
     }
+    
 }

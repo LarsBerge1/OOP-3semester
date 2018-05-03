@@ -3,8 +3,7 @@ package kiosk;
 
 
 /**
- *  Description of class Book.
- *  The book Class is responsible for holding the information associated with a book.
+ *  A Book in the literature register
  *
  * @author Lars Berge
  * @version 2018.02.12

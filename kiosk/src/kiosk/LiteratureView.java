@@ -1,9 +1,8 @@
 
 package kiosk;
 
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
+
+import javafx.scene.control.TextArea;
 
 /**
  * Presents information about the literature
@@ -18,14 +17,12 @@ public abstract class LiteratureView {
     
     /**
      * Displays the information associated with an literature object
-     * @param v
-     * @vBox the Vbox where the product information is displayed
+     * @param infoArea the area to present informations     * 
      */
-    public void display(VBox v)
+    public void display(TextArea infoArea)
     {
-        v.getChildren().add(new Label("Information: "));
-        Label title = new Label("Title: " + literature.getTitle());
-        Label publisher = new Label("Publisher: " + literature.getPublisher());
-        v.getChildren().addAll(title, publisher);
+        infoArea.appendText("Information: ");
+        infoArea.appendText("\nTitle: " + literature.getTitle());
+        infoArea.appendText("\nPublisher: " + literature.getPublisher());
     }
 }

@@ -2,14 +2,12 @@ package kiosk;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InvalidClassException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -24,12 +22,12 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -56,7 +54,7 @@ public class ApplicationGUI extends Application {
         litReg = new LiteratureRegister();
         saved = true; //Flag used to ask user about saving if register.
     }
-
+    
     @Override
     public void start(Stage primaryStage) {
 
@@ -100,7 +98,7 @@ public class ApplicationGUI extends Application {
         // Elements in the bottom conainer of the borderpane.
         HBox bottomContainer = new HBox();
         //bottomContainer.setPadding(new Insets(12, 12, 12, 12));
-        GridPane searchInput = createSearchInput();
+        GridPane searchInput = createSearchSection();
         bottomContainer.getChildren().addAll(searchInput);//, searchBtn);
         root.setBottom(bottomContainer);
 
@@ -110,6 +108,10 @@ public class ApplicationGUI extends Application {
         window.show();
     }
     
+    /**
+     * Shows information about an item when clicked on
+     * @param e the mouse event
+     */
     private void showClickedItemInfo(MouseEvent e)
     {
         Literature literature = (Literature) table.getSelectionModel().getSelectedItem();
@@ -142,7 +144,7 @@ public class ApplicationGUI extends Application {
     }
 
     /**
-     * Creat the items in the File menu and add the setOnAction on the items
+     * Create the items in the File menu and add the setOnAction on the items
      */
     private Menu createFileMenu() {
         // The File-menu
@@ -164,7 +166,7 @@ public class ApplicationGUI extends Application {
     }
 
     /**
-     * 'Creat the items in the Edit menu and add the setOnAction on the items
+     * Create the items in the Edit menu and add the setOnAction on the items
      */
     private Menu createEditMenu() {
         // The Edit-menu
@@ -179,7 +181,7 @@ public class ApplicationGUI extends Application {
     }
 
     /**
-     * Creat the items in the View menu and add the setOnAction on the items
+     * Create the items in the View menu and add the setOnAction on the items
      */
     private Menu createViewMenu() {
         Menu menuView = new Menu("View");
@@ -191,7 +193,7 @@ public class ApplicationGUI extends Application {
     }
 
     /**
-     * Creat the items in the Help menu and add the setOnAction on the items
+     * Create the items in the Help menu and add the setOnAction on the items
      */
     private Menu createHelpMenu() {
 
@@ -221,16 +223,29 @@ public class ApplicationGUI extends Application {
             window.close();
         }
     }
-
+    
+    /**
+     * Returns the literature list as an ObservableList
+     * @return literatures An ObservebleList of all the products in the literature
+     * register
+     */
     private ObservableList<Literature> getLiteratureList() {
         ObservableList<Literature> literatures = FXCollections.observableArrayList(litReg.getLiteratures());
         return literatures;
     }
-
+    
+    /**
+     * Presents the info about a literature
+     * @param l the literature to present
+     */
     private void presentInfo(Literature l) {
         LiteratureView lv = ViewFactory.getView(l);
         VBox vBox = new VBox();
-        lv.display(vBox);
+        TextArea infoArea = new TextArea();
+        lv.display(infoArea);
+        infoArea.setEditable(false);
+        infoArea.setPrefWidth(200);
+        vBox.getChildren().add(infoArea);
         root.setRight(vBox);
     }
 
@@ -311,7 +326,7 @@ public class ApplicationGUI extends Application {
     }
 
     /**
-     * Change book
+     * Change a single book to a book in a series
      */
     private void changeSingleBookToSeries() {
         Object l = table.getSelectionModel().getSelectedItem();
@@ -320,15 +335,13 @@ public class ApplicationGUI extends Application {
         {
            SingleBook sb = (SingleBook) l;
            String seriesTitle = AlertBox.stringInputBox("Input", "Provide a title to the series");
-           litReg.changeToBookInSeries(seriesTitle, sb); 
+           litReg.changeToBookInSeries(seriesTitle, sb);
+           this.changeTableContent(getLiteratureList());
         }
         else 
         {
             AlertBox.information("Not a single book", "You can only add single books to a series");
         }
-        System.out.println("TODO: finish");
-        // Step 1, finn hvilket som er markert
-        // 2. do it.
     }
 
     /**
@@ -452,10 +465,11 @@ public class ApplicationGUI extends Application {
     }
 
     /**
-     *
+     * Creates a section in the gui containing different ways for the user to 
+     * search for a product. Title and publisher are avaiable as search criteria.
      * @return HBox containing the elements for search
      */
-    private GridPane createSearchInput() {
+    private GridPane createSearchSection() {
 
         GridPane grid = new GridPane();
         grid.setVgap(4);
@@ -638,7 +652,11 @@ public class ApplicationGUI extends Application {
         gridTitlePane.setContent(grid);
         return gridTitlePane;
     }
-
+    
+    /**
+     * Creates all the add literature section
+     * @return addMenu The menu where the user can add literatures.
+     */
     private VBox createAddMenu() {
         VBox addMenu = new VBox();
         TitledPane single = addSingleBookMenu();

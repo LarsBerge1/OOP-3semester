@@ -7,8 +7,8 @@ package kiosk;
  * @author amhat
  */
 public class Periodical extends Literature {
-    private int numberOfYearlyReleases;
-    private String subject;
+    private final int numberOfYearlyReleases;
+    private final String subject;
     
     
     /**

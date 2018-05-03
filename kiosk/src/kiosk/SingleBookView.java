@@ -2,9 +2,8 @@
 package kiosk;
 
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.GridPane;
 
 /**
  * Presents information about the single book
@@ -20,12 +19,13 @@ public class SingleBookView  extends BookView {
     
     /**
      * Displays the information associated with a SingleBook object
-     */
+     * @param infoArea the area where the information is shown
+     */    
     @Override
-    public void display(VBox vBox)
+    public void display(TextArea infoArea)
     {
-        super.display(vBox);
-        Label l = new Label("Edition: " + sb.getEdition());
-        vBox.getChildren().add(l);        
+        super.display(infoArea);
+        infoArea.appendText("\nEdition: " + sb.getEdition());        
     }
+    
 }
